@@ -15,7 +15,19 @@ namespace App
 struct Lector_excepcion:
 	public std::runtime_error
 {
-	Lector_excepcion(const std::string& s):std::runtime_error(s) {}
+	enum class tipo
+	{
+		idioma_repetido,
+		idioma_no_existe,
+		etiqueta_repetida,
+		etiqueta_no_existe,
+		palabra_repetida,
+		palabra_no_existe,
+		error_sintaxis
+	}t;
+
+	Lector_excepcion(tipo t, const std::string& s):std::runtime_error(s), t(t) {}
+	
 };
 
 class Lector
@@ -29,6 +41,15 @@ class Lector
 	void			insertar_idioma(const Idioma&);
 	void			insertar_etiqueta(const Etiqueta_bruto&);
 	void			insertar_palabra(const Palabra_bruto&);
+
+	//TODO: Funciones de búsqueda que reciban un std function y devuelvan punteros...
+	std::vector<Idioma const *>		buscar_idiomas()const;
+	std::vector<Etiqueta_bruto const *>	buscar_etiquetas()const;
+	std::vector<Palabra_bruto const *>	buscar_palabras()const;
+
+	void			eliminar_idioma(int);
+	void			eliminar_etiqueta(const std::string&);
+	void			eliminar_palabra(const std::string&);
 
 	private:
 
