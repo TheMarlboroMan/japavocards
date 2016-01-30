@@ -86,8 +86,12 @@ etiquetas:[\
 	//TODO: Testear error etiqueta repetida en definición de palabra.
 	//TODO: Testear error idioma repetido en definición de palabra.
 	//TODO: Testear error romaji repetido en definición de palabra.
-	//TODO: Testear error etiqueta inexistente al insertar palabra.
 	//TODO: Testear error idioma inexistente al insertar palabra.
+
+	//TODO: Manipular manualmente insertando cosas.
+
+	//TODO: Testear error etiqueta inexistente al insertar palabra.
+
 
 	return 0;
 }

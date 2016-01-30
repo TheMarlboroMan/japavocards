@@ -26,14 +26,14 @@ class Lector
 	void			cargar(const std::string&);
 	void			guardar(const std::string&);
 
+	void			insertar_idioma(const Idioma&);
+	void			insertar_etiqueta(const Etiqueta_bruto&);
+	void			insertar_palabra(const Palabra_bruto&);
+
 	private:
 
 	void			cargar(const Herramientas_proyecto::Dnot_token&);
 	void			limpiar();
-
-	void			insertar_idioma(const Idioma&);
-	void			insertar_etiqueta(const Etiqueta_bruto&);
-	void			insertar_palabra(const Palabra_bruto&);
 
 	Idioma			idioma_desde_token(const Herramientas_proyecto::Dnot_token&);
 	Etiqueta_bruto		etiqueta_desde_token(const Herramientas_proyecto::Dnot_token&);
