@@ -1,0 +1,41 @@
+################################################################################
+#Definciones
+
+DIR_CLASES_APP=./class/app/
+DIR_CLASES_IMPLEMENTACION_FRAMEWORK=./class/app/framework_impl/
+DIR_CLASES_EVENTOS=./class/app/eventos/
+
+################################################################################
+#Implementación framework...
+################################################################################
+
+################################################################################
+#Definiciones...
+################################################################################
+
+################################################################################
+#Clases...
+################################################################################
+
+$(DIR_O)almacenaje.o:\
+$(DIR_O)palabra.o \
+$(DIR_O)etiqueta.o \
+$(DIR_CLASES_APP)almacenaje.h \
+$(DIR_CLASES_APP)almacenaje.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)almacenaje.cpp -o $(DIR_O)almacenaje.o
+
+$(DIR_O)palabra.o:\
+$(DIR_O)etiqueta.o \
+$(DIR_CLASES_APP)palabra.h \
+$(DIR_CLASES_APP)palabra.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)palabra.cpp -o $(DIR_O)palabra.o
+
+$(DIR_O)etiqueta.o:\
+$(DIR_CLASES_APP)etiqueta.h \
+$(DIR_CLASES_APP)etiqueta.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)etiqueta.cpp -o $(DIR_O)etiqueta.o
+
+################################################################################
+#Eventos...
+################################################################################
+
