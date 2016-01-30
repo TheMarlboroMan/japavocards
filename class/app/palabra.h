@@ -37,7 +37,6 @@ class Palabra
 	void				limpiar_etiquetas();
 	size_t				total_etiquetas() const {return etiquetas.size();}
 
-	//TODO TODO TODO TODO.
 	bool				operator==(const Palabra&) const; //Este operador se define por que el valor "japones" sea el mismo!!!!.
 	bool				operator<(const Palabra&) const;
 

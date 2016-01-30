@@ -1,0 +1,5 @@
+idiomas:[
+	{id:1, nombre:"Español"},
+	{id:2, nombre:"Inglés"},
+	{id:1, nombre:"Inglés"}
+]

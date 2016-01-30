@@ -35,6 +35,17 @@ $(DIR_CLASES_APP)etiqueta.h \
 $(DIR_CLASES_APP)etiqueta.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)etiqueta.cpp -o $(DIR_O)etiqueta.o
 
+$(DIR_O)lector.o:\
+$(DIR_O)datos_bruto.o \
+$(DIR_CLASES_APP)lector.h \
+$(DIR_CLASES_APP)lector.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)lector.cpp -o $(DIR_O)lector.o
+
+$(DIR_O)datos_bruto.o:\
+$(DIR_CLASES_APP)datos_bruto.h \
+$(DIR_CLASES_APP)datos_bruto.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)datos_bruto.cpp -o $(DIR_O)datos_bruto.o
+
 ################################################################################
 #Eventos...
 ################################################################################

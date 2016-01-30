@@ -51,3 +51,13 @@ bool Palabra::tiene_etiqueta(const Etiqueta& e) const
 	auto it=std::find(std::begin(etiquetas), std::end(etiquetas), &e);
 	return it!=std::end(etiquetas);
 }
+
+bool Palabra::operator==(const Palabra& o) const
+{
+	return o.japones==japones;
+}
+
+bool Palabra::operator<(const Palabra& o) const
+{
+	return japones < o.japones;
+}

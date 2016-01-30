@@ -32,10 +32,10 @@ class Almacenaje
 	void					eliminar_etiqueta(const Etiqueta&);
 	void					eliminar_palabra(const Palabra&);
 
-	const Etiqueta&				obtener_etiqueta(const std::string&);
+	const Etiqueta&				obtener_etiqueta(const std::string&) const;
 	Etiqueta&				obtener_etiqueta(const std::string&);
 
-	const Palabra&				obtener_palabra(const std::string&);
+	const Palabra&				obtener_palabra(const std::string&) const;
 	Palabra&				obtener_palabra(const std::string&);
 
 	std::vector<Etiqueta const * const>	buscar_etiquetas(const std::string&) const;
