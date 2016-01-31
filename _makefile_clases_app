@@ -35,6 +35,14 @@ $(DIR_CLASES_APP)etiqueta.h \
 $(DIR_CLASES_APP)etiqueta.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)etiqueta.cpp -o $(DIR_O)etiqueta.o
 
+$(DIR_O)cli.o:\
+$(DIR_O)datos_bruto.o \
+$(DIR_O)escritor.o \
+$(DIR_O)lector.o \
+$(DIR_CLASES_APP)cli.h \
+$(DIR_CLASES_APP)cli.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)cli.cpp -o $(DIR_O)cli.o
+
 $(DIR_O)escritor.o:\
 $(DIR_O)datos_bruto.o \
 $(DIR_CLASES_APP)escritor.h \
@@ -51,6 +59,11 @@ $(DIR_O)datos_bruto.o:\
 $(DIR_CLASES_APP)datos_bruto.h \
 $(DIR_CLASES_APP)datos_bruto.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)datos_bruto.cpp -o $(DIR_O)datos_bruto.o
+
+$(DIR_O)localizador.o:\
+$(DIR_CLASES_APP)localizador.h \
+$(DIR_CLASES_APP)localizador.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)localizador.cpp -o $(DIR_O)localizador.o
 
 ################################################################################
 #Eventos...

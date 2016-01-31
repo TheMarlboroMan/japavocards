@@ -38,9 +38,18 @@ class Lector
 	void			cargar_desde_string(const std::string&);
 	void			cargar(const std::string&);
 
+	size_t			total_idiomas() const {return idiomas.size();}
+	size_t			total_etiquetas() const {return etiquetas.size();}
+	size_t			total_palabras() const {return palabras.size();}
+	int			ultima_clave_idioma() const {return idiomas.rbegin()->first;}
+
 	void			insertar_idioma(const Idioma&);
 	void			insertar_etiqueta(const Etiqueta_bruto&);
 	void			insertar_palabra(const Palabra_bruto&);
+
+	Idioma&			obtener_idioma(int);
+	Etiqueta_bruto&		obtener_etiqueta(const std::string&);
+	Palabra_bruto&		obtener_palabra(const std::string&);
 
 	const std::vector<Idioma const *>		acc_idiomas()const;
 	const std::vector<Etiqueta_bruto const *>	acc_etiquetas()const;

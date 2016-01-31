@@ -1,4 +1,1 @@
 - Escribir el CLI. 
-	- Primero que vea si existe el fichero.
-	- Si no existe que cree uno vacío.
-	- Cuando grabe, que haga copia del fichero original.

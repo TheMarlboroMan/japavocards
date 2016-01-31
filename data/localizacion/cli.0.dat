@@ -1,0 +1,82 @@
+<1$>== Menú principal CLI ==========================================================
+
+[0] - Salir
+[i] - Idiomas
+[l] - Etiquetas
+[w] - Palabras
+[s] - Sistema
+[s] - Guardar
+
+<#>
+
+<2$>== Confirmar salida CLI ========================================================
+
+Los cambios no se han guardado. Salir igualmente?
+[y] - Salir
+[n] - Cancelar salida
+
+<#>
+
+<3$>== Seleccionar =================================================================
+
+Seleccionar elemento actual por su número. En blanco para cancelar.
+
+<#>
+
+<30$>== Menú de idiomas =============================================================
+
+[0] - Volver
+[l] - Listar idiomas
+[f] - Buscar idiomas
+[n] - Nuevo idioma
+[c] - Seleccionar
+[e] - Modificar seleccionado
+[d] - Eliminar seleccionado
+[s] - Guardar
+
+<#>
+
+<31$>== Listado de idiomas ==========================================================
+
+<#>
+
+<32$>== Buscador de idiomas =========================================================
+
+Buscar idiomas que contengan...
+
+<#>
+
+<33$>== Nuevo idioma ================================================================
+
+Introducir nombre del idioma:
+
+<#>
+
+<34$>Idioma eliminado correctamente.<#>
+
+<35$>== Modificar idioma ============================================================
+
+Introducir nuevo nombre del idioma:
+
+<#>
+
+<100$>Inicializando CLI...<#>
+<101$>Se ha producido un error al cargar el fichero de base de datos. Se usará una base de datos vacía.<#>
+<102$>No ha localizado fichero de base de datos. Se usará una base de datos vacía.<#>
+<103$>Se usará el fichero: <#>
+
+<200$>[ERROR] - Opción incorrecta.<#>
+<201$>[ERROR] - Se espera un único carácter.<#>
+<202$>[ERROR] - Se espera al menos un carácter.<#>
+<203$>Resultados de la búsqueda. Entradas encontradas: <#>
+<204$>[ERROR] - La operación ha fallado: <#>
+<205$>Guardado finalizado.<#>
+<206$>[ERROR] - No se localiza el elemento. Entrada en blanco para cancelar.<#>
+<207$>[ERROR] - No se ha listado ni buscado antes de iniciar selección.<#>
+<208$>[ERROR] - Entrada incorrecta.<#>
+<209$>[Selección actual] : <#>
+<210$>[ERROR] : Sin selección actual<#>
+<210$>[ERROR] : No se pudo eliminar la selección - <#>
+
+<1000$>Iniciando copia de seguridad en <#>
+<1001$>Iniciando guardado <#>

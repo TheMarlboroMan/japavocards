@@ -240,6 +240,32 @@ void Lector::eliminar_palabra(const std::string& romaji)
 	palabras.erase(romaji);
 }
 
+Idioma&	Lector::obtener_idioma(int indice)
+{
+	if(!idiomas.count(indice)) throw Lector_excepcion(
+			Lector_excepcion::tipo::idioma_no_existe,
+			"No existe el idioma con id "+indice);
+
+	return idiomas[indice];
+}
+
+Etiqueta_bruto& Lector::obtener_etiqueta(const std::string& clave)
+{
+	if(!etiquetas.count(clave)) throw Lector_excepcion(
+			Lector_excepcion::tipo::etiqueta_no_existe,
+			"No existe la etiqueta con clave "+clave);
+
+	return etiquetas[clave];
+}
+
+Palabra_bruto& Lector::obtener_palabra(const std::string& romaji)
+{
+	if(!palabras.count(romaji)) throw Lector_excepcion(
+			Lector_excepcion::tipo::palabra_no_existe,
+			"No existe la palabra "+romaji);
+
+	return palabras[romaji];
+}
 
 const std::vector<Idioma const *> Lector::acc_idiomas()const
 {
