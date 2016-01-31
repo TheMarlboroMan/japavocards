@@ -13,6 +13,7 @@ $(DIR_O_HERRAMIENTAS_PROYECTO)dnot_token.o \
 
 DEP_CLASES_APP=\
 $(DIR_O)lector.o \
+$(DIR_O)escritor.o \
 $(DIR_O)datos_bruto.o \
 $(DIR_O)etiqueta.o \
 $(DIR_O)palabra.o \

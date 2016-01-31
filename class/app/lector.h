@@ -42,9 +42,9 @@ class Lector
 	void			insertar_etiqueta(const Etiqueta_bruto&);
 	void			insertar_palabra(const Palabra_bruto&);
 
-	const std::map<int, Idioma>&			acc_idiomas()const {return idiomas;}
-	const std::map<std::string, Etiqueta_bruto>&	acc_etiquetas()const {return etiquetas;}
-	const std::map<std::string, Palabra_bruto>&	acc_palabras()const {return palabras;}
+	const std::vector<Idioma const *>		acc_idiomas()const;
+	const std::vector<Etiqueta_bruto const *>	acc_etiquetas()const;
+	const std::vector<Palabra_bruto const *>	acc_palabras()const;
 
 	std::vector<Idioma const *>		buscar_idiomas(std::function<bool(const Idioma&)> f)const {return buscar(idiomas, f);}
 	std::vector<Etiqueta_bruto const *>	buscar_etiquetas(std::function<bool(const Etiqueta_bruto&)> f)const {return buscar(etiquetas, f);}

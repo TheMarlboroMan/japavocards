@@ -239,3 +239,28 @@ void Lector::eliminar_palabra(const std::string& romaji)
 
 	palabras.erase(romaji);
 }
+
+
+const std::vector<Idioma const *> Lector::acc_idiomas()const
+{
+	std::vector<Idioma const *> res;
+	for(const auto& p : idiomas) res.push_back(&p.second);
+	std::sort(std::begin(res), std::end(res));
+	return res;
+}
+
+const std::vector<Etiqueta_bruto const *> Lector::acc_etiquetas()const
+{
+	std::vector<Etiqueta_bruto const *> res;
+	for(const auto& p : etiquetas) res.push_back(&p.second);
+	std::sort(std::begin(res), std::end(res));
+	return res;
+}
+
+const std::vector<Palabra_bruto const *> Lector::acc_palabras()const
+{
+	std::vector<Palabra_bruto const *> res;
+	for(const auto& p : palabras) res.push_back(&p.second);
+	std::sort(std::begin(res), std::end(res));
+	return res;
+}

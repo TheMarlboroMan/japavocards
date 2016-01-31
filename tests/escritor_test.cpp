@@ -1,3 +1,10 @@
+#include <iostream>
+#include <string>
+#include "../class/app/datos_bruto.cpp"
+#include "../class/app/lector.cpp"
+#include "../class/app/escritor.cpp"
+#include <class/dnot_parser.h>
+
 using namespace App;
 
 int main(int argc, char ** argv)
@@ -7,15 +14,14 @@ int main(int argc, char ** argv)
 		//Crear nuevo documento desde datos correctos...
 		std::cout<<"Iniciando carga de documento en disco..."<<std::endl;
 		Lector L;
-		L.cargar("lector_test_in_ok.dnot");
-	
-		//Insertar nuevo idioma.
+		L.cargar("escritor_test_in_ok.dnot");
+
 		std::cout<<"Insertando nuevo idioma..."<<std::endl;
 		Idioma nuevo_idioma{3, "Francés"};
 		L.insertar_idioma(nuevo_idioma);
 
 		//Insertar nueva etiqueta.
-		std::cout<<"Insertando nueva etiqueta..."<<std::endl;
+		std::cout<<"Insertando y buscando nueva etiqueta..."<<std::endl;
 		Etiqueta_bruto nueva_etiqueta{"nueva"};
 		nueva_etiqueta.nombres[1]="Nueva";
 		nueva_etiqueta.nombres[2]="New";
@@ -23,28 +29,24 @@ int main(int argc, char ** argv)
 		L.insertar_etiqueta(nueva_etiqueta);
 
 		//Insertar nueva palabra.
-		std::cout<<"Insertando nueva palabra..."<<std::endl;
+		std::cout<<"Insertando y nueva palabra..."<<std::endl;
 		Palabra_bruto nueva_palabra{"japones", "romaji"};
 		nueva_palabra.etiquetas.push_back(&nueva_etiqueta);
 		nueva_palabra.traducciones[1]="Algo";
 		nueva_palabra.traducciones[2]="Something";
 		nueva_palabra.traducciones[3]="Couseau";
 		L.insertar_palabra(nueva_palabra);
+	
+		std::cout<<"Iniciando escritura de documento en disco..."<<std::endl;
+		Escritor E;
+		E.generar(L.acc_idiomas(), L.acc_etiquetas(), L.acc_palabras());
+		E.guardar("escritor_test_out.dnot");
 
-		//Eliminar palabra.
-		std::cout<<"Eliminando palabra..."<<std::endl;
-		//TODO TODO TODO
-
-		//Eliminar etiqueta y retirar de palabras.
-
-		//Eliminar idioma y retirar del resto.	
-
-		//Ejecutar control de cordura de datos (cosas sueltas).
-
-		//Guardar documento resultante.
 	}
 	catch(std::exception& e)
 	{
 		std::cout<<"\t[ERROR] - "<<e.what()<<std::endl;
 	}
+
+	return 0;
 }
