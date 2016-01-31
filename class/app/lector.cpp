@@ -208,6 +208,8 @@ void Lector::eliminar_idioma(int indice)
 		if(p.traducciones.count(indice))
 			p.traducciones.erase(indice);
 	}
+
+	idiomas.erase(indice);
 }
 
 void Lector::eliminar_etiqueta(const std::string& clave)
@@ -217,18 +219,15 @@ void Lector::eliminar_etiqueta(const std::string& clave)
 			"No existe la etiqueta con clave "+clave);
 	
 	auto& et=etiquetas[clave];
-
 	for(auto& par: palabras)
 	{
 		auto& p=par.second;
 		auto it=std::find(std::begin(p.etiquetas), std::end(p.etiquetas), &et);
 		if(it!=std::end(p.etiquetas))
 		{
-			std::cout<<"Eliminando de "<<p.romaji<<std::endl;
 			p.etiquetas.erase(it);
 		}
 	}		
-
 	etiquetas.erase(clave);
 }
 
@@ -239,9 +238,4 @@ void Lector::eliminar_palabra(const std::string& romaji)
 			"No existe la palabra "+romaji);
 
 	palabras.erase(romaji);
-}
-
-void Lector::guardar(const std::string& ruta)
-{
-	//TODO... Serializar...
 }

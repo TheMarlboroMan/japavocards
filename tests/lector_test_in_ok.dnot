@@ -39,12 +39,17 @@ palabras:[
 		]
 	},
 	{
-		japones:"somethingsomethingother", romaji:"somethingromajiother",
+		japones:"otracosa", romaji:"otro_romaji",
 		etiquetas:["frutasyverduras"],
 		traducciones:[
 			{id:1, traduccion:"Other romaji en idioma 1"},
 			{id:2, traduccion:"Other romaji en idioma 2"}
 		]
+	},
+	{
+		japones:"momo", romaji:"momo",
+		etiquetas:["frutasyverduras"],
+		traducciones:[{id:1, traduccion:"Melocotón"}]
 	},
 	{
 		japones:"hagane", romaji:"hagane",

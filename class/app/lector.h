@@ -3,7 +3,9 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include <stdexcept>
+#include <functional>
 
 #include <class/dnot_parser.h>
 
@@ -27,7 +29,6 @@ struct Lector_excepcion:
 	}t;
 
 	Lector_excepcion(tipo t, const std::string& s):std::runtime_error(s), t(t) {}
-	
 };
 
 class Lector
@@ -36,16 +37,18 @@ class Lector
 
 	void			cargar_desde_string(const std::string&);
 	void			cargar(const std::string&);
-	void			guardar(const std::string&);
 
 	void			insertar_idioma(const Idioma&);
 	void			insertar_etiqueta(const Etiqueta_bruto&);
 	void			insertar_palabra(const Palabra_bruto&);
 
-	//TODO: Funciones de búsqueda que reciban un std function y devuelvan punteros...
-	std::vector<Idioma const *>		buscar_idiomas()const;
-	std::vector<Etiqueta_bruto const *>	buscar_etiquetas()const;
-	std::vector<Palabra_bruto const *>	buscar_palabras()const;
+	const std::map<int, Idioma>&			acc_idiomas()const {return idiomas;}
+	const std::map<std::string, Etiqueta_bruto>&	acc_etiquetas()const {return etiquetas;}
+	const std::map<std::string, Palabra_bruto>&	acc_palabras()const {return palabras;}
+
+	std::vector<Idioma const *>		buscar_idiomas(std::function<bool(const Idioma&)> f)const {return buscar(idiomas, f);}
+	std::vector<Etiqueta_bruto const *>	buscar_etiquetas(std::function<bool(const Etiqueta_bruto&)> f)const {return buscar(etiquetas, f);}
+	std::vector<Palabra_bruto const *>	buscar_palabras(std::function<bool(const Palabra_bruto&)> f)const {return buscar(palabras, f);}
 
 	void			eliminar_idioma(int);
 	void			eliminar_etiqueta(const std::string&);
@@ -56,6 +59,15 @@ class Lector
 	void			cargar(const Herramientas_proyecto::Dnot_token&);
 	void			limpiar();
 
+	template <typename T, typename K>
+	std::vector<T const *> 	buscar(const std::map<K, T>& v, std::function<bool(const T&)> f) const
+	{
+		std::vector<T const *> res;
+		for(const auto& i : v) if(f(i.second)) res.push_back(&i.second);
+		std::sort(std::begin(res), std::end(res));
+		return res;
+	}
+	
 	Idioma			idioma_desde_token(const Herramientas_proyecto::Dnot_token&);
 	Etiqueta_bruto		etiqueta_desde_token(const Herramientas_proyecto::Dnot_token&);
 	Palabra_bruto		palabra_desde_token(const Herramientas_proyecto::Dnot_token&);
