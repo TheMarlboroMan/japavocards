@@ -1,65 +1,116 @@
-<1$>== Menú principal CLI ==========================================================
+<1$>
+== Menú principal CLI ==========================================================
 
-[0] - Salir
-[i] - Idiomas
-[l] - Etiquetas
-[w] - Palabras
-[s] - Sistema
-[s] - Guardar
+[0] - Salir		[i] - Idiomas		[l] - Etiquetas
+[w] - Palabras		[y] - Sistema		[s] - Guardar<#>
 
-<#>
-
-<2$>== Confirmar salida CLI ========================================================
+<2$>
+== Confirmar salida CLI ========================================================
 
 Los cambios no se han guardado. Salir igualmente?
 [y] - Salir
-[n] - Cancelar salida
+[n] - Cancelar salida<#>
+
+<3$>
+== Seleccionar =================================================================
+
+Seleccionar elemento actual por su número. En blanco para cancelar.<#>
+
+<30$>
+== Menú de idiomas =============================================================
+
+[0] - Volver		[l] - Listar idiomas 	[f] - Buscar idiomas
+[n] - Nuevo idioma	[c] - Seleccionar	[e] - Modificar seleccionado
+[d] - Eliminar sel.	[s] - Guardar<#>
+
+<31$>
+== Listado de idiomas ==========================================================
 
 <#>
 
-<3$>== Seleccionar =================================================================
+<32$>
+== Buscador de idiomas =========================================================
 
-Seleccionar elemento actual por su número. En blanco para cancelar.
+Buscar idiomas que contengan... (en blanco para cancelar).<#>
 
-<#>
-
-<30$>== Menú de idiomas =============================================================
-
-[0] - Volver
-[l] - Listar idiomas
-[f] - Buscar idiomas
-[n] - Nuevo idioma
-[c] - Seleccionar
-[e] - Modificar seleccionado
-[d] - Eliminar seleccionado
-[s] - Guardar
-
-<#>
-
-<31$>== Listado de idiomas ==========================================================
-
-<#>
-
-<32$>== Buscador de idiomas =========================================================
-
-Buscar idiomas que contengan...
-
-<#>
-
-<33$>== Nuevo idioma ================================================================
+<33$>
+== Nuevo idioma ================================================================
 
 <#>
 
 <34$>Idioma eliminado correctamente.<#>
 
-<35$>== Modificar idioma ============================================================
+<35$>
+== Modificar idioma ============================================================
 
-Introducir nuevo nombre del idioma:
-
-<#>
+Introducir nuevo nombre del idioma (en blanco para cancelar):<#>
 
 <36$>Introducir nombre del idioma<#>
 <37$>Introducir acrónimo del idioma<#>
+
+<50$>
+== Menú de etiquetas ===========================================================
+
+[0] - Volver		[l] - Listar etiquetas		[f] - Buscar etiquetas
+[n] - Nueva etiqueta	[c] - Seleccionar		[e] - Modificar seleccionada
+[d] - Eliminar sel.	[s] - Guardar<#>
+
+<51$>
+== Listado de etiquetas ========================================================
+
+<#>
+
+<52$>
+== Buscador de etiquetas =======================================================
+
+Buscar etiquetas que contengan en cualquiera de sus nombres... (en blanco para cancelar).<#>
+
+<53$>
+== Nueva etiqueta ==============================================================
+
+Clave de la etiqueta (en blanco para cancelar).<#>
+
+<54$> - traducción (en blanco para cancelar, - para ignorar).<#>
+<55$>Etiqueta eliminada correctamente.<#>
+
+<60$>
+== Menú de palabras ============================================================
+
+[0] - Volver		[l] - Listar palabras	[f] - Buscar palabras
+[q] - Buscar por etiq.	[n] - Nueva palabra	[c] - Seleccionar	
+[e] - Modificar sel.	[t] - Etiquetas sel.	[d] - Eliminar sel.	
+[s] - Guardar<#>
+
+<61$>
+== Listado de palabras =========================================================
+
+<#>
+
+<62$>
+== Buscador de palabras ========================================================
+
+Buscar palabras que contengan en romaji o sus traducciones... (en blanco para cancelar).<#>
+
+<63$>
+== Nueva palabra ===============================================================
+
+Japonés de la palabra (en blanco para cancelar).<#>
+<64$>Romaji de la palabra (en blanco para cancelar).<#>
+<65$> - traducción (en blanco para cancelar, - para ignorar).<#>
+<66$>Romaji de la palabra (en blanco para cancelar).<#>
+<67$>Palabra eliminada correctamente.<#>
+<68$>
+== Etiquetar palabra ===========================================================
+
+Escoger número de etiqueta para cambiar su estado. 0 para volver.
+<#>
+<69$>Palabra etiquetada correctamente.<#>
+<70$>Palabra desetiquetada correctamente.<#>
+<71$>
+== Buscador de palabras por etiqueta ===========================================
+
+Seleccionar etiqueta para buscar palabras... (en blanco para cancelar).
+<#>
 
 <100$>Inicializando CLI...<#>
 <101$>Se ha producido un error al cargar el fichero de base de datos. Se usará una base de datos vacía.<#>
@@ -77,7 +128,21 @@ Introducir nuevo nombre del idioma:
 <208$>[ERROR] - Entrada incorrecta.<#>
 <209$>[Selección actual] : <#>
 <210$>[ERROR] : Sin selección actual<#>
-<210$>[ERROR] : No se pudo eliminar la selección - <#>
+<211$>[ERROR] : No se pudo eliminar la selección - <#>
+<212$>[SIN TRADUCCIÓN]<#>
+<213$>Acción cancelada.<#>
+
+<500$>
+== Menú de sistema =============================================================
+
+[0] - Volver		[l] - Idioma canónico<#>
+
+<501$>
+== Idioma canónico =============================================================
+
+Escoger el idioma para usar las traducciones. 0 para cancelar.
+
+<#>
 
 <1000$>Iniciando copia de seguridad en <#>
 <1001$>Iniciando guardado <#>
