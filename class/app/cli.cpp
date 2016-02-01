@@ -6,7 +6,7 @@ CLI::CLI(const std::string& nf, int id_idioma)
 	:log("logs/cli.log"), nombre_fichero(nf),
 	localizador("data/localizacion/cli"),
 	cambios_guardados(true),
-	seleccion_actual(0), idioma_canonico("")
+	seleccion_actual(""), idioma_canonico("")
 {
 	localizador.inicializar(id_idioma);
 	inicializar();
@@ -95,16 +95,16 @@ void CLI::menu_idiomas()
 	{
 		std::cout<<localizador.obtener(cli_menu_idiomas);
 
-		if(seleccion_actual)
+		if(seleccion_actual.size())
 		{
 			try
 			{			
-				const auto& i=lector.obtener_idioma(opciones[seleccion_actual]);
+				const auto& i=lector.obtener_idioma(seleccion_actual);
 				std::cout<<std::endl<<std::endl<<localizador.obtener(cli_seleccion_actual)<<i.nombre<<std::endl;
 			}
 			catch(Lector_excepcion& e)
 			{
-				seleccion_actual=0;
+				seleccion_actual="";
 			}
 		}
 
@@ -117,16 +117,16 @@ void CLI::menu_idiomas()
 			case 'n': nuevo_idioma(); break;
 			case 'c': seleccionar_actual(opciones); break;
 			case 'e': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else
-					modificar_idioma(lector.obtener_idioma(opciones[seleccion_actual])); 
+					modificar_idioma(lector.obtener_idioma(seleccion_actual)); 
 			break;
 			case 'd': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else
-					eliminar_idioma(lector.obtener_idioma(opciones[seleccion_actual])); 
+					eliminar_idioma(lector.obtener_idioma(seleccion_actual)); 
 			break;
 			case 's': guardar(); break;
 			default: 
@@ -189,7 +189,7 @@ void CLI::eliminar_idioma(Idioma& I)
 	cambios_guardados=false;
 
 	if(idioma_canonico==acr) idioma_canonico="";
-	seleccion_actual=0;
+	seleccion_actual="";
 }
 
 void CLI::nuevo_idioma()
@@ -206,6 +206,7 @@ void CLI::nuevo_idioma()
 			lector.insertar_idioma(idioma);
 			cambios_guardados=false;
 			if(!idioma_canonico.size()) idioma_canonico=acronimo;
+			seleccion_actual=acronimo;
 		}
 		catch(Lector_excepcion& e)
 		{
@@ -224,16 +225,16 @@ void CLI::menu_etiquetas()
 	{
 		std::cout<<localizador.obtener(cli_menu_etiquetas);
 
-		if(seleccion_actual)
+		if(seleccion_actual.size())
 		{
 			try
 			{
-				const auto& info=info_etiqueta(lector.obtener_etiqueta(opciones[seleccion_actual]));
+				const auto& info=info_etiqueta(lector.obtener_etiqueta(seleccion_actual));
 				std::cout<<std::endl<<std::endl<<localizador.obtener(cli_seleccion_actual)<<info.nombre<<" ["<<info.clave<<"]"<<std::endl;
 			}
 			catch(Lector_excepcion& e)
 			{
-				seleccion_actual=0;
+				seleccion_actual="";
 			}
 		}
 
@@ -246,16 +247,16 @@ void CLI::menu_etiquetas()
 			case 'n': nueva_etiqueta(); break;
 			case 'c': seleccionar_actual(opciones); break;
 			case 'e': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else 
-					modificar_etiqueta(lector.obtener_etiqueta(opciones[seleccion_actual])); 
+					modificar_etiqueta(lector.obtener_etiqueta(seleccion_actual)); 
 			break;
 			case 'd': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else 
-					eliminar_etiqueta(lector.obtener_etiqueta(opciones[seleccion_actual])); 
+					eliminar_etiqueta(lector.obtener_etiqueta(seleccion_actual)); 
 			break;
 			case 's': guardar(); break;
 			default: 
@@ -306,6 +307,7 @@ void CLI::nueva_etiqueta()
 				for(const auto& p : traducciones) if(p.second!="-") etiqueta.nombres[p.first]=p.second;
 				lector.insertar_etiqueta(etiqueta);
 				cambios_guardados=false;
+				seleccion_actual=clave;
 			}
 			catch(Lector_excepcion& e)
 			{
@@ -337,7 +339,7 @@ void CLI::eliminar_etiqueta(Etiqueta_bruto& E)
 	lector.eliminar_etiqueta(E.clave);
 	std::cout<<localizador.obtener(cli_etiqueta_eliminada)<<std::endl;
 	cambios_guardados=false;
-	seleccion_actual=0;
+	seleccion_actual="";
 }
 
 void CLI::mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>& v, std::map<int, std::string>& opciones)
@@ -384,16 +386,16 @@ void CLI::menu_palabras()
 	{
 		std::cout<<localizador.obtener(cli_menu_palabras);
 
-		if(seleccion_actual)
+		if(seleccion_actual.size())
 		{
 			try
 			{
-				const auto& info=info_palabra(lector.obtener_palabra(opciones[seleccion_actual]));
+				const auto& info=info_palabra(lector.obtener_palabra(seleccion_actual));
 				std::cout<<std::endl<<std::endl<<localizador.obtener(cli_seleccion_actual)<<info.traduccion<<" ["<<info.japones<<" - "<<info.romaji<<"]"<<std::endl;
 			}
 			catch(Lector_excepcion& e)
 			{
-				seleccion_actual=0;
+				seleccion_actual="";
 			}
 		}
 
@@ -407,22 +409,22 @@ void CLI::menu_palabras()
 			case 'n': nueva_palabra(); break;
 			case 'c': seleccionar_actual(opciones); break;
 			case 'e': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else
-					modificar_palabra(lector.obtener_palabra(opciones[seleccion_actual])); 
+					modificar_palabra(lector.obtener_palabra(seleccion_actual)); 
 			break;
 			case 't': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else 
-					etiquetar_palabra(lector.obtener_palabra(opciones[seleccion_actual])); 
+					etiquetar_palabra(lector.obtener_palabra(seleccion_actual)); 
 			break;
 			case 'd': 
-				if(!seleccion_actual)
+				if(!seleccion_actual.size())
 					std::cout<<localizador.obtener(cli_sin_seleccion_actual)<<std::endl;
 				else 
-					eliminar_palabra(lector.obtener_palabra(opciones[seleccion_actual])); 
+					eliminar_palabra(lector.obtener_palabra(seleccion_actual)); 
 			break;
 			case 's': guardar(); break;
 			default: 
@@ -525,6 +527,7 @@ void CLI::nueva_palabra()
 				for(const auto& p : traducciones) if(p.second!="-") palabra.traducciones[p.first]=p.second;
 				lector.insertar_palabra(palabra);
 				cambios_guardados=false;
+				seleccion_actual=japones;
 			}
 			catch(Lector_excepcion& e)
 			{
@@ -539,10 +542,10 @@ void CLI::modificar_palabra(Palabra_bruto& P)
 	mapa_traducciones traducciones;
 	std::string romaji;
 
-	if(input_string(romaji, localizador.obtener(cli_modificar_palabra_romaji))
+	if(input_string(romaji, localizador.obtener(cli_modificar_palabra_romaji)+" ("+P.romaji+")")
 		&& rellenar_mapa_traducciones(cli_nueva_etiqueta_traduccion, traducciones, P.traducciones))
 	{
-		P.romaji=romaji;
+		if(romaji!="-") P.romaji=romaji;
 		for(const auto& p : traducciones) if(p.second!="-") P.traducciones[p.first]=p.second;
 		cambios_guardados=false;
 	}
@@ -602,7 +605,7 @@ void CLI::eliminar_palabra(Palabra_bruto& P)
 	lector.eliminar_palabra(P.japones);
 	std::cout<<localizador.obtener(cli_palabra_eliminada)<<std::endl;
 	cambios_guardados=false;
-	seleccion_actual=0;
+	seleccion_actual="";
 }
 
 void CLI::mostrar_lista_palabras(const std::vector<Palabra_bruto const *>& v, std::map<int, std::string>& opciones)
@@ -745,7 +748,7 @@ void CLI::seleccionar_actual(std::map<int, std::string>& opciones)
 	
 				if(opciones.count(s)) 
 				{
-					seleccion_actual=s;
+					seleccion_actual=opciones[s];
 					return;
 				}
 				else

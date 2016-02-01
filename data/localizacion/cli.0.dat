@@ -97,7 +97,7 @@ Buscar palabras que contengan en romaji o sus traducciones... (en blanco para ca
 Japonés de la palabra (en blanco para cancelar).<#>
 <64$>Romaji de la palabra (en blanco para cancelar).<#>
 <65$> - traducción (en blanco para cancelar, - para ignorar).<#>
-<66$>Romaji de la palabra (en blanco para cancelar).<#>
+<66$>Romaji de la palabra (en blanco para cancelar, - para ignorar).<#>
 <67$>Palabra eliminada correctamente.<#>
 <68$>
 == Etiquetar palabra ===========================================================

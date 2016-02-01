@@ -156,7 +156,7 @@ class CLI
 	Localizador		localizador;
 	Lector			lector;
 	bool			cambios_guardados;
-	int			seleccion_actual;
+	std::string		seleccion_actual;
 	std::string		idioma_canonico;	
 };
 
