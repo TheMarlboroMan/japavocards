@@ -19,9 +19,9 @@ int main(int argc, char ** argv)
 	{
 		Lector L;
 		std::string str("idiomas:[\
-	{id:1, nombre:\"Español\"},\
-	{id:2, nombre:\"Inglés\"},\
-	{id:1, nombre:\"Inglés\"}\
+	{acronimo:\"ES\", nombre:\"Español\"},\
+	{acronimo:\"EN\", nombre:\"Inglés\"},\
+	{acronimo:\"ES\", nombre:\"Inglés\"}\
 ]");
 		L.cargar_desde_string(str);
 	}
@@ -36,12 +36,12 @@ int main(int argc, char ** argv)
 		Lector L;
 		std::string str("\
 idiomas:[\
-	{id:1, nombre:\"Español\"},\
-	{id:2, nombre:\"Inglés\"}\
+	{acronimo:\"ES\", nombre:\"Español\"},\
+	{acronimo:\"EN\", nombre:\"Inglés\"}\
 ],\
 etiquetas:[\
-	{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]},\
-	{clave:\"colores\",nombres:[{id:1, nombre:\"Cosa\"},{id:2, nombre:\"Thing\"}]}\
+	{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]},\
+	{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Cosa\"},{acronimo:\"EN\", nombre:\"Thing\"}]}\
 ]");
 		L.cargar_desde_string(str);
 	}
@@ -56,12 +56,12 @@ etiquetas:[\
 		Lector L;
 		std::string str("\
 idiomas:[\
-	{id:1, nombre:\"Español\"},\
-	{id:2, nombre:\"Inglés\"}\
+	{acronimo:\"ES\", nombre:\"Español\"},\
+	{acronimo:\"EN\", nombre:\"Inglés\"}\
 ],\
 etiquetas:[\
-	{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]},\
-	{clave:\"cosas\",nombres:[{id:1, nombre:\"Cosa\"},{id:3, nombre:\"Thing\"}]}\
+	{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]},\
+	{clave:\"cosas\",nombres:[{acronimo:\"ES\", nombre:\"Cosa\"},{acronimo:\"FR\", nombre:\"Thing\"}]}\
 ]");
 		L.cargar_desde_string(str);
 	}
@@ -76,12 +76,12 @@ etiquetas:[\
 		Lector L;
 		std::string str("\
 idiomas:[\
-	{id:1, nombre:\"Español\"},\
-	{id:2, nombre:\"Inglés\"}\
+	{acronimo:\"ES\", nombre:\"Español\"},\
+	{acronimo:\"EN\", nombre:\"Inglés\"}\
 ],\
 etiquetas:[\
-	{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]},\
-	{clave:\"cosas\",nombres:[{id:1, nombre:\"Cosa\"},{id:1, nombre:\"Thing\"}]}\
+	{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]},\
+	{clave:\"cosas\",nombres:[{acronimo:\"ES\", nombre:\"Cosa\"},{acronimo:\"ES\", nombre:\"Thing\"}]}\
 ]");
 		L.cargar_desde_string(str);
 	}
@@ -95,8 +95,8 @@ etiquetas:[\
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"}, {id:2, nombre:\"Inglés\"}], \
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]}],\
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"}, {acronimo:\"EN\", nombre:\"Inglés\"}], \
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]}],\
 palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\", \"colores\"], traducciones: []}]");
 		L.cargar_desde_string(str);
 	}
@@ -110,8 +110,8 @@ palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\", \"color
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"}, {id:2, nombre:\"Japonés\"}],\
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]}],\
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"}, {acronimo:\"EN\", nombre:\"Japonés\"}],\
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]}],\
 palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\", \"snacks\"], traducciones:[]}]");
 		L.cargar_desde_string(str);
 	}
@@ -125,9 +125,9 @@ palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\", \"snack
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"},{id:2, nombre:\"Inglés\"}],\
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]}],\
-palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{id:1, traduccion:\"Acero\"}, {id:1, traduccion:\"Steel\"}]}]");
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"},{acronimo:\"EN\", nombre:\"Inglés\"}],\
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]}],\
+palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{acronimo:\"ES\", traduccion:\"Acero\"}, {acronimo:\"ES\", traduccion:\"Steel\"}]}]");
 		L.cargar_desde_string(str);
 	}
 	catch(Lector_excepcion& e)
@@ -135,16 +135,16 @@ palabras:[{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traduc
 		test_error(e.t, Lector_excepcion::tipo::idioma_repetido, e.what());
 	}
 
-	std::cout<<"Cargando error romaji repetido en definición de palabra..."<<std::endl;
+	std::cout<<"Cargando error japonés repetido en definición de palabra..."<<std::endl;
 	try
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"}],\
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"}]}],\
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"}],\
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"}]}],\
 palabras:[\
-	{japones:\"hagane\", romaji:\"hagane\",etiquetas:[], traducciones:[]},\
-	{japones:\"stuff\", romaji:\"hagane\",etiquetas:[], traducciones:[]}\
+	{japones:\"hagane\", romaji:\"hagane1\",etiquetas:[], traducciones:[]},\
+	{japones:\"hagane\", romaji:\"hagane2\",etiquetas:[], traducciones:[]}\
 ]");
 		L.cargar_desde_string(str);
 
@@ -159,11 +159,11 @@ palabras:[\
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"},{id:2, nombre:\"Inglés\"}],\
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]}],\
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"},{acronimo:\"EN\", nombre:\"Inglés\"}],\
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]}],\
 palabras:[\
-	{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{id:1, traduccion:\"Acero\"}, {id:2, traduccion:\"Steel\"}]},\
-	{japones:\"stuff\", romaji:\"sosoko\",etiquetas:[], traducciones:[{id:1, traduccion:\"Cosa\"}, {id:3, traduccion:\"Things\"}]},\
+	{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{acronimo:\"ES\", traduccion:\"Acero\"}, {acronimo:\"EN\", traduccion:\"Steel\"}]},\
+	{japones:\"stuff\", romaji:\"sosoko\",etiquetas:[], traducciones:[{acronimo:\"ES\", traduccion:\"Cosa\"}, {acronimo:\"FR\", traduccion:\"Things\"}]},\
 ]");
 		L.cargar_desde_string(str);
 	}
@@ -177,10 +177,10 @@ palabras:[\
 	{
 		Lector L;
 		std::string str("\
-idiomas:[{id:1, nombre:\"Español\"},{id:2, nombre:\"Inglés\"}],\
-etiquetas:[{clave:\"colores\",nombres:[{id:1, nombre:\"Colores\"},{id:2, nombre:\"Colors\"}]}],\
+idiomas:[{acronimo:\"ES\", nombre:\"Español\"},{acronimo:\"EN\", nombre:\"Inglés\"}],\
+etiquetas:[{clave:\"colores\",nombres:[{acronimo:\"ES\", nombre:\"Colores\"},{acronimo:\"EN\", nombre:\"Colors\"}]}],\
 palabras:[\
-	{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{id:1, traduccion:\"Acero\"}, {id:2, traduccion:\"Steel\"}]},\
+	{japones:\"hagane\", romaji:\"hagane\",etiquetas:[\"colores\"], traducciones:[{acronimo:\"ES\", traduccion:\"Acero\"}, {acronimo:\"EN\", traduccion:\"Steel\"}]},\
 ]");
 		L.cargar_desde_string(str);
 	 
@@ -204,40 +204,40 @@ palabras:[\
 	
 		//Insertar nuevo idioma.
 		std::cout<<"Insertando y buscando nuevo idioma..."<<std::endl;
-		Idioma nuevo_idioma{3, "Francés"};
+		Idioma nuevo_idioma{"FR", "Francés"};
 		L.insertar_idioma(nuevo_idioma);
 
 		//Testear búsqueda de nuevo idioma.
 		auto resultado_busqueda_idiomas=L.buscar_idiomas([](const Idioma& I) {return I.nombre[0]=='F';});
 		if(resultado_busqueda_idiomas.size()!=1) throw std::runtime_error("Falla tamaño búsqueda idiomas");
-		if(resultado_busqueda_idiomas[0]->id!=3 ||
+		if(resultado_busqueda_idiomas[0]->acronimo!="FR" ||
 			resultado_busqueda_idiomas[0]->nombre!="Francés") throw std::runtime_error("Fallan datos búsqueda idiomas");
 		std::cout<<"\t[OK] - Busqueda correcta"<<std::endl;
 
 		//Insertar nueva etiqueta.
 		std::cout<<"Insertando y buscando nueva etiqueta..."<<std::endl;
 		Etiqueta_bruto nueva_etiqueta{"nueva"};
-		nueva_etiqueta.nombres[1]="Nueva";
-		nueva_etiqueta.nombres[2]="New";
-		nueva_etiqueta.nombres[3]="Nouveau";
+		nueva_etiqueta.nombres["ES"]="Nueva";
+		nueva_etiqueta.nombres["EN"]="New";
+		nueva_etiqueta.nombres["FR"]="Nouveau";
 		L.insertar_etiqueta(nueva_etiqueta);
 
 		//Testear búsqueda de nueva etiqueta.
 		auto resultado_busqueda_etiqueta=L.buscar_etiquetas([](const Etiqueta_bruto& E){return E.clave=="nueva";});
 		if(resultado_busqueda_etiqueta.size()!=1) throw std::runtime_error("Falla tamaño búsqueda etiquetas simple");
 		if(resultado_busqueda_etiqueta[0]->clave!="nueva" ||
-			resultado_busqueda_etiqueta[0]->nombres.at(1)!="Nueva" ||
-			resultado_busqueda_etiqueta[0]->nombres.at(2)!="New" ||
-			resultado_busqueda_etiqueta[0]->nombres.at(3)!="Nouveau") throw std::runtime_error("Fallan datos búsqueda etiquetas simple");
+			resultado_busqueda_etiqueta[0]->nombres.at("ES")!="Nueva" ||
+			resultado_busqueda_etiqueta[0]->nombres.at("EN")!="New" ||
+			resultado_busqueda_etiqueta[0]->nombres.at("FR")!="Nouveau") throw std::runtime_error("Fallan datos búsqueda etiquetas simple");
 		std::cout<<"\t[OK] - Busqueda correcta"<<std::endl;
 
 		//Insertar nueva palabra.
 		std::cout<<"Insertando y buscando nueva palabra..."<<std::endl;
 		Palabra_bruto nueva_palabra{"japones", "romaji"};
 		nueva_palabra.etiquetas.push_back(&nueva_etiqueta);
-		nueva_palabra.traducciones[1]="Algo";
-		nueva_palabra.traducciones[2]="Something";
-		nueva_palabra.traducciones[3]="Couseau";
+		nueva_palabra.traducciones["ES"]="Algo";
+		nueva_palabra.traducciones["EN"]="Something";
+		nueva_palabra.traducciones["FR"]="Couseau";
 		L.insertar_palabra(nueva_palabra);
 
 		auto f_palabra=[&nueva_etiqueta](const Palabra_bruto& P)
@@ -245,7 +245,7 @@ palabras:[\
 			if(P.japones!="japones") return false;
 			if(P.romaji!="romaji") return false;
 			if(!P.etiquetas.size() || P.etiquetas[0]!=&nueva_etiqueta) return false;
-			if(P.traducciones.at(1)!="Algo") return false;
+			if(P.traducciones.at("ES")!="Algo") return false;
 			return true;
 		};
 		auto resultado_busqueda_palabra=L.buscar_palabras(f_palabra);
@@ -273,8 +273,8 @@ palabras:[\
 
 		//Eliminar palabra.
 		std::cout<<"Eliminando y buscando palabra..."<<std::endl;
-		L.eliminar_palabra("somethingromaji");
-		auto res_buscar_palabra_eliminada=L.buscar_palabras([](const Palabra_bruto& P){return P.romaji=="somethingromaji";});
+		L.eliminar_palabra("somethingsomethingjap");
+		auto res_buscar_palabra_eliminada=L.buscar_palabras([](const Palabra_bruto& P){return P.romaji=="somethingsomethingjap";});
 		if(res_buscar_palabra_eliminada.size()) throw std::runtime_error("Falla búsqueda de palabra eliminada");
 
 		try
@@ -307,13 +307,13 @@ palabras:[\
 	
 		//Eliminar idioma y retirar del resto.
 		std::cout<<"Eliminando y buscando idioma..."<<std::endl;
-		L.eliminar_idioma(2);
-		auto res_busqueda_idioma_borrado=L.buscar_idiomas([](const Idioma& I){return I.id==2;});
+		L.eliminar_idioma("EN");
+		auto res_busqueda_idioma_borrado=L.buscar_idiomas([](const Idioma& I){return I.acronimo=="EN";});
 		if(res_busqueda_idioma_borrado.size()) throw std::runtime_error("Falla eliminado de idioma");
 
 		try
 		{
-			L.eliminar_idioma(2);
+			L.eliminar_idioma("EN");
 		}
 		catch(Lector_excepcion& e)
 		{
@@ -321,10 +321,10 @@ palabras:[\
 		}
 
 
-		auto comprobar_idioma_borrado_en_etiquetas=L.buscar_etiquetas([](const Etiqueta_bruto& E){return E.nombres.count(2);});
+		auto comprobar_idioma_borrado_en_etiquetas=L.buscar_etiquetas([](const Etiqueta_bruto& E){return E.nombres.count("EN");});
 		if(comprobar_idioma_borrado_en_etiquetas.size()) throw std::runtime_error("Fallo propagado borrado idioma en etiquetas");
 
-		auto comprobar_idioma_borrado_en_palabras=L.buscar_palabras([](const Palabra_bruto& P){return P.traducciones.count(2);});
+		auto comprobar_idioma_borrado_en_palabras=L.buscar_palabras([](const Palabra_bruto& P){return P.traducciones.count("EN");});
 		if(comprobar_idioma_borrado_en_palabras.size()) throw std::runtime_error("Fallo propagado borrado idioma en palabras");
 	}
 	catch(std::exception& e)

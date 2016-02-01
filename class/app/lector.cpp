@@ -49,21 +49,21 @@ void Lector::cargar(const Herramientas_proyecto::Dnot_token& root)
 
 /*
 idiomas:[
-	{id:1, nombre:"Español"}
-	{id:2, nombre:"Inglés"}
+	{acronimo:"ES", nombre:"Español"}
+	{acronimo:"EN", nombre:"Inglés"}
 ]");
 */
 
 Idioma Lector::idioma_desde_token(const Herramientas_proyecto::Dnot_token& tok)
 {
-	return Idioma{tok["id"], tok["nombre"]};
+	return Idioma{tok["acronimo"], tok["nombre"]};
 }
 
 /*
 etiquetas:[
 	{clave:"colores",nombres:[
-		{id:1, nombre:"Colores"},
-		{id:2, nombre:"Colors"}
+		{acronimo:"ES", nombre:"Colores"},
+		{acronimo:"EN", nombre:"Colors"}
 	]},
 ]
 */
@@ -75,14 +75,14 @@ Etiqueta_bruto Lector::etiqueta_desde_token(const Herramientas_proyecto::Dnot_to
 	const auto& lista=tok["nombres"].acc_lista();
 	for(const auto& p : lista) 
 	{
-		int id=p["id"];
+		std::string acronimo=p["acronimo"];
 		std::string nombre=p["nombre"];
 
-		if(res.nombres.count(id)) throw Lector_excepcion(
+		if(res.nombres.count(acronimo)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_repetido, 
-			"Idioma "+std::to_string(id)+" repetido para etiqueta "+res.clave);
+			"Idioma "+acronimo+" repetido para etiqueta "+res.clave);
 
-		res.nombres[id]=nombre;
+		res.nombres[acronimo]=nombre;
 	}
 	
 	return res;
@@ -93,26 +93,25 @@ palabras:[
 	{japones:"somethingsomething", romaji:"somethingromaji",
 	etiquetas:["pronombres", "faciles"],
 	traducciones:[
-		{id:1, traduccion:"Something romaji en idioma 1"},
-		{id:2, traduccion:"Something romaji en idioma 2"}]
+		{acronimo:"ES", traduccion:"Something romaji en idioma 1"},
+		{acronimo:"EN", traduccion:"Something romaji en idioma 2"}]
 	},
 	{japones:"somethingsomethingother", romaji:"somethingromajiother",
 	etiquetas:["frutasyverduras"],
 	traducciones:[
-		{id:1, traduccion:"Other romaji en idioma 1"},
-		{id:2, traduccion:"Other romaji en idioma 2"}]
+		{acronimo:"ES", traduccion:"Other romaji en idioma 1"},
+		{acronimo:"EN", traduccion:"Other romaji en idioma 2"}]
 	},
 	{japones:"hagane", romaji:"hagane",
 	etiquetas:[],
 	traducciones:[
-		{id:1, traduccion:"Acero"}
+		{acronimo:"ES", traduccion:"Acero"}
 	}
 ]
 */
 
 Palabra_bruto Lector::palabra_desde_token(const Herramientas_proyecto::Dnot_token& tok)
 {
-
 	Palabra_bruto res{tok["japones"], tok["romaji"]};
 
 	const auto& lista_etiquetas=tok["etiquetas"].acc_lista();
@@ -122,25 +121,25 @@ Palabra_bruto Lector::palabra_desde_token(const Herramientas_proyecto::Dnot_toke
 
 		if(!etiquetas.count(clave_etiqueta)) throw Lector_excepcion(
 				Lector_excepcion::tipo::etiqueta_no_existe,
-				"Etiqueta "+clave_etiqueta+" no existe para palabra "+res.romaji);
+				"Etiqueta "+clave_etiqueta+" no existe para palabra "+res.japones);
 		const auto& et=etiquetas[clave_etiqueta];
 
 		//Buscar para ver que no está repetida
 		if(std::find(std::begin(res.etiquetas), std::end(res.etiquetas), &et)!=std::end(res.etiquetas))
 			throw Lector_excepcion(
 				Lector_excepcion::tipo::etiqueta_repetida,
-				"Etiqueta "+clave_etiqueta+" repetida para palabra "+res.romaji);
+				"Etiqueta "+clave_etiqueta+" repetida para palabra "+res.japones);
 		res.etiquetas.push_back(&et);
 	}
 
 	const auto& traducciones=tok["traducciones"].acc_lista();
 	for(const auto& p : traducciones)
 	{
-		int id=p["id"];
-		if(res.traducciones.count(id)) throw Lector_excepcion(
+		std::string acronimo=p["acronimo"];
+		if(res.traducciones.count(acronimo)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_repetido,
-			"Idioma "+std::to_string(id)+" repetido para palabra "+res.romaji);
-		res.traducciones[id]=p["traduccion"].acc_string();
+			"Idioma "+acronimo+" repetido para palabra "+res.japones);
+		res.traducciones[acronimo]=p["traduccion"].acc_string();
 	}
 
 	return res;
@@ -155,10 +154,10 @@ void Lector::limpiar()
 
 void Lector::insertar_idioma(const Idioma& I)
 {
-	if(idiomas.count(I.id)) throw Lector_excepcion(
+	if(idiomas.count(I.acronimo)) throw Lector_excepcion(
 		Lector_excepcion::tipo::idioma_repetido,
-		"Clave de idioma "+std::to_string(I.id)+" repetida");
-	idiomas[I.id]=I;
+		"Clave de idioma "+I.acronimo+" repetida");
+	idiomas[I.acronimo]=I;
 }
 
 void Lector::insertar_etiqueta(const Etiqueta_bruto& E)
@@ -168,32 +167,32 @@ void Lector::insertar_etiqueta(const Etiqueta_bruto& E)
 		"Clave de etiqueta "+E.clave+" repetida");
 	for(const auto& p : E.nombres) if(!idiomas.count(p.first)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_no_existe,
-			"No existe el idioma "+std::to_string(p.first)+" para etiqueta "+E.clave);		
+			"No existe el idioma "+p.first+" para etiqueta "+E.clave);		
 	etiquetas[E.clave]=E;
 }
 
 void Lector::insertar_palabra(const Palabra_bruto& P)
 {
-	if(palabras.count(P.romaji)) throw Lector_excepcion(
+	if(palabras.count(P.japones)) throw Lector_excepcion(
 		Lector_excepcion::tipo::palabra_repetida,
-		"Clave de palabra "+P.romaji+" repetida");
+		"Clave de palabra "+P.japones+" repetida");
 	for(const auto& e : P.etiquetas) 
 		if(!etiquetas.count(e->clave)) throw Lector_excepcion(
 			Lector_excepcion::tipo::etiqueta_no_existe,
-			"Etiqueta "+e->clave+" no existe para palabra "+P.romaji+".");
+			"Etiqueta "+e->clave+" no existe para palabra "+P.japones+".");
 	for(const auto& p : P.traducciones) 
 		if(!idiomas.count(p.first)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_no_existe,
-			"No existe el idioma "+std::to_string(p.first)+" para palabra "+P.romaji);		
-	palabras[P.romaji]=P;
+			"No existe el idioma "+p.first+" para palabra "+P.japones);		
+	palabras[P.japones]=P;
 
 }
 
-void Lector::eliminar_idioma(int indice)
+void Lector::eliminar_idioma(const std::string& indice)
 {
 	if(!idiomas.count(indice)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_no_existe,
-			"No existe el idioma con id "+indice);
+			"No existe el idioma con acrónimo "+indice);
 
 	for(auto& par : etiquetas)
 	{
@@ -231,20 +230,20 @@ void Lector::eliminar_etiqueta(const std::string& clave)
 	etiquetas.erase(clave);
 }
 
-void Lector::eliminar_palabra(const std::string& romaji)
+void Lector::eliminar_palabra(const std::string& japones)
 {
-	if(!palabras.count(romaji)) throw Lector_excepcion(
+	if(!palabras.count(japones)) throw Lector_excepcion(
 			Lector_excepcion::tipo::palabra_no_existe,
-			"No existe la palabra "+romaji);
+			"No existe la palabra "+japones);
 
-	palabras.erase(romaji);
+	palabras.erase(japones);
 }
 
-Idioma&	Lector::obtener_idioma(int indice)
+Idioma&	Lector::obtener_idioma(const std::string& indice)
 {
 	if(!idiomas.count(indice)) throw Lector_excepcion(
 			Lector_excepcion::tipo::idioma_no_existe,
-			"No existe el idioma con id "+indice);
+			"No existe el idioma con acrónimo "+indice);
 
 	return idiomas[indice];
 }
@@ -258,13 +257,13 @@ Etiqueta_bruto& Lector::obtener_etiqueta(const std::string& clave)
 	return etiquetas[clave];
 }
 
-Palabra_bruto& Lector::obtener_palabra(const std::string& romaji)
+Palabra_bruto& Lector::obtener_palabra(const std::string& japones)
 {
-	if(!palabras.count(romaji)) throw Lector_excepcion(
+	if(!palabras.count(japones)) throw Lector_excepcion(
 			Lector_excepcion::tipo::palabra_no_existe,
-			"No existe la palabra "+romaji);
+			"No existe la palabra "+japones);
 
-	return palabras[romaji];
+	return palabras[japones];
 }
 
 const std::vector<Idioma const *> Lector::acc_idiomas()const

@@ -39,8 +39,14 @@ class CLI
 	void			nuevo_idioma();
 	void			eliminar_idioma();
 	void			modificar_idioma();
-
 	void			mostrar_lista_idiomas(const std::vector<Idioma const *>&);
+
+	void			menu_etiquetas();
+	void			listar_etiquetas();
+	void			buscar_etiquetas();
+	void			nueva_etiqueta();
+	void			modificar_etiqueta();
+	void			eliminar_etiqueta();
 
 	void			seleccionar_actual();
 	char			obtener_entrada_char();
@@ -60,6 +66,10 @@ class CLI
 		cli_nuevo_idioma=33,
 		cli_idioma_eliminado=34,
 		cli_modificar_idioma=35,
+		cli_nuevo_idioma_nombre=36,
+		cli_nuevo_idioma_acronimo=37,
+
+		cli_menu_etiquetas=50,
 
 		cli_inicializar_bienvenida=100,
 		cli_inicializar_error_lector=101,

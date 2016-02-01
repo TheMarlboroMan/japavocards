@@ -4,7 +4,7 @@ using namespace App;
 
 bool Idioma::operator<(const Idioma& o) const
 {
-	return id < o.id;
+	return acronimo < o.acronimo;
 }
 
 bool Etiqueta_bruto::operator<(const Etiqueta_bruto& o) const

@@ -8,26 +8,27 @@
 namespace App
 {
 
+
 struct Idioma
 {
-	int 				id;
-	std::string			nombre;
+	std::string			acronimo,
+					nombre;
 	bool 		 		operator<(const Idioma&) const;
 };
 
 struct Etiqueta_bruto
 {
-	std::string			clave;
-	std::map<int, std::string>	nombres;
+	std::string				clave;
+	std::map<std::string, std::string>	nombres;
 	bool 		 		operator<(const Etiqueta_bruto&) const;
 	bool				operator==(const Etiqueta_bruto&) const;
 };
 
 struct Palabra_bruto
 {
-	std::string				japones,
+	std::string				japones,	//Clave.
 						romaji;
-	std::map<int, std::string>		traducciones;
+	std::map<std::string, std::string>	traducciones;
 	std::vector<Etiqueta_bruto const *>	etiquetas;
 	bool 		 			operator<(const Palabra_bruto&) const;
 //	bool					operator==(const Palabra_bruto&) const;

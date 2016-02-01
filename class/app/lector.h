@@ -41,13 +41,13 @@ class Lector
 	size_t			total_idiomas() const {return idiomas.size();}
 	size_t			total_etiquetas() const {return etiquetas.size();}
 	size_t			total_palabras() const {return palabras.size();}
-	int			ultima_clave_idioma() const {return idiomas.rbegin()->first;}
+//	int			ultima_clave_idioma() const {return idiomas.rbegin()->first;}
 
 	void			insertar_idioma(const Idioma&);
 	void			insertar_etiqueta(const Etiqueta_bruto&);
 	void			insertar_palabra(const Palabra_bruto&);
 
-	Idioma&			obtener_idioma(int);
+	Idioma&			obtener_idioma(const std::string&);
 	Etiqueta_bruto&		obtener_etiqueta(const std::string&);
 	Palabra_bruto&		obtener_palabra(const std::string&);
 
@@ -59,7 +59,7 @@ class Lector
 	std::vector<Etiqueta_bruto const *>	buscar_etiquetas(std::function<bool(const Etiqueta_bruto&)> f)const {return buscar(etiquetas, f);}
 	std::vector<Palabra_bruto const *>	buscar_palabras(std::function<bool(const Palabra_bruto&)> f)const {return buscar(palabras, f);}
 
-	void			eliminar_idioma(int);
+	void			eliminar_idioma(const std::string&);
 	void			eliminar_etiqueta(const std::string&);
 	void			eliminar_palabra(const std::string&);
 
@@ -81,7 +81,7 @@ class Lector
 	Etiqueta_bruto		etiqueta_desde_token(const Herramientas_proyecto::Dnot_token&);
 	Palabra_bruto		palabra_desde_token(const Herramientas_proyecto::Dnot_token&);
 
-	std::map<int, Idioma>			idiomas;
+	std::map<std::string, Idioma>		idiomas;
 	std::map<std::string, Etiqueta_bruto>	etiquetas;
 	std::map<std::string, Palabra_bruto>	palabras;
 };

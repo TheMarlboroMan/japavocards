@@ -17,24 +17,24 @@ int main(int argc, char ** argv)
 		L.cargar("escritor_test_in_ok.dnot");
 
 		std::cout<<"Insertando nuevo idioma..."<<std::endl;
-		Idioma nuevo_idioma{3, "Francés"};
+		Idioma nuevo_idioma{"FR", "Francés"};
 		L.insertar_idioma(nuevo_idioma);
 
 		//Insertar nueva etiqueta.
 		std::cout<<"Insertando y buscando nueva etiqueta..."<<std::endl;
 		Etiqueta_bruto nueva_etiqueta{"nueva"};
-		nueva_etiqueta.nombres[1]="Nueva";
-		nueva_etiqueta.nombres[2]="New";
-		nueva_etiqueta.nombres[3]="Nouveau";
+		nueva_etiqueta.nombres["ES"]="Nueva";
+		nueva_etiqueta.nombres["EN"]="New";
+		nueva_etiqueta.nombres["FR"]="Nouveau";
 		L.insertar_etiqueta(nueva_etiqueta);
 
 		//Insertar nueva palabra.
 		std::cout<<"Insertando y nueva palabra..."<<std::endl;
 		Palabra_bruto nueva_palabra{"japones", "romaji"};
 		nueva_palabra.etiquetas.push_back(&nueva_etiqueta);
-		nueva_palabra.traducciones[1]="Algo";
-		nueva_palabra.traducciones[2]="Something";
-		nueva_palabra.traducciones[3]="Couseau";
+		nueva_palabra.traducciones["ES"]="Algo";
+		nueva_palabra.traducciones["EN"]="Something";
+		nueva_palabra.traducciones["FR"]="Couseau";
 		L.insertar_palabra(nueva_palabra);
 	
 		std::cout<<"Iniciando escritura de documento en disco..."<<std::endl;

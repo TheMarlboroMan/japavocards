@@ -45,7 +45,7 @@ Herramientas_proyecto::Dnot_token Escritor::generar_idiomas(const std::vector<Id
 	auto crear_idioma=[](const Idioma& I)
 	{
 		Dnot_token::t_mapa mapa;
-		mapa["id"].asignar(I.id);
+		mapa["acronimo"].asignar(I.acronimo);
 		mapa["nombre"].asignar(I.nombre);
 
 		Dnot_token obj;
@@ -67,8 +67,8 @@ etiquetas:[
 	{
 		clave:"colores",
 		nombres:[
-			{id:1, nombre:"Colores"},
-			{id:2, nombre:"Colors"}]
+			{acronimo:"ES", nombre:"Colores"},
+			{acronimo:"EN", nombre:"Colors"}]
 	}...
 ],
 */
@@ -83,7 +83,7 @@ Herramientas_proyecto::Dnot_token Escritor::generar_etiquetas(const std::vector<
 		for(const auto& n : e.nombres)
 		{
 			Dnot_token::t_mapa mapa;
-			mapa["id"].asignar(n.first);
+			mapa["acronimo"].asignar(n.first);
 			mapa["nombre"].asignar(n.second);
 
 			Dnot_token nombre;
@@ -116,8 +116,8 @@ palabras:[
 		japones:"somethingsomething", romaji:"somethingromaji",
 		etiquetas:["pronombres", "faciles"],
 		traducciones:[
-			{id:1, traduccion:"Something romaji en idioma 1"},
-			{id:2, traduccion:"Something romaji en idioma 2"}
+			{acronimo:"ES", traduccion:"Something romaji en idioma 1"},
+			{acronimo:"EN", traduccion:"Something romaji en idioma 2"}
 		]
 	}...
 ]
@@ -133,7 +133,7 @@ Herramientas_proyecto::Dnot_token Escritor::generar_palabras(const std::vector<P
 		for(const auto& n : e.traducciones)
 		{
 			Dnot_token::t_mapa mapa;
-			mapa["id"].asignar(n.first);
+			mapa["acronimo"].asignar(n.first);
 			mapa["traduccion"].asignar(n.second);
 
 			Dnot_token traduccion;

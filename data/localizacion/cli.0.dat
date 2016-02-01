@@ -48,8 +48,6 @@ Buscar idiomas que contengan...
 
 <33$>== Nuevo idioma ================================================================
 
-Introducir nombre del idioma:
-
 <#>
 
 <34$>Idioma eliminado correctamente.<#>
@@ -59,6 +57,9 @@ Introducir nombre del idioma:
 Introducir nuevo nombre del idioma:
 
 <#>
+
+<36$>Introducir nombre del idioma<#>
+<37$>Introducir acrónimo del idioma<#>
 
 <100$>Inicializando CLI...<#>
 <101$>Se ha producido un error al cargar el fichero de base de datos. Se usará una base de datos vacía.<#>

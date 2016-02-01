@@ -1,59 +1,59 @@
 idiomas:[
-	{id:1, nombre:"Español"},
-	{id:2, nombre:"Inglés"}
+	{acronimo:"ES", nombre:"Español"},
+	{acronimo:"EN", nombre:"Inglés"}
 ],
 
 etiquetas:[
 	{
 		clave:"colores",
 		nombres:[
-			{id:1, nombre:"Colores"},
-			{id:2, nombre:"Colors"}]
+			{acronimo:"ES", nombre:"Colores"},
+			{acronimo:"EN", nombre:"Colors"}]
 	},
 	{
 		clave:"frutasyverduras",
 		nombres:[
-			{id:1, nombre:"Frutas y verduras"},
-			{id:2, nombre:"Fruits and vegetables"}]
+			{acronimo:"ES", nombre:"Frutas y verduras"},
+			{acronimo:"EN", nombre:"Fruits and vegetables"}]
 	},
 	{
 		clave:"faciles",
 		nombres:[
-			{id:1, nombre:"Fáciles"},
-			{id:2, nombre:"Easy words"}]
+			{acronimo:"ES", nombre:"Fáciles"},
+			{acronimo:"EN", nombre:"Easy words"}]
 	},
 	{
 		clave:"pronombres",
 		nombres:[
-			{id:1, nombre:"Pronombres"}]
+			{acronimo:"ES", nombre:"Pronombres"}]
 	}
 ],
 
 palabras:[
 	{
-		japones:"somethingsomething", romaji:"somethingromaji",
+		japones:"somethingsomethingjap", romaji:"somethingromaji",
 		etiquetas:["pronombres", "faciles"],
 		traducciones:[
-			{id:1, traduccion:"Something romaji en idioma 1"},
-			{id:2, traduccion:"Something romaji en idioma 2"}
+			{acronimo:"ES", traduccion:"Something romaji en idioma 1"},
+			{acronimo:"EN", traduccion:"Something romaji en idioma 2"}
 		]
 	},
 	{
 		japones:"otracosa", romaji:"otro_romaji",
 		etiquetas:["frutasyverduras"],
 		traducciones:[
-			{id:1, traduccion:"Other romaji en idioma 1"},
-			{id:2, traduccion:"Other romaji en idioma 2"}
+			{acronimo:"ES", traduccion:"Other romaji en idioma 1"},
+			{acronimo:"EN", traduccion:"Other romaji en idioma 2"}
 		]
 	},
 	{
 		japones:"momo", romaji:"momo",
 		etiquetas:["frutasyverduras"],
-		traducciones:[{id:1, traduccion:"Melocotón"}]
+		traducciones:[{acronimo:"ES", traduccion:"Melocotón"}]
 	},
 	{
 		japones:"hagane", romaji:"hagane",
 		etiquetas:[],
-		traducciones:[{id:1, traduccion:"Acero"}]
+		traducciones:[{acronimo:"ES", traduccion:"Acero"}]
 	}
 ]

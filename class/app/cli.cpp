@@ -52,8 +52,8 @@ void CLI::menu_principal()
 		{
 			case '0': salir=confirmar_salida(); break;
 			case 'i': menu_idiomas(); break;
-			case 'l': /*TODO */break;
-			case 'w': /*TODO */break;
+			case 'l': menu_etiquetas(); break;
+			case 'w': /*TODO menu_palabras(); */break;
 			case 's': guardar(); break;
 			default: 
 				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
@@ -61,6 +61,26 @@ void CLI::menu_principal()
 		}
 	}
 }
+
+bool CLI::confirmar_salida()
+{
+	if(cambios_guardados) return true;
+	while(true)
+	{
+		std::cout<<localizador.obtener(cli_confirmar_salida);
+		char opcion=obtener_entrada_char();
+		switch(opcion)
+		{
+			case 'y': return true; break;
+			case 'n': return false; break;
+			default:
+				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
+			break;
+		}
+	}
+}
+
+/******************************************************************************/
 
 void CLI::menu_idiomas()
 {
@@ -70,8 +90,8 @@ void CLI::menu_idiomas()
 
 		if(seleccion_actual)
 		{
-			int clave=std::stoi(opciones[seleccion_actual]);
-			const auto& v=lector.buscar_idiomas([clave](const Idioma& I){return I.id==clave;});
+			const std::string clave=opciones[seleccion_actual];
+			const auto& v=lector.buscar_idiomas([clave](const Idioma& I){return I.acronimo==clave;});
 			if(v.size())
 			{
 				std::cout<<localizador.obtener(cli_seleccion_actual)<<v[0]->nombre<<std::endl;
@@ -102,24 +122,6 @@ void CLI::menu_idiomas()
 	opciones.clear();
 }
 
-bool CLI::confirmar_salida()
-{
-	if(cambios_guardados) return true;
-	while(true)
-	{
-		std::cout<<localizador.obtener(cli_confirmar_salida);
-		char opcion=obtener_entrada_char();
-		switch(opcion)
-		{
-			case 'y': return true; break;
-			case 'n': return false; break;
-			default:
-				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
-			break;
-		}
-	}
-}
-
 void CLI::listar_idiomas()
 {
 	std::cout<<localizador.obtener(cli_listado_idiomas);
@@ -146,8 +148,8 @@ void CLI::mostrar_lista_idiomas(const std::vector<Idioma const *>& v)
 	for(const auto& i : v)
 	{
 		const auto& I=*i;
-		opciones[opcion]=std::to_string(I.id);
-		std::cout<<"["<<opcion<<"] : "<<I.nombre<<" ("<<I.id<<")"<<std::endl;
+		opciones[opcion]=I.acronimo;
+		std::cout<<"["<<opcion<<"] : "<<I.nombre<<" ("<<I.acronimo<<")"<<std::endl;
 		++opcion;
 	}
 
@@ -161,8 +163,7 @@ void CLI::modificar_idioma()
 
 	try
 	{
-		int clave=std::stoi(opciones[seleccion_actual]);
-		auto& I=lector.obtener_idioma(clave);
+		auto& I=lector.obtener_idioma(opciones[seleccion_actual]);
 		I.nombre=nombre;
 		cambios_guardados=false;
 	}
@@ -181,8 +182,7 @@ void CLI::eliminar_idioma()
 	
 	try
 	{
-		int clave=std::stoi(opciones[seleccion_actual]);
-		lector.eliminar_idioma(clave);
+		lector.eliminar_idioma(opciones[seleccion_actual]);
 		std::cout<<localizador.obtener(cli_idioma_eliminado)<<std::endl;
 		cambios_guardados=false;
 		seleccion_actual=0;
@@ -196,11 +196,14 @@ void CLI::eliminar_idioma()
 void CLI::nuevo_idioma()
 {
 	std::cout<<localizador.obtener(cli_nuevo_idioma);
+	std::cout<<localizador.obtener(cli_nuevo_idioma_nombre);
 	std::string nombre=obtener_entrada_string();
+	std::cout<<localizador.obtener(cli_nuevo_idioma_acronimo);
+	std::string acronimo=obtener_entrada_string();
 
 	try
 	{
-		Idioma idioma{(int)lector.ultima_clave_idioma()+1, nombre};
+		Idioma idioma{acronimo, nombre};
 		lector.insertar_idioma(idioma);
 		cambios_guardados=false;
 	}
@@ -209,6 +212,76 @@ void CLI::nuevo_idioma()
 		std::cout<<localizador.obtener(cli_fallo_operacion)<<" - "<<e.what()<<std::endl;
 	}
 }
+
+/******************************************************************************/
+
+void CLI::menu_etiquetas()
+{
+	while(true)
+	{
+		std::cout<<localizador.obtener(cli_menu_etiquetas);
+
+		if(seleccion_actual)
+		{
+			const std::string clave=opciones[seleccion_actual];
+			const auto& v=lector.buscar_etiquetas([clave](const Etiqueta& I){return I.clave==clave;});
+			if(v.size())
+			{
+				//TODO: Definir un idioma canónico para sacar la información.
+				std::cout<<localizador.obtener(cli_seleccion_actual)<<v[0]->clave<<std::endl;
+			}
+			else
+			{
+				seleccion_actual=0;
+			}
+		}
+
+		char opcion=obtener_entrada_char();
+		switch(opcion)
+		{
+			case '0': return; break;
+			case 'l': listar_etiquetas(); break;
+			case 'f': buscar_etiquetas(); break;
+			case 'n': nueva_etiquetas(); break;
+			case 'c': seleccionar_actual(); break;
+			case 'e': modificar_etiqueta(); break;
+			case 'd': eliminar_etiqueta(); break;
+			case 's': guardar(); break;
+			default: 
+				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
+			break;
+		}
+	}
+
+	opciones.clear();
+}
+
+void CLI::listar_etiquetas()
+{
+	/* TODO */
+}
+
+void CLI::buscar_etiquetas()
+{
+	/* TODO */
+}
+
+void CLI::nueva_etiqueta()
+{
+	/* TODO */
+}
+
+void CLI::modificar_etiqueta()
+{
+	/* TODO */
+}
+
+void CLI::eliminar_etiqueta()
+{
+	/* TODO */
+}
+
+/******************************************************************************/
 
 void CLI::guardar()
 {
