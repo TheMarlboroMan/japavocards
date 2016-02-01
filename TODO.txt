@@ -1,0 +1,7 @@
+En CLI:
+
+	- Sistema de autoetiquetado: seleccionar N etiquetas y se asignarán
+	a todas las palabras creadas de un tirón.
+	- Sistema de multietiquetado: seleccionar una etiqueta y luego buscar
+	palabras e irlas etiquetando.
+	- Importador ????
