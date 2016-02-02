@@ -29,7 +29,7 @@ void Extractor::procesar_etiquetas()
 		if(e->nombres.count(acr))
 		{
 			etiquetas.push_back(Etiqueta(e->nombres.at(acr)));
-			mapa_etiquetas[acr]=&etiquetas.back();
+			mapa_etiquetas[e->clave]=etiquetas.size()-1;
 		}
 	}
 
@@ -48,9 +48,9 @@ void Extractor::procesar_palabras()
 			{
 				if(mapa_etiquetas.count(e->clave))
 				{
-					auto& et=mapa_etiquetas[e->clave];
-					et->sumar_asignacion();
-					nueva.insertar_etiqueta(*et);
+					auto& et=etiquetas[mapa_etiquetas[e->clave]];
+					et.sumar_asignacion();
+					nueva.insertar_etiqueta(et);
 				}
 			}
 			palabras.push_back(nueva);
@@ -71,7 +71,7 @@ void Extractor::limpiar()
 		std::begin(etiquetas), 
 		std::end(etiquetas), 
 		[](Etiqueta& e) {return !e.acc_asignaciones();});
-	
+
 	etiquetas.erase(it, std::end(etiquetas));
 
 	size_t limpia=etiquetas.size();

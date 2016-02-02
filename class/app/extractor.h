@@ -41,7 +41,7 @@ class Extractor
 	DLibH::Log_base&		log;
 	std::vector<Etiqueta>		etiquetas;
 	std::vector<Palabra>		palabras;
-	std::map<std::string, Etiqueta *> mapa_etiquetas;
+	std::map<std::string, size_t> mapa_etiquetas;
 };
 
 }
