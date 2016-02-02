@@ -3,7 +3,7 @@
 using namespace App;
 
 Etiqueta::Etiqueta(const std::string& n)
-	:nombre(n)
+	:nombre(n), palabras_asignadas(0)
 {
 
 }

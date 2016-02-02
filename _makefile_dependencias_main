@@ -19,6 +19,7 @@ $(DIR_O)cli.o \
 $(DIR_O)datos_bruto.o \
 $(DIR_O)etiqueta.o \
 $(DIR_O)palabra.o \
+$(DIR_O)extractor.o \
 $(DIR_O)almacenaje.o \
 $(DIR_O)localizador.o \
 
