@@ -2,14 +2,20 @@
 
 using namespace App;
 
-CLI::CLI(const std::string& nf, int id_idioma)
+const std::string CLI::ruta_configuracion_cli="data/app/cli_config.dnot";
+const std::string CLI::ruta_opciones_cli="data/app/cli_data.dnot";
+const std::string CLI::marcado="*";
+const std::string CLI::no_marcado="-";
+
+CLI::CLI(const std::string& nf)
 	:log("logs/cli.log"), nombre_fichero(nf),
 	localizador("data/localizacion/cli"),
 	cambios_guardados(true),
-	seleccion_actual(""), idioma_canonico("")
+	seleccion_actual(""), idioma_canonico(""),
+	id_idioma_interface(0)
 {
-	localizador.inicializar(id_idioma);
 	inicializar();
+	inicializar_configuracion();
 }
 
 void CLI::inicializar()
@@ -22,10 +28,6 @@ void CLI::inicializar()
 		try
 		{
 			lector.cargar(nombre_fichero);
-			if(lector.total_idiomas())
-			{
-				idioma_canonico=lector.acc_idiomas()[0]->acronimo;
-			}
 		}
 		catch(std::exception& e)
 		{
@@ -38,6 +40,71 @@ void CLI::inicializar()
 	}
 
 	std::cout<<localizador.obtener(cli_inicializar_fichero_escogido)<<nombre_fichero<<std::endl;
+}
+
+void CLI::inicializar_configuracion()
+{
+	try
+	{
+		using namespace Herramientas_proyecto;
+
+		//Cargar información dinámica de configuración...
+		const auto& root_data=parsear_dnot(ruta_opciones_cli.c_str());		
+		const auto& idiomas=root_data["cli_valores"]["idiomas"].acc_lista();
+		for(const auto& i : idiomas) 
+		{
+			int id=i["id"];
+			const std::string nombre=i["nombre"];
+			mapa_idiomas[id]=nombre;
+		}
+
+		//Establecer valores de configuración.
+		const auto& root_config=parsear_dnot(ruta_configuracion_cli.c_str());
+		const auto& config=root_config["cli_config"];
+		id_idioma_interface=config["id_idioma"];
+
+		//Intentamos instanciar el idioma que se indica en el fichero de configuración.
+		//Si falla no habremos tocado nada...
+		const std::string str_idioma_canonico=config["idioma_canonico"];
+		const auto& idioma=lector.obtener_idioma(str_idioma_canonico);
+		idioma_canonico=idioma.acronimo;
+	}
+	catch(std::exception& e)
+	{
+		log<<"Error en carga de configuración. Se iniciarán valores por defecto - : "<<e.what()<<std::endl;
+		std::cout<<localizador.obtener(cli_error_carga_configuracion)<<std::endl;	
+	}
+
+	localizador.inicializar(id_idioma_interface);
+
+	//Último intento de asignar un idioma canónico...
+	if(!idioma_canonico.size() && lector.total_idiomas())
+	{
+		idioma_canonico=lector.acc_idiomas()[0]->acronimo;
+	}
+}
+
+void CLI::guardar_configuracion()
+{
+	log<<localizador.obtener(cli_guardando_configuracion)<<std::endl;
+
+	using namespace Herramientas_proyecto;
+
+	Dnot_token::t_mapa mapa_config;
+	mapa_config["id_idioma"]=Dnot_token(id_idioma_interface);
+	mapa_config["idioma_canonico"]=Dnot_token(idioma_canonico);
+
+	Dnot_token config;
+	config.asignar(mapa_config);
+
+	Dnot_token::t_mapa mapa_root;
+	mapa_root["cli_config"]=config;
+
+	Dnot_token root;
+	root.asignar(mapa_root);
+
+	std::ofstream salida(ruta_configuracion_cli.c_str());
+	salida<<root.serializar();
 }
 
 void CLI::loop()
@@ -56,7 +123,7 @@ void CLI::menu_principal()
 		{
 			case '0': salir=confirmar_salida(); break;
 			case 'i': menu_idiomas(); break;
-			case 'l': menu_etiquetas(); break;
+			case 't': menu_etiquetas(); break;
 			case 'w': menu_palabras(); break;
 			case 'y': menu_sistema(); break;
 			case 's': guardar(); break;
@@ -365,7 +432,7 @@ void CLI::mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>& v, 
 
 	for(const auto& i : v)
 	{
-		char marca=std::find(std::begin(P.etiquetas), std::end(P.etiquetas), i)!=std::end(P.etiquetas) ? 'V' : 'X';
+		const std::string marca=std::find(std::begin(P.etiquetas), std::end(P.etiquetas), i)!=std::end(P.etiquetas) ? marcado : no_marcado;
 
 		const auto& info=info_etiqueta(*i);
 		opciones[opcion]=i->clave;
@@ -376,11 +443,35 @@ void CLI::mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>& v, 
 	std::cout<<std::endl;
 }
 
+void CLI::mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>& v, std::map<int, std::string>& opciones, const std::vector<Etiqueta_bruto const *>& autoetiquetado)
+{
+	opciones.clear();
+	int opcion=1;
+	size_t total=0;
+
+	for(const auto& i : v)
+	{
+		auto it=std::find(std::begin(autoetiquetado), std::end(autoetiquetado), i);
+
+		const std::string marca=it!=std::end(autoetiquetado) ? marcado : no_marcado;
+		if(it!=std::end(autoetiquetado)) ++total;
+
+		const auto& info=info_etiqueta(*i);
+		opciones[opcion]=i->clave;
+		std::cout<<"["<<opcion<<"] : ["<<marca<<"] "<<info.nombre<<" ("<<info.clave<<")"<<std::endl;
+		++opcion;
+	}
+
+	std::cout<<std::endl<<localizador.obtener(cli_total_autoetiquetado)<<total<<std::endl;
+}
+
 /******************************************************************************/
 
 void CLI::menu_palabras()
 {
 	std::map<int, std::string> opciones;
+	std::vector<Etiqueta_bruto const *> autoetiquetas;
+
 
 	while(true)
 	{
@@ -406,7 +497,7 @@ void CLI::menu_palabras()
 			case 'l': listar_palabras(opciones); break;
 			case 'f': buscar_palabras(opciones); break;
 			case 'q': buscar_palabras_etiqueta(opciones); break;
-			case 'n': nueva_palabra(); break;
+			case 'n': nueva_palabra(autoetiquetas); break;
 			case 'c': seleccionar_actual(opciones); break;
 			case 'e': 
 				if(!seleccion_actual.size())
@@ -426,11 +517,69 @@ void CLI::menu_palabras()
 				else 
 					eliminar_palabra(lector.obtener_palabra(seleccion_actual)); 
 			break;
+			case 'a': seleccion_autoetiquetado_palabras(autoetiquetas); break;				
+			break;
 			case 's': guardar(); break;
 			default: 
 				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
 			break;
 		}
+	}
+}
+
+void CLI::seleccion_autoetiquetado_palabras(std::vector<Etiqueta_bruto const *>& autoetiquetado)
+{
+	//Mostrar listado de etiquetas, 
+	std::map<int, std::string> opciones_et;
+	const auto& v=lector.acc_etiquetas();
+
+	while(true)
+	{
+		std::cout<<localizador.obtener(cli_menu_autoetiquetado)<<std::endl;
+		mostrar_lista_etiquetas(v, opciones_et, autoetiquetado);
+
+		std::string input;
+		if(!input_string(input, ""))
+		{
+			return;
+		}
+		else
+		{
+			try
+			{
+				int s=std::stoi(input);
+				if(!s) 
+				{
+					return;
+				}		
+				if(opciones_et.count(s)) 
+				{
+					const auto& et=lector.obtener_etiqueta(opciones_et[s]);
+					const auto it=std::find(std::begin(autoetiquetado), std::end(autoetiquetado), &et);
+
+					if(it == std::end(autoetiquetado))
+					{
+						autoetiquetado.push_back(&et);
+						std::cout<<localizador.obtener(cli_autoetiquetado_insertado)<<std::endl;
+					}
+					else
+					{
+						autoetiquetado.erase(it);
+						std::cout<<localizador.obtener(cli_autoetiquetado_retirado)<<std::endl;
+					}
+
+				}
+				else
+				{
+					std::cout<<localizador.obtener(cli_error_seleccion)<<std::endl;
+				}
+			}
+			catch(std::exception& e)
+			{
+				std::cout<<localizador.obtener(cli_error_seleccion_invalida)<<std::endl;
+			}
+		}
+
 	}
 }
 
@@ -511,9 +660,21 @@ void CLI::buscar_palabras_etiqueta(std::map<int, std::string>& opciones)
 }
 
 
-void CLI::nueva_palabra()
+void CLI::nueva_palabra(const std::vector<Etiqueta_bruto const *>& autoetiquetas)
 {
 	std::string japones, romaji;
+
+	if(autoetiquetas.size())
+	{
+		std::cout<<localizador.obtener(cli_autoetiquetas_activas)<<std::endl;
+		for(const auto& e : autoetiquetas)
+		{
+			const auto& info=info_etiqueta(*e);
+			std::cout<<info.nombre<<" ";
+		}
+
+		std::cout<<std::endl;
+	}
 
 	if(input_string(japones, localizador.obtener(cli_nueva_palabra_japones))
 		&& input_string(romaji, localizador.obtener(cli_nueva_palabra_romaji)))
@@ -525,7 +686,9 @@ void CLI::nueva_palabra()
 			{
 				Palabra_bruto palabra{japones, romaji};
 				for(const auto& p : traducciones) if(p.second!="-") palabra.traducciones[p.first]=p.second;
+				for(const auto& e : autoetiquetas) palabra.etiquetas.push_back(e);
 				lector.insertar_palabra(palabra);
+
 				cambios_guardados=false;
 				seleccion_actual=japones;
 			}
@@ -639,6 +802,7 @@ void CLI::menu_sistema()
 		{
 			case '0': return; break;
 			case 'l': seleccion_idioma_canonico(); break;
+			case 'i': seleccion_idioma_interface(); break;
 			default: 
 				std::cout<<localizador.obtener(cli_opcion_incorrecta)<<std::endl;
 			break;
@@ -668,6 +832,42 @@ void CLI::seleccion_idioma_canonico()
 				if(opciones.count(s)) 
 				{
 					idioma_canonico=opciones[s];
+					guardar_configuracion();
+					return;
+				}
+				else
+				{
+					std::cout<<localizador.obtener(cli_error_seleccion)<<std::endl;
+				}
+			}
+			catch(std::exception& e)
+			{
+				std::cout<<localizador.obtener(cli_error_seleccion_invalida)<<std::endl;
+			}
+		}
+	}
+}
+
+void CLI::seleccion_idioma_interface()
+{
+	while(true)
+	{
+		std::cout<<localizador.obtener(cli_idioma_interface);
+		
+		for(const auto& p : mapa_idiomas)
+			std::cout<<"["<<p.first<<"] - "<<p.second<<std::endl;
+
+		std::string input;
+		if(input_string(input, ""))
+		{
+			try
+			{
+				int s=std::stoi(input);
+				if(mapa_idiomas.count(s)) 
+				{
+					id_idioma_interface=s;
+					guardar_configuracion();
+					localizador.inicializar(id_idioma_interface);
 					return;
 				}
 				else

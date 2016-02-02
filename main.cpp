@@ -24,16 +24,12 @@ int main(int argc, char ** argv)
 	{
 		try
 		{
-			int id_idioma=0;
 			std::string fichero="data/app/db.dnot";
-	
-			int arg_idioma=CARG.buscar("--lan");
-			if(arg_idioma!=-1) id_idioma=std::stoi(CARG.acc_argumento(arg_idioma+1));
 
 			int arg_fichero=CARG.buscar("--file");
 			if(arg_fichero!=-1) fichero=CARG.acc_argumento(arg_fichero+1);
 
-			App::CLI cli(fichero, id_idioma);
+			App::CLI cli(fichero);
 			cli.loop();
 		}
 		catch(std::exception& e)

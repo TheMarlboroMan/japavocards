@@ -7,7 +7,7 @@
 
 #include <herramientas/log_base/log_base.h>
 
-
+#include <class/dnot_parser.h>
 #include <source/ficheros_utilidades.h>
 
 #include "datos_bruto.h"
@@ -22,7 +22,7 @@ class CLI
 {
 	public:
 
-				CLI(const std::string&, int id_idioma=1);
+				CLI(const std::string&);
 
 	void			loop();
 	
@@ -42,12 +42,15 @@ class CLI
 	mostrar_palabra		info_palabra(const Palabra_bruto&);
 
 	void			inicializar();
-	void			guardar();	
+	void			inicializar_configuracion();
+	void			guardar();
+	void			guardar_configuracion();
 
 	void			menu_principal();
 
 	void			menu_sistema();
 	void			seleccion_idioma_canonico();
+	void			seleccion_idioma_interface();
 
 	void			menu_idiomas();
 	void			listar_idiomas(std::map<int, std::string>&);
@@ -65,16 +68,18 @@ class CLI
 	void			eliminar_etiqueta(Etiqueta_bruto&);
 	void			mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>&, std::map<int, std::string>&);
 	void			mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>&, std::map<int, std::string>&, const Palabra_bruto&);
+	void			mostrar_lista_etiquetas(const std::vector<Etiqueta_bruto const *>&, std::map<int, std::string>&, const std::vector<Etiqueta_bruto const *>&);
 
 	void			menu_palabras();
 	void			listar_palabras(std::map<int, std::string>&);
 	void			buscar_palabras(std::map<int, std::string>&);
 	void			buscar_palabras_etiqueta(std::map<int, std::string>&);
-	void			nueva_palabra();
+	void			nueva_palabra(const std::vector<Etiqueta_bruto const *>&);
 	void			modificar_palabra(Palabra_bruto&);
 	void			etiquetar_palabra(Palabra_bruto&);
 	void			eliminar_palabra(Palabra_bruto&);
 	void			mostrar_lista_palabras(const std::vector<Palabra_bruto const *>&, std::map<int, std::string>&);
+	void			seleccion_autoetiquetado_palabras(std::vector<Etiqueta_bruto const *>&);
 
 	void			seleccionar_actual(std::map<int, std::string>&);
 	char			obtener_entrada_char(bool=false);
@@ -121,6 +126,11 @@ class CLI
 		cli_etiquetar_palabra_etiquetada=69,
 		cli_etiquetar_palabra_eliminada=70,
 		cli_buscar_palabras_etiqueta=71,
+		cli_total_autoetiquetado=72,
+		cli_menu_autoetiquetado=73,
+		cli_autoetiquetado_insertado=74,
+		cli_autoetiquetado_retirado=75,
+		cli_autoetiquetas_activas=76,
 
 		cli_inicializar_bienvenida=100,
 		cli_inicializar_error_lector=101,
@@ -141,9 +151,12 @@ class CLI
 		cli_error_eliminar=211,
 		cli_sin_traduccion=212,
 		cli_accion_cancelada=213,
+		cli_error_carga_configuracion=214,
+		cli_guardando_configuracion=215,
 
 		cli_menu_sistema=500,
 		cli_idioma_canonico=501,
+		cli_idioma_interface=502,
 
 		log_iniciando_backup=1000,
 		log_iniciando_guardado=1001
@@ -158,6 +171,14 @@ class CLI
 	bool			cambios_guardados;
 	std::string		seleccion_actual;
 	std::string		idioma_canonico;	
+	int			id_idioma_interface;
+
+	std::map<int, std::string>	mapa_idiomas;
+
+	static const std::string	ruta_configuracion_cli;
+	static const std::string	ruta_opciones_cli;
+	static const std::string	marcado;
+	static const std::string	no_marcado;
 };
 
 }

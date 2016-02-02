@@ -1,7 +1,7 @@
 <1$>
 == Menú principal CLI ==========================================================
 
-[0] - Salir		[i] - Idiomas		[l] - Etiquetas
+[0] - Salir		[i] - Idiomas		[t] - Etiquetas
 [w] - Palabras		[y] - Sistema		[s] - Guardar<#>
 
 <2$>
@@ -78,8 +78,8 @@ Clave de la etiqueta (en blanco para cancelar).<#>
 
 [0] - Volver		[l] - Listar palabras	[f] - Buscar palabras
 [q] - Buscar por etiq.	[n] - Nueva palabra	[c] - Seleccionar	
-[e] - Modificar sel.	[t] - Etiquetas sel.	[d] - Eliminar sel.	
-[s] - Guardar<#>
+[e] - Modificar sel.	[t] - Etiquetas sel.	[a] - Autoetiquetado
+[d] - Eliminar sel.	[s] - Guardar<#>
 
 <61$>
 == Listado de palabras =========================================================
@@ -111,6 +111,16 @@ Escoger número de etiqueta para cambiar su estado. 0 para volver.
 
 Seleccionar etiqueta para buscar palabras... (en blanco para cancelar).
 <#>
+<72$>Total de etiquetas para autoetiquetado: <#>
+<73$>
+== Selección de autoetiquetado =================================================
+
+Las etiquetas seleccionadas se insertarán automáticamente en las nuevas
+palabras creadas... (en blanco para cancelar).
+<#>
+<74$>Etiqueta establecida para autoetiquetado.<#>
+<75$>Etiqueta eliminada para autoetiquetado.<#>
+<76$>Las siguientes etiquetas se asignarán automáticamente: <#>
 
 <100$>Inicializando CLI...<#>
 <101$>Se ha producido un error al cargar el fichero de base de datos. Se usará una base de datos vacía.<#>
@@ -131,16 +141,25 @@ Seleccionar etiqueta para buscar palabras... (en blanco para cancelar).
 <211$>[ERROR] : No se pudo eliminar la selección - <#>
 <212$>[SIN TRADUCCIÓN]<#>
 <213$>Acción cancelada.<#>
+<214$>[ERROR] : Se ha producido un error en la carga de configuración. Se inicializará el CLI con valores por defecto.<#>
+<215$>Guardando configuración...<#>
 
 <500$>
 == Menú de sistema =============================================================
 
-[0] - Volver		[l] - Idioma canónico<#>
+[0] - Volver		[l] - Idioma canónico	[i] - Idioma interface<#>
 
 <501$>
 == Idioma canónico =============================================================
 
 Escoger el idioma para usar las traducciones. 0 para cancelar.
+
+<#>
+
+<502$>
+== Idioma interface ============================================================
+
+Escoger el idioma para interface (en blanco para cancelar).
 
 <#>
 

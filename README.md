@@ -7,7 +7,7 @@ The front end consists on the application itself.
 
 The backend is a command line interface to manage the application database. To start the CLI:
 
-	japavocard.out --cli [--lan language_id --file path_to_database_file]
+	japavocard.out --cli [--file path_to_database_file]
 
 The CLI allows for:
 

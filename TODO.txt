@@ -1,10 +1,6 @@
 En CLI:
 	- Añadir un recuento rápido de palabras, idiomas y etiquetas en los
 	menús principales de cada uno, sin necesidad de hacer la búsqueda.
-	- Selección de idioma de la interface en menú de sistema.
-	- Sistema de autoetiquetado: seleccionar N etiquetas y se asignarán
-	a todas las palabras creadas de un tirón. Se desactiva quitando las
-	etiquetas.
 	- Filtro de palabras sin etiquetar.
 	- Filtro de etiquetas sin usar.
 	- Test de cordura para ver si hay palabras sin traducción y tal y cual.

@@ -1,3 +1,166 @@
-<100$>Starting CLI...<#>
-<101$>An error happened when loading the database file. An empty database will be used.<#>
-<102$>No database file was found. An empty database will be used.<#>
+<1$>
+== CLI Main menu ===============================================================
+
+[0] - Exit		[i] - Languages		[t] - Tags
+[w] - Words		[y] - System		[s] - Save<#>
+
+<2$>
+== CLI : Confirm exit ==========================================================
+
+There are unsaved changes. Quit?
+[y] - Quit
+[n] - Do not quit<#>
+
+<3$>
+== Select ======================================================================
+
+Choose the current selection by its number. Blank input cancels.<#>
+
+<30$>
+== Language menu ===============================================================
+
+[0] - Return		[l] - List languages 	[f] - Find languages
+[n] - New language	[c] - Select		[e] - Edit selected
+[d] - Delete selected	[s] - Save<#>
+
+<31$>
+== Language list ===============================================================
+
+<#>
+
+<32$>
+== Language finder =============================================================
+
+Find languages by name... (blank input cancels).<#>
+
+<33$>
+== New language ================================================================
+
+<#>
+
+<34$>Language successfully deleted.<#>
+
+<35$>
+== Edit language ===============================================================
+
+New language name (blank input cancels):<#>
+
+<36$>Language name<#>
+<37$>Language acronym<#>
+
+<50$>
+== Label menu )))))))===========================================================
+
+[0] - Back		[l] - List labels		[f] - Find labels
+[n] - New labels	[c] - Select			[e] - Edit selected
+[d] - Delete selected	[s] - Save<#>
+
+<51$>
+== Label list ==================================================================
+
+<#>
+
+<52$>
+== Label finder ================================================================
+
+Find labels by any of their names... (blank input cancels).<#>
+
+<53$>
+== New label ===================================================================
+
+Unique label key (blank input cancels).<#>
+
+<54$> - translation (blank input cancels, - ignores this field).<#>
+<55$>Label successfully deleted.<#>
+
+<60$>
+== Word menu ===================================================================
+
+[0] - Back		[l] - List words	[f] - Find words
+[q] - Find by label	[n] - New word		[c] - Select	
+[e] - Edit selected	[t] - Label selected.	[a] - Auto labelling
+[d] - Delete selected	[s] - Save<#>
+
+<61$>
+== Word list ===================================================================
+
+<#>
+
+<62$>
+== Word finder =================================================================
+
+Find words by romaji or translation (blank input cancels).<#>
+
+<63$>
+== New word ====================================================================
+
+Japanese for the word (blank input cancels).<#>
+<64$>Romaji for the word (blank input cancels).<#>
+<65$> - translation (blank input cancels, - ignores this field).<#>
+<66$>Romaji for the word (blank input cancels, - ignores this field).<#>
+<67$>Word successfully deleted.<#>
+<68$>
+== Label word ==================================================================
+
+Choose label by its number to toogle state. 0 to go return.
+<#>
+<69$>Word successfully labeled.<#>
+<70$>Word successfully unlabeled.<#>
+<71$>
+== Word finder by label ========================================================
+
+Choose a label to find labelled words (blank input cancels).
+<#>
+<72$>Autolabel count: <#>
+<73$>
+== Autolabel configuration =====================================================
+
+Selected labels will be applied to new words (blank input cancels).
+<#>
+<74$>Label set for automatic apply.<#>
+<75$>Label removed from automatic apply.<#>
+<76$>The following labels will be automatically applied: <#>
+
+<100$>Init CLI...<#>
+<101$>Error loading database file. An empty database will be used.<#>
+<102$>The database file could not be found. An empty database will be used.<#>
+<103$>The following file will be used: <#>
+
+<200$>[ERROR] - Invalid option.<#>
+<201$>[ERROR] - Single character expected.<#>
+<202$>[ERROR] - At least a single character was expected.<#>
+<203$>Search results. Total entries: <#>
+<204$>[ERROR] - The operation failed: <#>
+<205$>Saving operation done.<#>
+<206$>[ERROR] - Invalid selection. Blank input cancels.<#>
+<207$>[ERROR] - A list or search operation must be conducted before this operation.<#>
+<208$>[ERROR] - Invalid entry.<#>
+<209$>[Current selection] : <#>
+<210$>[ERROR] : No current selection<#>
+<211$>[ERROR] : Current selection could not be deleted - <#>
+<212$>[NO TRANSLATION]<#>
+<213$>Operation canceled.<#>
+<214$>[ERROR] : Could not load configuration values. CLI will start with default values.<#>
+<215$>Saving configuration...<#>
+
+<500$>
+== System menu =================================================================
+
+[0] - Back		[l] - Canonical lan.	[i] - Interface lan.<#>
+
+<501$>
+== Canonical language ==========================================================
+
+Choose the language that will be used to show translations. 0 cancels.
+
+<#>
+
+<502$>
+== Interface language ==========================================================
+
+Choose the interface language (blank input cancels).
+
+<#>
+
+<1000$>Starting backup on <#>
+<1001$>Starting save operation <#>
