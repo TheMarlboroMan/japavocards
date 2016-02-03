@@ -57,7 +57,7 @@ int iniciar_app(Herramientas_proyecto::Controlador_argumentos& CARG)
 		log_app<<"Inicializando kernel..."<<std::endl;
 		DFramework::Kernel kernel(CARG, kernel_config, config);
 		App::Director_estados APP(kernel, config, log_app);
-//		APP.iniciar(kernel);
+		APP.iniciar(kernel);
 
 		log_app<<"Finalizando SDL2..."<<std::endl;
 		DLibH::Herramientas_SDL::apagar_SDL();

@@ -10,8 +10,17 @@ Director_estados_interface::Director_estados_interface(int e, std::function<bool
 
 void Director_estados_interface::iniciar(DFramework::Kernel& kernel)
 {
-	IC=controladores[estados.acc_estado_actual()];
-	IC->despertar();
+	if(!controladores.size())
+	{
+		throw Kernel_exception("No se han registrado controladores de aplicación.");
+	}
+
+	if(!controladores.count(estados.acc_estado_actual()))
+	{
+		throw Kernel_exception("El controlador inicial no se ha registrado.");
+	}
+
+	controladores[estados.acc_estado_actual()]->despertar();	
 	while(loop(kernel));
 }
 
