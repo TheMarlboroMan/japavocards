@@ -10,12 +10,13 @@
 #include "../app/framework_impl/app_config.h"
 
 #include "estados_controladores.h"
+#include "principal.h"
 /*#include "controlador_grupos.h"
 #include "controlador_menu.h"
 #include "controlador_opciones.h"
-#include "controlador_principal.h"
 */
 
+#include "../app/fuentes.h"
 #include "../app/lector.h"
 #include "../app/base_datos.h"
 #include "../app/localizador.h"
@@ -42,13 +43,20 @@ class Director_estados:
 
 	private:
 
+	void						preparar_video(DFramework::Kernel& kernel, App::App_config& config);
+	void						cargar_fuentes();
+	void						preparar_palabras();
 	void						recargar_base_datos(const std::string&);
 	void						registrar_controladores(const App::App_config& config);
 
-	DLibH::Log_base&				log;	
+	DLibH::Log_base&				log;
+
+	std::unique_ptr<Controlador_principal>		controlador_principal;
 
 	Localizador 					localizador;
 	Base_datos					base_datos;
+	Fuentes						fuentes;
+
 };
 
 }

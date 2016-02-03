@@ -1,7 +1,6 @@
 #ifndef KERNEL_CONFIG_H
 #define KERNEL_CONFIG_H
 
-//#include "input.h"
 #include "../../framework/kernel_driver_interface.h"
 #include <input/controles_sdl/controles_sdl.h>
 

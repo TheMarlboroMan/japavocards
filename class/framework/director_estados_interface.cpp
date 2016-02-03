@@ -20,7 +20,8 @@ void Director_estados_interface::iniciar(DFramework::Kernel& kernel)
 		throw Kernel_exception("El controlador inicial no se ha registrado.");
 	}
 
-	controladores[estados.acc_estado_actual()]->despertar();	
+	IC=controladores[estados.acc_estado_actual()];
+	IC->despertar();
 	while(loop(kernel));
 }
 
@@ -28,8 +29,7 @@ void Director_estados_interface::registrar_controlador(int indice, Controlador_i
 {
 	if(controladores.count(indice))
 	{
-		//TODO: Otro tipo de excepción??
-		throw std::runtime_error("Se intenta registrar el controlador con indice duplicado");
+		throw Kernel_exception("Se intenta registrar el controlador con indice duplicado");
 	}
 	
 	controladores[indice]=&controlador;

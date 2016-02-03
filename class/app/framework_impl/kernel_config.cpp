@@ -1,5 +1,6 @@
 #include "kernel_config.h"
-//#include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
+#include "input.h"
 
 using namespace App;
 
@@ -31,14 +32,14 @@ DFramework::Info_ventana Kernel_config::obtener_info_ventana() const
 std::vector<DFramework::Par_input> Kernel_config::obtener_pares_input() const
 {
 	using namespace DFramework;
-	std::vector<Par_input> res{};
-/*		Par_input{Par_input::tipos::teclado, Input::I_ESCAPE, SDL_SCANCODE_ESCAPE},
-		Par_input{Par_input::tipos::teclado, Input::I_ACEPTAR, SDL_SCANCODE_SPACE},
-		Par_input{Par_input::tipos::teclado, Input::I_ACEPTAR, SDL_SCANCODE_RETURN},
-		Par_input{Par_input::tipos::teclado, Input::I_IZQUIERDA, SDL_SCANCODE_LEFT},
-		Par_input{Par_input::tipos::teclado, Input::I_DERECHA, SDL_SCANCODE_RIGHT},
-		Par_input{Par_input::tipos::teclado, Input::I_ARRIBA, SDL_SCANCODE_UP},
-		Par_input{Par_input::tipos::teclado, Input::I_ABAJO, SDL_SCANCODE_DOWN}};
-*/
+	std::vector<Par_input> res{
+		Par_input{Par_input::tipos::teclado, Input::escape, SDL_SCANCODE_ESCAPE},
+		Par_input{Par_input::tipos::teclado, Input::aceptar, SDL_SCANCODE_SPACE},
+		Par_input{Par_input::tipos::teclado, Input::aceptar, SDL_SCANCODE_RETURN},
+		Par_input{Par_input::tipos::teclado, Input::izquierda, SDL_SCANCODE_LEFT},
+		Par_input{Par_input::tipos::teclado, Input::derecha, SDL_SCANCODE_RIGHT},
+		Par_input{Par_input::tipos::teclado, Input::arriba, SDL_SCANCODE_UP},
+		Par_input{Par_input::tipos::teclado, Input::abajo, SDL_SCANCODE_DOWN}};
+
 	return res;
 }

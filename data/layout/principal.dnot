@@ -1,0 +1,28 @@
+layout:
+[
+	{
+		tipo:"pantalla", 
+		rgba:[32, 32, 32, 255]
+	},
+	{
+		tipo:"ttf",
+		pos:[16, 16],
+		texto:"---",
+		fuente:"kanas32", rgba:[255, 255, 255, 255], 
+		id:"txt_japones"
+	},
+	{
+		tipo:"ttf",
+		pos:[16, 64],
+		texto:"---",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_romaji"
+	},
+	{
+		tipo:"ttf",
+		pos:[16, 96],
+		texto:"---",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_traduccion"
+	}
+]

@@ -11,7 +11,23 @@ Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& 
 	localizador("data/localizacion/app"),
 	base_datos(log)
 {
-	//Preparar pantalla...
+	preparar_video(kernel, config);
+
+	cargar_fuentes();
+
+	recargar_base_datos(config.acc_idioma_base_datos());
+
+	//Cargar cadenas...
+	localizador.inicializar(config.acc_idioma_interface());
+
+	//Registrar controladores.
+	registrar_controladores(config);
+
+	preparar_palabras();
+}
+
+void Director_estados::preparar_video(DFramework::Kernel& kernel, App::App_config& config)
+{
 	auto& pantalla=kernel.acc_pantalla();
 
 	int wf=config.acc_w_fisica_pantalla(), 
@@ -22,12 +38,6 @@ Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& 
 	pantalla.inicializar(wf, hf);
 	pantalla.establecer_medidas_logicas(wl, hl);
 	pantalla.establecer_modo_ventana(config.acc_modo_pantalla());
-
-	recargar_base_datos(config.acc_idioma_base_datos());
-
-	//Cargar cadenas...
-	localizador.inicializar(config.acc_idioma_interface());
-	registrar_controladores(config);
 }
 
 void Director_estados::recargar_base_datos(const std::string& acronimo)
@@ -52,10 +62,37 @@ void Director_estados::recargar_base_datos(const std::string& acronimo)
 
 void Director_estados::registrar_controladores(const App::App_config& config)
 {
-	//TODO...
+	controlador_principal.reset(new Controlador_principal(log, fuentes));
+	registrar_controlador(t_estados::PRINCIPAL, *controlador_principal);
 }
 
 void Director_estados::preparar_cambio_estado(int deseado, int actual)
 {
 	//TODO: Si al cambiar de estado va a ocurrir algo, será aquí.
+
+	//TODO: No permitir ir al estado principal si no tiene palabras...
+	//TODO: Ahora mismo no hay forma de controlar si se puede entrar en un estado o no????
+}
+
+/**
+* Prepara un vector de punteros a palabras con las palabras escogidas y se los
+* pasa al controlador principal, que los reordenará.
+*/
+
+void Director_estados::preparar_palabras()
+{
+	const std::vector<Palabra>& palabras=base_datos.acc_palabras();
+	std::vector<Palabra const *> v;
+	for(const Palabra& p : palabras) 
+	{
+		v.push_back(&p);
+	}
+
+	controlador_principal->establecer_palabras(std::move(v));
+}
+
+void Director_estados::cargar_fuentes()
+{
+	fuentes.registrar_fuente("akashi", 20);
+	fuentes.registrar_fuente("kanas", 32);
 }
