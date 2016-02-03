@@ -35,8 +35,10 @@ class Lector
 {
 	public:
 
-	void			cargar_desde_string(const std::string&);
-	void			cargar(const std::string&);
+	enum			carga {cargar_idiomas=1, cargar_etiquetas=2, cargar_palabras=4};
+
+	void			cargar_desde_string(const std::string&, int flags=cargar_idiomas | cargar_etiquetas | cargar_palabras);
+	void			cargar(const std::string&, int flags=cargar_idiomas | cargar_etiquetas | cargar_palabras);
 
 	size_t			total_idiomas() const {return idiomas.size();}
 	size_t			total_etiquetas() const {return etiquetas.size();}
@@ -65,7 +67,7 @@ class Lector
 
 	private:
 
-	void			cargar(const Herramientas_proyecto::Dnot_token&);
+	void			cargar(const Herramientas_proyecto::Dnot_token&, int);
 	void			limpiar();
 
 	template <typename T, typename K>

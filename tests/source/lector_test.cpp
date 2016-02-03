@@ -200,7 +200,7 @@ palabras:[\
 		//Crear nuevo documento desde datos correctos...
 		std::cout<<"Iniciando carga de documento en disco..."<<std::endl;
 		Lector L;
-		L.cargar("lector_test_in_ok.dnot");
+		L.cargar("in/lector_test_in_ok.dnot");
 	
 		//Insertar nuevo idioma.
 		std::cout<<"Insertando y buscando nuevo idioma..."<<std::endl;

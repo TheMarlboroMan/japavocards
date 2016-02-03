@@ -5,4 +5,4 @@ if [ -z "$DIR_HERRAMIENTAS_PROYECTO" ]; then
     exit 1
 fi
 
-g++ escritor_test.cpp -o escritor_test.out $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_token.o $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_parser.o  -I $DIR_HERRAMIENTAS_PROYECTO -Wall -pedantic -std=c++11
+g++ source/escritor_test.cpp -o escritor_test.out $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_token.o $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_parser.o  -I $DIR_HERRAMIENTAS_PROYECTO -Wall -pedantic -std=c++11

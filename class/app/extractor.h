@@ -15,8 +15,7 @@
 
 #include "datos_bruto.h"
 #include "lector.h"
-#include "etiqueta.h"
-#include "palabra.h"
+#include "almacenaje.h"
 
 namespace App
 {
@@ -27,8 +26,7 @@ class Extractor
 
 					Extractor(const Lector&, const Idioma&, DLibH::Log_base&);
 
-	std::vector<Etiqueta>&&		extraer_etiquetas() {return std::move(etiquetas);}
-	std::vector<Palabra>&&		extraer_palabras() {return std::move(palabras);}
+	Almacenaje&&			extraer_almacenaje() {return std::move(almacenaje);}
 
 	private:
 
@@ -39,8 +37,8 @@ class Extractor
 	const Lector&			lector;
 	const Idioma&			idioma;
 	DLibH::Log_base&		log;
-	std::vector<Etiqueta>		etiquetas;
-	std::vector<Palabra>		palabras;
+	
+	Almacenaje			almacenaje;
 	std::map<std::string, size_t> mapa_etiquetas;
 };
 

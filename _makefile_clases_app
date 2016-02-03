@@ -9,6 +9,16 @@ DIR_CLASES_EVENTOS=./class/app/eventos/
 #Implementación framework...
 ################################################################################
 
+$(DIR_O)kernel_config.o:\
+$(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)kernel_config.h \
+$(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)kernel_config.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)kernel_config.cpp -o $(DIR_O)kernel_config.o
+
+$(DIR_O)app_config.o:\
+$(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)app_config.h \
+$(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)app_config.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_IMPLEMENTACION_FRAMEWORK)app_config.cpp -o $(DIR_O)app_config.o
+
 ################################################################################
 #Definiciones...
 ################################################################################
@@ -16,6 +26,13 @@ DIR_CLASES_EVENTOS=./class/app/eventos/
 ################################################################################
 #Clases...
 ################################################################################
+
+$(DIR_O)base_datos.o:\
+$(DIR_O)extractor.o \
+$(DIR_O)lector.o \
+$(DIR_CLASES_APP)base_datos.h \
+$(DIR_CLASES_APP)base_datos.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)base_datos.cpp -o $(DIR_O)base_datos.o
 
 $(DIR_O)almacenaje.o:\
 $(DIR_O)palabra.o \
@@ -25,8 +42,7 @@ $(DIR_CLASES_APP)almacenaje.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)almacenaje.cpp -o $(DIR_O)almacenaje.o
 
 $(DIR_O)extractor.o:\
-$(DIR_O)palabra.o \
-$(DIR_O)etiqueta.o \
+$(DIR_O)almacenaje.o \
 $(DIR_O)datos_bruto.o \
 $(DIR_O)lector.o \
 $(DIR_CLASES_APP)extractor.h \

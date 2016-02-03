@@ -1,3 +1,4 @@
 objects/*
 japavocards.out
 logs/*
+data/app/*.bak

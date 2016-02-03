@@ -4,7 +4,7 @@
 
 using namespace App;
 
-void Lector::cargar_desde_string(const std::string& s)
+void Lector::cargar_desde_string(const std::string& s, int flags)
 {
 	std::stringstream ss;
 	ss<<s;
@@ -13,29 +13,38 @@ void Lector::cargar_desde_string(const std::string& s)
 
 	Dnot_parser p(ss);
 	p();
-	cargar(p.acc_token());
+	cargar(p.acc_token(), flags);
 	
 }
 
-void Lector::cargar(const std::string& ruta)
+void Lector::cargar(const std::string& ruta, int flags)
 {
 	using namespace Herramientas_proyecto;
 	const auto& root=parsear_dnot(ruta);
-	cargar(root);
+	cargar(root, flags);
 }
 
-void Lector::cargar(const Herramientas_proyecto::Dnot_token& root)
+void Lector::cargar(const Herramientas_proyecto::Dnot_token& root, int flags)
 {
 	try
 	{
-		const auto& tok_idiomas=root["idiomas"].acc_lista();
-		for(const auto& p : tok_idiomas) insertar_idioma(idioma_desde_token(p));
-	
-		const auto& tok_etiquetas=root["etiquetas"].acc_lista();
-		for(const auto& p : tok_etiquetas) insertar_etiqueta(etiqueta_desde_token(p));
-	
-		const auto& tok_palabras=root["palabras"].acc_lista();
-		for(const auto& p : tok_palabras) insertar_palabra(palabra_desde_token(p));
+		if(flags & cargar_idiomas)
+		{
+			const auto& tok_idiomas=root["idiomas"].acc_lista();
+			for(const auto& p : tok_idiomas) insertar_idioma(idioma_desde_token(p));
+		}
+
+		if(flags & cargar_etiquetas)
+		{
+			const auto& tok_etiquetas=root["etiquetas"].acc_lista();
+			for(const auto& p : tok_etiquetas) insertar_etiqueta(etiqueta_desde_token(p));
+		}
+
+		if(flags & cargar_palabras)
+		{
+			const auto& tok_palabras=root["palabras"].acc_lista();
+			for(const auto& p : tok_palabras) insertar_palabra(palabra_desde_token(p));
+		}
 	}
 	catch(Lector_excepcion& e)
 	{

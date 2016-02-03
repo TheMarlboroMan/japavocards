@@ -22,21 +22,23 @@ $(DIR_O)palabra.o \
 $(DIR_O)extractor.o \
 $(DIR_O)almacenaje.o \
 $(DIR_O)localizador.o \
+$(DIR_O)base_datos.o \
+$(DIR_O)kernel_config.o\
+$(DIR_O)app_config.o\
 
-#$(DIR_O)app_kernel_config.o\
-#$(DIR_O)app_config.o\
 #$(DIR_O)lector_kana.o \
 #$(DIR_O)lista_kanas.o \
 #$(DIR_O)interprete_eventos.o \
 #$(DIR_O)definiciones.o \
 
 DEP_CONTROLADORES=\
+$(DIR_O)director_estados.o \
 #$(DIR_O)controlador_base.o \
 #$(DIR_O)controlador_principal.o \
 #$(DIR_O)controlador_menu.o \
 #$(DIR_O)controlador_grupos.o \
 #$(DIR_O)controlador_opciones.o \
-#$(DIR_O)director_estados.o \
+
 
 DEP_FRAMEWORK=\
 $(DIR_O)fw_kernel.o \

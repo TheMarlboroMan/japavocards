@@ -10,4 +10,4 @@ if [ -z "$DIR_LIBDAN2" ]; then
     exit 1
 fi
 
-g++ extractor_test.cpp -o extractor_test.out $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_token.o $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_parser.o  -I $DIR_HERRAMIENTAS_PROYECTO -I $DIR_LIBDAN2 -Wall -pedantic -std=c++11 -L$DIR_LIBDAN2 -lDanSDL2
+g++ source/extractor_test.cpp -o extractor_test.out $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_token.o $DIR_HERRAMIENTAS_PROYECTO/objects/dnot_parser.o  -I $DIR_HERRAMIENTAS_PROYECTO -I $DIR_LIBDAN2 -Wall -pedantic -std=c++11 -L$DIR_LIBDAN2 -lDanSDL2

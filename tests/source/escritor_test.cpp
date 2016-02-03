@@ -14,7 +14,7 @@ int main(int argc, char ** argv)
 		//Crear nuevo documento desde datos correctos...
 		std::cout<<"Iniciando carga de documento en disco..."<<std::endl;
 		Lector L;
-		L.cargar("escritor_test_in_ok.dnot");
+		L.cargar("in/escritor_test_in_ok.dnot");
 
 		std::cout<<"Insertando nuevo idioma..."<<std::endl;
 		Idioma nuevo_idioma{"FR", "Francés"};
@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
 		std::cout<<"Iniciando escritura de documento en disco..."<<std::endl;
 		Escritor E;
 		E.generar(L.acc_idiomas(), L.acc_etiquetas(), L.acc_palabras());
-		E.guardar("escritor_test_out.dnot");
+		E.guardar("out/escritor_test_out.dnot");
 
 	}
 	catch(std::exception& e)

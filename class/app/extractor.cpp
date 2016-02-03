@@ -28,12 +28,12 @@ void Extractor::procesar_etiquetas()
 
 		if(e->nombres.count(acr))
 		{
-			etiquetas.push_back(Etiqueta(e->nombres.at(acr)));
-			mapa_etiquetas[e->clave]=etiquetas.size()-1;
+			almacenaje.etiquetas.push_back(Etiqueta(e->nombres.at(acr)));
+			mapa_etiquetas[e->clave]=almacenaje.etiquetas.size()-1;
 		}
 	}
 
-	log<<"Extraidas "<<etiquetas.size()<<" etiquetas con traducción idioma"<<std::endl;
+	log<<"Extraidas "<<almacenaje.etiquetas.size()<<" etiquetas con traducción idioma"<<std::endl;
 }
 
 void Extractor::procesar_palabras()
@@ -48,16 +48,16 @@ void Extractor::procesar_palabras()
 			{
 				if(mapa_etiquetas.count(e->clave))
 				{
-					auto& et=etiquetas[mapa_etiquetas[e->clave]];
+					auto& et=almacenaje.etiquetas[mapa_etiquetas[e->clave]];
 					et.sumar_asignacion();
 					nueva.insertar_etiqueta(et);
 				}
 			}
-			palabras.push_back(nueva);
+			almacenaje.palabras.push_back(nueva);
 		}
 	}
 
-	log<<"Extraidas "<<palabras.size()<<" palabras con traducción a idioma"<<std::endl;
+	log<<"Extraidas "<<almacenaje.palabras.size()<<" palabras con traducción a idioma"<<std::endl;
 }
 
 /*
@@ -66,20 +66,20 @@ void Extractor::procesar_palabras()
 
 void Extractor::limpiar()
 {
-	size_t actual=etiquetas.size();
+	size_t actual=almacenaje.etiquetas.size();
 	auto it=std::remove_if(
-		std::begin(etiquetas), 
-		std::end(etiquetas), 
+		std::begin(almacenaje.etiquetas), 
+		std::end(almacenaje.etiquetas), 
 		[](Etiqueta& e) {return !e.acc_asignaciones();});
 
-	etiquetas.erase(it, std::end(etiquetas));
+	almacenaje.etiquetas.erase(it, std::end(almacenaje.etiquetas));
 
-	size_t limpia=etiquetas.size();
+	size_t limpia=almacenaje.etiquetas.size();
 	if(actual!=limpia)
 	{
 		log<<"Se eliminan "<<(actual-limpia)<<" etiquetas sin asignar"<<std::endl;
 	}
 
-	std::sort(std::begin(etiquetas), std::end(etiquetas));
-	std::sort(std::begin(palabras), std::end(palabras));
+	std::sort(std::begin(almacenaje.etiquetas), std::end(almacenaje.etiquetas));
+	std::sort(std::begin(almacenaje.palabras), std::end(almacenaje.palabras));
 }
