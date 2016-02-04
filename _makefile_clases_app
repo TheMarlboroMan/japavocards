@@ -103,6 +103,11 @@ $(DIR_CLASES_APP)localizador.h \
 $(DIR_CLASES_APP)localizador.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)localizador.cpp -o $(DIR_O)localizador.o
 
+$(DIR_O)generador_listados.o:\
+$(DIR_CLASES_APP)generador_listados.h \
+$(DIR_CLASES_APP)generador_listados.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)generador_listados.cpp -o $(DIR_O)generador_listados.o
+
 $(DIR_O)fuentes.o:\
 $(DIR_CLASES_APP)fuentes.h \
 $(DIR_CLASES_APP)fuentes.cpp
@@ -112,3 +117,8 @@ $(DIR_CLASES_APP)fuentes.cpp
 #Eventos...
 ################################################################################
 
+$(DIR_O)interprete_eventos.o:\
+$(DIR_CLASES_EVENTOS)cambio_etiqueta.h \
+$(DIR_CLASES_EVENTOS)interprete_eventos.h \
+$(DIR_CLASES_EVENTOS)interprete_eventos.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_EVENTOS)interprete_eventos.cpp -o $(DIR_O)interprete_eventos.o

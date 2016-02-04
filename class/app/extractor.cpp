@@ -28,7 +28,7 @@ void Extractor::procesar_etiquetas()
 
 		if(e->nombres.count(acr))
 		{
-			almacenaje.etiquetas.push_back(Etiqueta(e->nombres.at(acr)));
+			almacenaje.etiquetas.push_back(Etiqueta(e->nombres.at(acr), e->clave));
 			mapa_etiquetas[e->clave]=almacenaje.etiquetas.size()-1;
 		}
 	}

@@ -2,8 +2,8 @@
 
 using namespace App;
 
-Etiqueta::Etiqueta(const std::string& n)
-	:nombre(n), palabras_asignadas(0)
+Etiqueta::Etiqueta(const std::string& n, const std::string& c)
+	:nombre(n), clave(c), palabras_asignadas(0)
 {
 
 }

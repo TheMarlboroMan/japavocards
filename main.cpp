@@ -59,18 +59,22 @@ int iniciar_app(Herramientas_proyecto::Controlador_argumentos& CARG)
 		App::Director_estados APP(kernel, config, log_app);
 		APP.iniciar(kernel);
 
-		log_app<<"Finalizando SDL2..."<<std::endl;
-		DLibH::Herramientas_SDL::apagar_SDL();
-
 		log_app<<"Finalizando proceso principal."<<std::endl;
-		return 0;
 	}
 	catch(std::exception& e)
 	{
 		log_app<<"Ha ocurrido un error "<<e.what()<<std::endl;
 		std::cout<<"Abandonando aplicación debido a error : "<<e.what()<<std::endl;
+
+		log_app<<"Finalizando SDL2..."<<std::endl;
+		DLibH::Herramientas_SDL::apagar_SDL();
+
 		return 1;
 	}
+
+	log_app<<"Finalizando SDL2..."<<std::endl;
+	DLibH::Herramientas_SDL::apagar_SDL();
+	return 0;
 }
 
 int iniciar_cli(Herramientas_proyecto::Controlador_argumentos& CARG)

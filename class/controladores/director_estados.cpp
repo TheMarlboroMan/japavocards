@@ -62,8 +62,10 @@ void Director_estados::recargar_base_datos(const std::string& acronimo)
 
 void Director_estados::registrar_controladores(const App::App_config& config)
 {
+	registrar_interprete_eventos(interprete_eventos);
+
 	controlador_menu.reset(new Controlador_menu(log, fuentes));
-	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes));
+	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes));
 
 	registrar_controlador(t_estados::menu, *controlador_menu);

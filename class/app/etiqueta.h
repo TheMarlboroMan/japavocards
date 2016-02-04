@@ -10,17 +10,20 @@ class Etiqueta
 {
 	public:
 
-					Etiqueta(const std::string&);
+					Etiqueta(const std::string&, const std::string&);
 	const std::string&		acc_nombre() const {return nombre;}
-	void				mut_nombre(const std::string& v) {nombre=v;}
+	const std::string&		acc_clave() const {return clave;}
+
 	bool				operator<(const Etiqueta&) const;
 	bool				operator==(const Etiqueta&) const;
+
 	void				sumar_asignacion() {++palabras_asignadas;}
 	size_t				acc_asignaciones() const {return palabras_asignadas;}
 
 	private:
 
-	std::string			nombre;
+	std::string			nombre,
+					clave;
 	size_t				palabras_asignadas;
 };
 

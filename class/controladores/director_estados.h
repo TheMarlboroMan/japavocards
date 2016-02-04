@@ -24,9 +24,7 @@
 #include "../app/localizador.h"
 #include "../app/filtro_palabras.h"
 #include "../app/selector_etiquetas.h"
-/*
 #include "../app/eventos/interprete_eventos.h"
-*/
 
 /*
 * El director de estados es la aplicación: los recursos externos al Kernel
@@ -55,6 +53,7 @@ class Director_estados:
 
 	DLibH::Log_base&				log;
 
+	App::Eventos::Interprete_eventos 		interprete_eventos;
 	std::unique_ptr<Controlador_menu>		controlador_menu;
 	std::unique_ptr<Controlador_etiquetas>		controlador_etiquetas;
 	std::unique_ptr<Controlador_principal>		controlador_principal;

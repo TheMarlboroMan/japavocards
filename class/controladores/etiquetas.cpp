@@ -1,9 +1,13 @@
 #include "etiquetas.h"
-#include "estados_controladores.h"
 
 #include <string>
 
+#include <video/representacion/representacion_primitiva/representacion_primitiva_caja/representacion_primitiva_caja.h>
+
 #include "../app/framework_impl/input.h"
+#include "../app/eventos/cambio_etiqueta.h"
+
+#include "estados_controladores.h"
 
 /*
 #ifdef WINCOMPIL
@@ -14,11 +18,20 @@
 
 using namespace App;
 
-Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes& f)
-	:log(log), fuentes(f)
+Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes& f, const std::vector<Etiqueta>& ve)
+	:log(log), fuentes(f), listado(alto_listado, alto_item_listado), rep_listado(true)
 {
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
+
+	//Preparar listado...
+	//TODO: ¿Cómo vamos a marcar las seleccionadas?.
+	listado.mut_margen_h(margen_y);
+	rep_listado.no_imponer_alpha();
+
+	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), e));
+
+	refrescar_listado();
 }
 
 void  Controlador_etiquetas::preloop(DFramework::Input& input, float delta)
@@ -37,6 +50,24 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 	{
 		solicitar_cambio_estado(menu);
 	}
+	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
+	{
+		if(listado.cambiar_item(input.es_input_down(App::Input::arriba) ? -1 : 1))
+		{
+			generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+		}
+	}
+	else if(input.es_input_down(App::Input::izquierda) ||
+		input.es_input_down(App::Input::derecha) ||
+		input.es_input_down(App::Input::aceptar))
+	{
+		auto& item=list_etiquetas[listado.acc_indice_actual()];
+		item.seleccionado=!item.seleccionado;
+		
+		refrescar_listado();
+		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+		encolar_evento(new Eventos::Evento_cambio_etiqueta(item.etiqueta));
+	}
 }
 
 void  Controlador_etiquetas::postloop(DFramework::Input& input, float delta)
@@ -47,21 +78,61 @@ void  Controlador_etiquetas::postloop(DFramework::Input& input, float delta)
 void  Controlador_etiquetas::dibujar(DLibV::Pantalla& pantalla)
 {
 	vista.volcar(pantalla);
+	rep_listado.volcar(pantalla);
+
+	//TODO: ¿Dónde está el selector actual? Lo podríamos pasar tb???	
+	//Podemos meter esto en otra función o algo así??. Si es posible,
+	//podemos omitir parámetros del tipo ancho y alto_item???.
+
+	//Selección actual...
+	const int y=y_listado+(listado.linea_actual().y);
+	DLibV::Representacion_primitiva_caja seleccion_actual({0, y, ancho_listado, alto_item_listado}, 255, 255, 255);
+	seleccion_actual.establecer_alpha(128);
+	seleccion_actual.volcar(pantalla);
 }
 
 void  Controlador_etiquetas::despertar()
 {
 	log<<"Despertando controlador etiquetas"<<std::endl;
 	vista.parsear("data/layout/etiquetas.dnot", "layout");
+	generar_vista_listado(listado, rep_listado, x_listado, y_listado);
 }
 
 void  Controlador_etiquetas::dormir()
 {
 	log<<"Durmiendo controlador etiquetas"<<std::endl;
 	vista.vaciar_vista();
+	rep_listado.vaciar_grupo();	
 }
 
 bool Controlador_etiquetas::es_posible_abandonar_estado() const
 {
 	return true;
+}
+
+/**
+* Refresca el contenido del objeto de listado, debemos hacerlo con cada cambio...
+*/
+
+void Controlador_etiquetas::refrescar_listado()
+{
+	listado.clear();
+	for(const auto& e : list_etiquetas) listado.insertar(e);
+}
+
+list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, const Etiqueta& e)
+	:seleccionado(false), fuente(f), etiqueta(e)
+{
+
+}
+
+void list_etiqueta::generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
+{
+	std::string texto;
+	texto+=seleccionado ? "[*]" : "[ ]";
+	texto+=" "+etiqueta.acc_nombre();
+
+	auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, texto);
+	txt->establecer_posicion(x, y);
+	rep.insertar_representacion(txt);
 }
