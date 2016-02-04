@@ -27,11 +27,6 @@ class Fuentes
 {
 	public:
 
-	~Fuentes()
-	{
-		std::cout<<"DESTRUYENDO "<<fuentes.size()<<" FUENTES "<<std::endl;
-	}
-
 	const DLibV::Fuente_TTF&			obtener_fuente(const std::string, int) const;
 	void						registrar_fuente(const std::string, int);
 

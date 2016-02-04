@@ -13,9 +13,17 @@ $(DIR_CONTROLADORES)director_estados.h \
 $(DIR_CONTROLADORES)director_estados.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)director_estados.cpp -o $(DIR_O)director_estados.o 
 
+$(DIR_O)controlador_etiquetas.o :\
+$(DIR_CONTROLADORES)etiquetas.h \
+$(DIR_CONTROLADORES)etiquetas.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)etiquetas.cpp -o $(DIR_O)controlador_etiquetas.o 
+
+$(DIR_O)controlador_menu.o :\
+$(DIR_CONTROLADORES)menu.h \
+$(DIR_CONTROLADORES)menu.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)menu.cpp -o $(DIR_O)controlador_menu.o 
+
 $(DIR_O)controlador_principal.o :\
 $(DIR_CONTROLADORES)principal.h \
 $(DIR_CONTROLADORES)principal.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)principal.cpp -o $(DIR_O)controlador_principal.o 
-
-

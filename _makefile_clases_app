@@ -34,6 +34,19 @@ $(DIR_CLASES_APP)base_datos.h \
 $(DIR_CLASES_APP)base_datos.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)base_datos.cpp -o $(DIR_O)base_datos.o
 
+$(DIR_O)filtro_palabras.o:\
+$(DIR_O)palabra.o \
+$(DIR_O)etiqueta.o \
+$(DIR_CLASES_APP)filtro_palabras.h \
+$(DIR_CLASES_APP)filtro_palabras.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)filtro_palabras.cpp -o $(DIR_O)filtro_palabras.o
+
+$(DIR_O)selector_etiquetas.o:\
+$(DIR_O)etiqueta.o \
+$(DIR_CLASES_APP)selector_etiquetas.h \
+$(DIR_CLASES_APP)selector_etiquetas.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)selector_etiquetas.cpp -o $(DIR_O)selector_etiquetas.o
+
 $(DIR_O)almacenaje.o:\
 $(DIR_O)palabra.o \
 $(DIR_O)etiqueta.o \

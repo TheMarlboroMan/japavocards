@@ -24,5 +24,12 @@ layout:
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_traduccion"
+	},
+	{
+		tipo:"ttf",
+		pos:[400, 16],
+		texto:"---",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_cuenta"
 	}
 ]

@@ -4,6 +4,12 @@
 #include <algorithm>
 
 #include "../app/framework_impl/input.h"
+#include "estados_controladores.h"
+
+#ifdef WINCOMPIL
+/* Localización del parche mingw32... Esto debería estar en otro lado, supongo. */
+#include <herramientas/herramientas/herramientas.h>
+#endif
 
 using namespace App;
 
@@ -21,12 +27,16 @@ void  Controlador_principal::preloop(DFramework::Input& input, float delta)
 
 void  Controlador_principal::loop(DFramework::Input& input, float delta)
 {
-	if(input.es_senal_salida() || input.es_input_down(App::Input::escape))
+	if(input.es_senal_salida())
 	{
 		abandonar_aplicacion();
 	}
 	
-	if(input.es_input_down(App::Input::aceptar))
+	if(input.es_input_down(App::Input::escape))
+	{
+		solicitar_cambio_estado(menu);
+	}
+	else if(input.es_input_down(App::Input::aceptar))
 	{
 		switch(estado)
 		{
@@ -59,6 +69,14 @@ void  Controlador_principal::despertar()
 {
 	log<<"Despertando controlador principal"<<std::endl;
 	vista.parsear("data/layout/principal.dnot", "layout");
+
+	if(!palabras.size())
+	{
+		log<<"No hay palabras que mostrar";
+		abandonar_aplicacion(); //TODO: Volver al estado anterior... No se ejecutará un ciclo de esta...
+		return;
+	}
+
 	establecer_textos();
 	ocultar_interface();
 }
@@ -109,6 +127,12 @@ void Controlador_principal::establecer_palabras(std::vector<Palabra const *>&& p
 
 void Controlador_principal::establecer_textos()
 {
+#ifdef WINCOMPIL
+	using namespace parche_mingw;
+#else
+	using namespace std;
+#endif
+
 /*
 auto centrar=[](DLibV::Representacion * rep)
 	{
@@ -120,10 +144,12 @@ auto centrar=[](DLibV::Representacion * rep)
 
 	try
 	{
+		const std::string contador=to_string(indice_palabra_actual+1)+" / "+to_string(palabras.size());
 		const auto& p=*(palabras[indice_palabra_actual]);
 		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_japones"))->asignar(p.acc_japones());
 		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_romaji"))->asignar(p.acc_romaji());
 		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_traduccion"))->asignar(p.acc_traduccion());
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_cuenta"))->asignar(contador);
 	}
 	catch(std::exception& e)
 	{

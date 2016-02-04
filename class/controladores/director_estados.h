@@ -10,6 +10,8 @@
 #include "../app/framework_impl/app_config.h"
 
 #include "estados_controladores.h"
+#include "menu.h"
+#include "etiquetas.h"
 #include "principal.h"
 /*#include "controlador_grupos.h"
 #include "controlador_menu.h"
@@ -20,6 +22,8 @@
 #include "../app/lector.h"
 #include "../app/base_datos.h"
 #include "../app/localizador.h"
+#include "../app/filtro_palabras.h"
+#include "../app/selector_etiquetas.h"
 /*
 #include "../app/eventos/interprete_eventos.h"
 */
@@ -51,12 +55,15 @@ class Director_estados:
 
 	DLibH::Log_base&				log;
 
+	std::unique_ptr<Controlador_menu>		controlador_menu;
+	std::unique_ptr<Controlador_etiquetas>		controlador_etiquetas;
 	std::unique_ptr<Controlador_principal>		controlador_principal;
 
 	Localizador 					localizador;
 	Base_datos					base_datos;
 	Fuentes						fuentes;
 
+	Selector_etiquetas				selector_etiquetas;
 };
 
 }

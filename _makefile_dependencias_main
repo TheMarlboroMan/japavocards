@@ -27,6 +27,8 @@ $(DIR_O)base_datos.o \
 $(DIR_O)kernel_config.o\
 $(DIR_O)app_config.o\
 $(DIR_O)fuentes.o\
+$(DIR_O)filtro_palabras.o\
+$(DIR_O)selector_etiquetas.o\
 
 #$(DIR_O)lector_kana.o \
 #$(DIR_O)lista_kanas.o \
@@ -35,9 +37,9 @@ $(DIR_O)fuentes.o\
 
 DEP_CONTROLADORES=\
 $(DIR_O)director_estados.o \
+$(DIR_O)controlador_menu.o \
 $(DIR_O)controlador_principal.o \
-#$(DIR_O)controlador_menu.o \
-#$(DIR_O)controlador_grupos.o \
+$(DIR_O)controlador_etiquetas.o \
 #$(DIR_O)controlador_opciones.o \
 
 
