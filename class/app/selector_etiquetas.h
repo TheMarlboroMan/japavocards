@@ -18,7 +18,7 @@ class Selector_etiquetas
 
 	enum class 					modos{todas, sin_etiquetar, etiquetadas};
 
-	void						mut_modo(modos v) {modo=v;}
+	void						ciclar_modo();
 	modos						acc_modo() const {return modo;}
 	size_t						size() const {return etiquetas.size();}
 	void						intercambiar(const Etiqueta& e);

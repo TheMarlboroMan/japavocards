@@ -78,12 +78,12 @@ void Director_estados::preparar_cambio_estado(int deseado, int actual)
 {
 	switch(deseado)
 	{
+		//TODO: No permitir ir al estado principal si no tiene palabras...
 		case t_estados::principal: 
-			preparar_palabras(); 
+			preparar_palabras();
 		break;
 	}
 
-	//TODO: No permitir ir al estado principal si no tiene palabras...
 	//TODO: Ahora mismo no hay forma de controlar si se puede entrar en un estado o no????
 }
 
@@ -94,6 +94,7 @@ void Director_estados::preparar_cambio_estado(int deseado, int actual)
 
 void Director_estados::preparar_palabras()
 {
+	//TODO: Actualizar el modo desde el controlador de etiquetas...
 	switch(selector_etiquetas.acc_modo())
 	{
 		case Selector_etiquetas::modos::todas:
@@ -134,7 +135,8 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 	switch(ev.tipo_evento())
 	{
-		case cambio_etiqueta: 	interpretar_evento(static_cast<const Evento_cambio_etiqueta&>(ev)); break;
+		case cambio_etiqueta: 		interpretar_evento(static_cast<const Evento_cambio_etiqueta&>(ev)); break;
+		case cambio_modo_etiqueta: 	interpretar_evento(static_cast<const Evento_cambio_modo_etiqueta&>(ev)); break;
 		default:
 			log<<"Un evento del tipo "<<ev.tipo_evento()<<" no ha sido interpretado"<<std::endl;
 		break;
@@ -143,6 +145,14 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
 {
+	log<<"EVENTO CAMBIO ETIQUETA"<<std::endl;
 	selector_etiquetas.intercambiar(ev.e);
-	//TODO: Guardar la configuración de las etiquetas también.
+	//TODO: Guardar la configuración.
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
+{
+	log<<"EVENTO CICLO MODO DE ETIQUETAS"<<std::endl;
+	selector_etiquetas.ciclar_modo();
+	//TODO: Guardar la configuración.
 }

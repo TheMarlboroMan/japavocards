@@ -6,6 +6,7 @@
 
 #include "../app/framework_impl/input.h"
 #include "../app/eventos/cambio_etiqueta.h"
+#include "../app/eventos/cambio_modo_etiqueta.h"
 
 #include "estados_controladores.h"
 
@@ -25,11 +26,12 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 
 	//Preparar listado...
-	//TODO: ¿Cómo vamos a marcar las seleccionadas?.
+	//TODO: ¿Cómo vamos a marcar las seleccionadas al entrar?.
 	listado.mut_margen_h(margen_y);
 	rep_listado.no_imponer_alpha();
 
-	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), e));
+	list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), nullptr));
+	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), &e));
 
 	refrescar_listado();
 }
@@ -62,11 +64,22 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 		input.es_input_down(App::Input::aceptar))
 	{
 		auto& item=list_etiquetas[listado.acc_indice_actual()];
-		item.seleccionado=!item.seleccionado;
-		
+		item.intercambiar();
 		refrescar_listado();
 		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
-		encolar_evento(new Eventos::Evento_cambio_etiqueta(item.etiqueta));
+
+		if(item.es_modo())
+		{
+			encolar_evento(new Eventos::Evento_cambio_modo_etiqueta());
+			//TODO: Habría que cambiar el texto también...
+			//Cambiar el texto tendríamos que hacerlo
+			//sabiendo el estado actual del trasto y eso no lo sabremos hasta que
+			//el evento haya ciclado... 
+		}
+		else
+		{
+			encolar_evento(new Eventos::Evento_cambio_etiqueta(*item.etiqueta));
+		}
 	}
 }
 
@@ -116,11 +129,11 @@ bool Controlador_etiquetas::es_posible_abandonar_estado() const
 
 void Controlador_etiquetas::refrescar_listado()
 {
-	listado.clear();
+	listado.clear();	
 	for(const auto& e : list_etiquetas) listado.insertar(e);
 }
 
-list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, const Etiqueta& e)
+list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e)
 	:seleccionado(false), fuente(f), etiqueta(e)
 {
 
@@ -129,10 +142,43 @@ list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, const Etiqueta& e)
 void list_etiqueta::generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 {
 	std::string texto;
-	texto+=seleccionado ? "[*]" : "[ ]";
-	texto+=" "+etiqueta.acc_nombre();
+
+	if(etiqueta)
+	{
+		texto+=seleccionado ? "[*]" : "[ ]";
+		texto+=" "+etiqueta->acc_nombre();
+	}
+	else
+	{
+		//TODO: Inferir el texto del localizador o algo asi...
+		texto="lololol";
+	}
 
 	auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, texto);
 	txt->establecer_posicion(x, y);
 	rep.insertar_representacion(txt);
+}
+
+bool list_etiqueta::operator<(const list_etiqueta& o)
+{
+	if(!etiqueta) return true;
+	else return etiqueta->acc_nombre() < o.etiqueta->acc_nombre();
+}
+
+
+void list_etiqueta::intercambiar()
+{
+	if(!etiqueta)
+	{
+		seleccionado=!seleccionado;
+	}
+	else
+	{
+		//TODO: Do something here... El evento lo vamos a disparar fuera.
+		//Aquí dentro lo que podríamos es intentar inferir el texto...
+		//Podemos hacerlo haciendo que la función de ciclar el modo pueda
+		//recibir un modo y haciendo un set_modo... Ciclar modo sería
+		//una función global y podríamos hacer...
+		//item.modo=ciclar_modo(item.modo);		
+	}
 }

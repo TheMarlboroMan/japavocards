@@ -28,6 +28,7 @@
 
 #include "../app/eventos/definiciones.h"
 #include "../app/eventos/cambio_etiqueta.h"
+#include "../app/eventos/cambio_modo_etiqueta.h"
 
 /*
 * El director de estados es la aplicación: los recursos externos al Kernel
@@ -61,6 +62,7 @@ class Director_estados:
 
 	//Eventos...
 	void						interpretar_evento(const Eventos::Evento_cambio_etiqueta&);
+	void						interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta&);
 
 	DLibH::Log_base&				log;
 

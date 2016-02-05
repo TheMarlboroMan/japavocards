@@ -27,3 +27,13 @@ bool Selector_etiquetas::es_seleccionada(const Etiqueta& e)
 {
 	return std::find(std::begin(etiquetas), std::end(etiquetas), &e)!=std::end(etiquetas);
 }
+
+void Selector_etiquetas::ciclar_modo()
+{
+	switch(modo)
+	{
+		case modos::todas: 		modo=modos::sin_etiquetar; break;
+		case modos::sin_etiquetar: 	modo=modos::etiquetadas; break;
+		case modos::etiquetadas: 	modo=modos::sin_etiquetar; break;
+	}
+}

@@ -23,11 +23,14 @@ struct list_etiqueta
 {
 
 	bool 				seleccionado;
+	//TODO: Podría tener un modo de Selector_etiquetas.
 	const DLibV::Fuente_TTF&	fuente;
-	const Etiqueta&			etiqueta;
+	Etiqueta const *		etiqueta;
+	bool				es_modo() const {return etiqueta==nullptr;}
 
-					list_etiqueta(const DLibV::Fuente_TTF& f, const Etiqueta& e);
-	bool				operator<(const list_etiqueta& o) {return etiqueta.acc_nombre() < o.etiqueta.acc_nombre();}
+					list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e);
+	bool				operator<(const list_etiqueta& o);
+	void				intercambiar();
 	void 				generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
 };
 

@@ -9,7 +9,8 @@ namespace Eventos
 
 	enum eventos
 	{
-		cambio_etiqueta
+		cambio_etiqueta,
+		cambio_modo_etiqueta
 	};
 
 } //Fin namespace eventos.
