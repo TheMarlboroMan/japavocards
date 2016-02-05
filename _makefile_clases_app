@@ -3,7 +3,6 @@
 
 DIR_CLASES_APP=./class/app/
 DIR_CLASES_IMPLEMENTACION_FRAMEWORK=./class/app/framework_impl/
-DIR_CLASES_EVENTOS=./class/app/eventos/
 
 ################################################################################
 #Implementación framework...
@@ -112,13 +111,3 @@ $(DIR_O)fuentes.o:\
 $(DIR_CLASES_APP)fuentes.h \
 $(DIR_CLASES_APP)fuentes.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)fuentes.cpp -o $(DIR_O)fuentes.o
-
-################################################################################
-#Eventos...
-################################################################################
-
-$(DIR_O)interprete_eventos.o:\
-$(DIR_CLASES_EVENTOS)cambio_etiqueta.h \
-$(DIR_CLASES_EVENTOS)interprete_eventos.h \
-$(DIR_CLASES_EVENTOS)interprete_eventos.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_EVENTOS)interprete_eventos.cpp -o $(DIR_O)interprete_eventos.o

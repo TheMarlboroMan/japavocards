@@ -29,7 +29,6 @@ $(DIR_O)fuentes.o\
 $(DIR_O)filtro_palabras.o\
 $(DIR_O)selector_etiquetas.o\
 $(DIR_O)generador_listados.o\
-$(DIR_O)interprete_eventos.o \
 
 #$(DIR_O)definiciones.o \
 

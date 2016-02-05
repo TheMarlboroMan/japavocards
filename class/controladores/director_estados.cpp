@@ -62,7 +62,8 @@ void Director_estados::recargar_base_datos(const std::string& acronimo)
 
 void Director_estados::registrar_controladores(const App::App_config& config)
 {
-	registrar_interprete_eventos(interprete_eventos);
+	//Loool.
+	registrar_interprete_eventos(*this);
 
 	controlador_menu.reset(new Controlador_menu(log, fuentes));
 	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
@@ -77,7 +78,9 @@ void Director_estados::preparar_cambio_estado(int deseado, int actual)
 {
 	switch(deseado)
 	{
-		case t_estados::principal: preparar_palabras(); break;
+		case t_estados::principal: 
+			preparar_palabras(); 
+		break;
 	}
 
 	//TODO: No permitir ir al estado principal si no tiene palabras...
@@ -121,4 +124,25 @@ void Director_estados::cargar_fuentes()
 {
 	fuentes.registrar_fuente("akashi", 20);
 	fuentes.registrar_fuente("kanas", 32);
+}
+
+/********* Eventos ... ********************************************************/
+
+void Director_estados::interpretar_evento(const DFramework::Evento_framework_interface& ev)
+{
+	using namespace App::Eventos;
+
+	switch(ev.tipo_evento())
+	{
+		case cambio_etiqueta: 	interpretar_evento(static_cast<const Evento_cambio_etiqueta&>(ev)); break;
+		default:
+			log<<"Un evento del tipo "<<ev.tipo_evento()<<" no ha sido interpretado"<<std::endl;
+		break;
+	}
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
+{
+	selector_etiquetas.intercambiar(ev.e);
+	//TODO: Guardar la configuración de las etiquetas también.
 }

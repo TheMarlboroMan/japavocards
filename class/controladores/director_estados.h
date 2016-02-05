@@ -6,6 +6,7 @@
 #include <herramientas/log_base/log_base.h>
 
 #include "../framework/director_estados_interface.h"
+#include "../framework/eventos.h"
 
 #include "../app/framework_impl/app_config.h"
 
@@ -24,24 +25,31 @@
 #include "../app/localizador.h"
 #include "../app/filtro_palabras.h"
 #include "../app/selector_etiquetas.h"
-#include "../app/eventos/interprete_eventos.h"
+
+#include "../app/eventos/definiciones.h"
+#include "../app/eventos/cambio_etiqueta.h"
 
 /*
 * El director de estados es la aplicación: los recursos externos al Kernel
 * y los métodos propios que no son de los controladores.
+*
+* De forma experimental vamos a hacer que sea también el interprete de los
+* eventos.
 */
 
 namespace App
 {
 
 class Director_estados:
-	public DFramework::Director_estados_interface
+	public DFramework::Director_estados_interface,
+	public DFramework::Interprete_eventos_interface
 {
 	public:
 
 							Director_estados(DFramework::Kernel& kernel, App::App_config& config, DLibH::Log_base&);
 
 	virtual void					preparar_cambio_estado(int deseado, int actual);
+	virtual void					interpretar_evento(const DFramework::Evento_framework_interface&);
 
 	private:
 
@@ -51,9 +59,11 @@ class Director_estados:
 	void						recargar_base_datos(const std::string&);
 	void						registrar_controladores(const App::App_config& config);
 
+	//Eventos...
+	void						interpretar_evento(const Eventos::Evento_cambio_etiqueta&);
+
 	DLibH::Log_base&				log;
 
-	App::Eventos::Interprete_eventos 		interprete_eventos;
 	std::unique_ptr<Controlador_menu>		controlador_menu;
 	std::unique_ptr<Controlador_etiquetas>		controlador_etiquetas;
 	std::unique_ptr<Controlador_principal>		controlador_principal;
