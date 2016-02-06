@@ -14,6 +14,7 @@
 #include "../app/generador_listados.h"
 #include "../app/fuentes.h"
 #include "../app/etiqueta.h"
+#include "../app/selector_etiquetas.h"
 
 namespace App
 {
@@ -23,7 +24,7 @@ struct list_etiqueta
 {
 
 	bool 				seleccionado;
-	//TODO: Podría tener un modo de Selector_etiquetas.
+	Selector_etiquetas::modos	modo;
 	const DLibV::Fuente_TTF&	fuente;
 	Etiqueta const *		etiqueta;
 	bool				es_modo() const {return etiqueta==nullptr;}

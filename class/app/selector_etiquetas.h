@@ -10,6 +10,7 @@
 
 namespace App
 {
+
 class Selector_etiquetas
 {
 	public:
@@ -30,6 +31,10 @@ class Selector_etiquetas
 	std::vector<Etiqueta const *>			etiquetas;
 	modos						modo;
 };
+
+void	ciclar_modo(Selector_etiquetas::modos&);
+int	localizar_modo(Selector_etiquetas::modos);
+
 }
 
 #endif

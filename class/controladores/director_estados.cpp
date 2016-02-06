@@ -94,7 +94,6 @@ void Director_estados::preparar_cambio_estado(int deseado, int actual)
 
 void Director_estados::preparar_palabras()
 {
-	//TODO: Actualizar el modo desde el controlador de etiquetas...
 	switch(selector_etiquetas.acc_modo())
 	{
 		case Selector_etiquetas::modos::todas:
@@ -112,6 +111,7 @@ void Director_estados::preparar_palabras()
 			}
 			else
 			{	
+
 				controlador_principal->establecer_palabras(
 					std::move(
 						filtrar_etiquetadas(
@@ -145,14 +145,12 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
 {
-	log<<"EVENTO CAMBIO ETIQUETA"<<std::endl;
 	selector_etiquetas.intercambiar(ev.e);
 	//TODO: Guardar la configuración.
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
 {
-	log<<"EVENTO CICLO MODO DE ETIQUETAS"<<std::endl;
 	selector_etiquetas.ciclar_modo();
 	//TODO: Guardar la configuración.
 }

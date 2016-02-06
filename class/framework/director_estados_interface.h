@@ -37,7 +37,7 @@ class Director_estados_interface
 	virtual void				preparar_cambio_estado(int deseado, int actual)=0;
 	void					iniciar(DFramework::Kernel& kernel);
 	void					registrar_controlador(int indice, Controlador_interface& controlador);
-	void					registrar_interprete_eventos(Interprete_eventos_interface& i) {IE=&i;}
+	void					registrar_interprete_eventos(Interprete_eventos_interface& i);
 
 	protected:
 	

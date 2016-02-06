@@ -1,3 +1,6 @@
+En principal:
+	- Ordenar de alguna forma vector de etiquetas.
+
 En CLI:
 	- Listar palabras con etiquetas.
 	- Añadir un recuento rápido de palabras, idiomas y etiquetas en los

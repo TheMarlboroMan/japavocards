@@ -70,15 +70,13 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 
 		if(item.es_modo())
 		{
-			encolar_evento(new Eventos::Evento_cambio_modo_etiqueta());
-			//TODO: Habría que cambiar el texto también...
-			//Cambiar el texto tendríamos que hacerlo
-			//sabiendo el estado actual del trasto y eso no lo sabremos hasta que
-			//el evento haya ciclado... 
+			auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_modo_etiqueta());
+			enviar_evento(ev);
 		}
 		else
 		{
-			encolar_evento(new Eventos::Evento_cambio_etiqueta(*item.etiqueta));
+			auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(*item.etiqueta));
+			enviar_evento(ev);
 		}
 	}
 }
@@ -134,7 +132,7 @@ void Controlador_etiquetas::refrescar_listado()
 }
 
 list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e)
-	:seleccionado(false), fuente(f), etiqueta(e)
+	:seleccionado(false), modo(Selector_etiquetas::modos::todas), fuente(f), etiqueta(e)
 {
 
 }
@@ -150,8 +148,12 @@ void list_etiqueta::generar_representacion_listado(DLibV::Representacion_agrupad
 	}
 	else
 	{
-		//TODO: Inferir el texto del localizador o algo asi...
-		texto="lololol";
+		switch(App::localizar_modo(modo))
+		{
+			case 1: texto="Todas"; break;
+			case 2: texto="Sin etiquetar"; break;
+			case 3: texto="Etiquetadas"; break;
+		}
 	}
 
 	auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, texto);
@@ -168,17 +170,12 @@ bool list_etiqueta::operator<(const list_etiqueta& o)
 
 void list_etiqueta::intercambiar()
 {
-	if(!etiqueta)
+	if(etiqueta)
 	{
 		seleccionado=!seleccionado;
 	}
 	else
 	{
-		//TODO: Do something here... El evento lo vamos a disparar fuera.
-		//Aquí dentro lo que podríamos es intentar inferir el texto...
-		//Podemos hacerlo haciendo que la función de ciclar el modo pueda
-		//recibir un modo y haciendo un set_modo... Ciclar modo sería
-		//una función global y podríamos hacer...
-		//item.modo=ciclar_modo(item.modo);		
+		App::ciclar_modo(modo);
 	}
 }

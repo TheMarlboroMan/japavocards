@@ -38,7 +38,8 @@ class Controlador_interface
 	void				inyectar_cola_eventos(Cola_eventos& c) {cola_eventos=&c;}
 	void				inyectar_control_estados(Control_estados& c) {estados=&c;}
 
-	void				encolar_evento(Evento_framework_interface * ev) {cola_eventos->encolar_evento(ev);}
+	void				encolar_evento(DFramework::uptr_evento& ev) {cola_eventos->encolar_evento(ev);}
+	void				enviar_evento(DFramework::uptr_evento& ev) {cola_eventos->enviar_evento(ev);}
 
 	//TODO: Esto es terrible. 
 	void				solicitar_cambio_estado(int v) {estados->validar_y_cambiar_estado(v);}

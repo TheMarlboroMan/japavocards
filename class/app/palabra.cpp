@@ -1,6 +1,8 @@
 #include "palabra.h"
 #include <algorithm>
 
+#include <iostream>
+
 using namespace App;
 
 Palabra::Palabra(const std::string& j, const std::string& r, const std::string& t)

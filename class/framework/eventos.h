@@ -48,6 +48,8 @@ class Interprete_eventos_interface
 	virtual void		interpretar_evento(const Evento_framework_interface& ev)=0;
 };
 
+typedef std::unique_ptr<Evento_framework_interface> uptr_evento;
+
 /**
 * La cola de eventos es una clase separada que contiene el vector. Será propiedad
 * del director de estados pero se inyectará en los controladores al registrarlos.
@@ -59,20 +61,35 @@ class Cola_eventos
 
 	size_t			size() const {return cola_eventos.size();}
 
-	void			encolar_evento(Evento_framework_interface * ev)
+	//Encola un evento para ser procesado al final del loop actual.
+	void			encolar_evento(uptr_evento& ev)
 	{
-		cola_eventos.push_back(std::unique_ptr<Evento_framework_interface>(ev));
+		cola_eventos.push_back(std::move(ev));
 	}
 
+	//Envia un evento que será interpretado inmediatamente.
+	void			enviar_evento(uptr_evento& ev)
+	{
+		interprete->interpretar_evento(*ev);
+	}
+
+	//Realiza el proceso de la cola de eventos... La idea es que esto lo llame sólo el director de estados.
 	void			procesar_cola_completa(Interprete_eventos_interface& i)
 	{
 		for(auto& ev : cola_eventos) i.interpretar_evento(*ev);
 		cola_eventos.clear();
 	}
 
+	//Establece un intérprete de eventos para el "enviar eventos". Lo hace el director al registrar el intérprete.
+	void			establecer_interprete(Interprete_eventos_interface& e)
+	{
+		interprete=&e;
+	}
+
 	private:
 
 	std::vector<std::unique_ptr<Evento_framework_interface>>	cola_eventos;
+	Interprete_eventos_interface *					interprete;
 	
 };
 

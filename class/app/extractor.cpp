@@ -1,6 +1,8 @@
 #include "extractor.h"
 #include <algorithm>
 
+#include <iostream>
+
 using namespace App;
 
 Extractor::Extractor(const Lector& l, const Idioma& i, DLibH::Log_base& log)
@@ -67,7 +69,7 @@ void Extractor::procesar_palabras()
 void Extractor::limpiar()
 {
 	size_t actual=almacenaje.etiquetas.size();
-	auto it=std::remove_if(
+	auto it=std::remove_if(	
 		std::begin(almacenaje.etiquetas), 
 		std::end(almacenaje.etiquetas), 
 		[](Etiqueta& e) {return !e.acc_asignaciones();});
@@ -80,6 +82,9 @@ void Extractor::limpiar()
 		log<<"Se eliminan "<<(actual-limpia)<<" etiquetas sin asignar"<<std::endl;
 	}
 
-	std::sort(std::begin(almacenaje.etiquetas), std::end(almacenaje.etiquetas));
+	//TODO: No podemos ordenar las etiquetas o los punteros de las palabras se 
+	//van a la mierda... Podemos hacerlo en dos pasos.
+//	std::sort(std::begin(almacenaje.etiquetas), std::end(almacenaje.etiquetas));
+
 	std::sort(std::begin(almacenaje.palabras), std::end(almacenaje.palabras));
 }

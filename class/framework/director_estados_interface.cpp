@@ -113,3 +113,9 @@ bool Director_estados_interface::loop(DFramework::Kernel& kernel)
 
 	return !IC->es_abandonar_aplicacion();
 }
+
+void Director_estados_interface::registrar_interprete_eventos(Interprete_eventos_interface& i)
+{
+	IE=&i;
+	cola_eventos.establecer_interprete(i);
+}
