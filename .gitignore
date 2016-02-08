@@ -2,3 +2,5 @@ objects/*
 japavocards.out
 logs/*
 data/app/*.bak
+makefile_linux
+makefile_win
