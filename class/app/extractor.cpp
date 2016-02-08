@@ -19,6 +19,11 @@ Extractor::Extractor(const Lector& l, const Idioma& i, DLibH::Log_base& log)
 * Las etiquetas con traducciones al idioma actual se guardan en el vector
 * de etiquetas y se referencian en un mapa por la clave original. El mapa
 * de referencias se usará a la hora de crear las palabras.
+*
+* El orden de operaciones es deliberado: primero llenar el vector, luego 
+* ordenarlo y luego, cuando estén en sus posiciones finales se genera
+* el mapa de referencias a los índices. Si lo hacemos en cualquier otro orden
+* fallará a la hora de asignar etiquetas a palabras.
 */
 
 void Extractor::procesar_etiquetas()
@@ -31,9 +36,12 @@ void Extractor::procesar_etiquetas()
 		if(e->nombres.count(acr))
 		{
 			almacenaje.etiquetas.push_back(Etiqueta(e->nombres.at(acr), e->clave));
-			mapa_etiquetas[e->clave]=almacenaje.etiquetas.size()-1;
 		}
 	}
+
+	std::sort(std::begin(almacenaje.etiquetas), std::end(almacenaje.etiquetas));
+
+	for(auto& e : almacenaje.etiquetas) mapa_etiquetas[e.acc_clave()]=&e;
 
 	log<<"Extraidas "<<almacenaje.etiquetas.size()<<" etiquetas con traducción idioma"<<std::endl;
 }
@@ -50,7 +58,7 @@ void Extractor::procesar_palabras()
 			{
 				if(mapa_etiquetas.count(e->clave))
 				{
-					auto& et=almacenaje.etiquetas[mapa_etiquetas[e->clave]];
+					auto& et=*mapa_etiquetas[e->clave];
 					et.sumar_asignacion();
 					nueva.insertar_etiqueta(et);
 				}
@@ -81,10 +89,6 @@ void Extractor::limpiar()
 	{
 		log<<"Se eliminan "<<(actual-limpia)<<" etiquetas sin asignar"<<std::endl;
 	}
-
-	//TODO: No podemos ordenar las etiquetas o los punteros de las palabras se 
-	//van a la mierda... Podemos hacerlo en dos pasos.
-//	std::sort(std::begin(almacenaje.etiquetas), std::end(almacenaje.etiquetas));
 
 	std::sort(std::begin(almacenaje.palabras), std::end(almacenaje.palabras));
 }

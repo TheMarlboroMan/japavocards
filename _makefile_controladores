@@ -20,7 +20,12 @@ $(DIR_CONTROLADORES)director_estados.cpp
 $(DIR_O)controlador_etiquetas.o :\
 $(DIR_CONTROLADORES)etiquetas.h \
 $(DIR_CONTROLADORES)etiquetas.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)etiquetas.cpp -o $(DIR_O)controlador_etiquetas.o 
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)etiquetas.cpp -o $(DIR_O)controlador_etiquetas.o
+
+$(DIR_O)controlador_configuracion_ejercicio.o :\
+$(DIR_CONTROLADORES)configuracion_ejercicio.h \
+$(DIR_CONTROLADORES)configuracion_ejercicio.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)configuracion_ejercicio.cpp -o $(DIR_O)controlador_configuracion_ejercicio.o  
 
 $(DIR_O)controlador_menu.o :\
 $(DIR_CONTROLADORES)menu.h \

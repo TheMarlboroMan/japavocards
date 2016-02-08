@@ -107,6 +107,11 @@ $(DIR_CLASES_APP)generador_listados.h \
 $(DIR_CLASES_APP)generador_listados.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)generador_listados.cpp -o $(DIR_O)generador_listados.o
 
+$(DIR_O)configuracion_ejercicio.o:\
+$(DIR_CLASES_APP)configuracion_ejercicio.h \
+$(DIR_CLASES_APP)configuracion_ejercicio.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)configuracion_ejercicio.cpp -o $(DIR_O)configuracion_ejercicio.o
+
 $(DIR_O)fuentes.o:\
 $(DIR_CLASES_APP)fuentes.h \
 $(DIR_CLASES_APP)fuentes.cpp

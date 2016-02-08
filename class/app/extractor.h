@@ -39,7 +39,7 @@ class Extractor
 	DLibH::Log_base&		log;
 	
 	Almacenaje			almacenaje;
-	std::map<std::string, size_t> mapa_etiquetas;
+	std::map<std::string, Etiqueta *> mapa_etiquetas;
 };
 
 }

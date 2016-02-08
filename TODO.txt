@@ -1,5 +1,7 @@
 En principal:
-	- Ordenar de alguna forma vector de etiquetas.
+	- Añadir dirección de traducción.
+	- Añadir limite de palabras máximo. Al terminar NO se generan nuevas!!!!.
+	- Añadir menú opciones (tamaño de pantalla, principalmente, idioma).
 
 En CLI:
 	- Listar palabras con etiquetas.

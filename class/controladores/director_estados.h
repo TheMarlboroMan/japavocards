@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "etiquetas.h"
 #include "principal.h"
+#include "configuracion_ejercicio.h"
 /*#include "controlador_grupos.h"
 #include "controlador_menu.h"
 #include "controlador_opciones.h"
@@ -24,6 +25,7 @@
 #include "../app/base_datos.h"
 #include "../app/localizador.h"
 #include "../app/filtro_palabras.h"
+#include "../app/configuracion_ejercicio.h"
 #include "../app/selector_etiquetas.h"
 
 #include "../app/eventos/definiciones.h"
@@ -69,11 +71,12 @@ class Director_estados:
 	std::unique_ptr<Controlador_menu>		controlador_menu;
 	std::unique_ptr<Controlador_etiquetas>		controlador_etiquetas;
 	std::unique_ptr<Controlador_principal>		controlador_principal;
+	std::unique_ptr<Controlador_configuracion_ejercicio>		controlador_configuracion_ejercicio;
 
 	Localizador 					localizador;
 	Base_datos					base_datos;
 	Fuentes						fuentes;
-
+	Configuracion_ejercicio				configuracion_ejercicio;
 	Selector_etiquetas				selector_etiquetas;
 };
 

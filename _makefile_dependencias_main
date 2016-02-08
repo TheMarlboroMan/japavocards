@@ -29,6 +29,7 @@ $(DIR_O)fuentes.o\
 $(DIR_O)filtro_palabras.o\
 $(DIR_O)selector_etiquetas.o\
 $(DIR_O)generador_listados.o\
+$(DIR_O)configuracion_ejercicio.o\
 
 #$(DIR_O)definiciones.o \
 
@@ -37,6 +38,7 @@ $(DIR_O)director_estados.o \
 $(DIR_O)controlador_menu.o \
 $(DIR_O)controlador_principal.o \
 $(DIR_O)controlador_etiquetas.o \
+$(DIR_O)controlador_configuracion_ejercicio.o \
 #$(DIR_O)controlador_opciones.o \
 
 

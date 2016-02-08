@@ -15,12 +15,6 @@ class Selector_etiquetas
 {
 	public:
 	
-							Selector_etiquetas();
-
-	enum class 					modos{todas, sin_etiquetar, etiquetadas};
-
-	void						ciclar_modo();
-	modos						acc_modo() const {return modo;}
 	size_t						size() const {return etiquetas.size();}
 	void						intercambiar(const Etiqueta& e);
 	const std::vector<Etiqueta const *>&		acc_etiquetas() const {return etiquetas;}
@@ -29,12 +23,7 @@ class Selector_etiquetas
 	private:
 
 	std::vector<Etiqueta const *>			etiquetas;
-	modos						modo;
 };
-
-void	ciclar_modo(Selector_etiquetas::modos&);
-int	localizar_modo(Selector_etiquetas::modos);
-
 }
 
 #endif

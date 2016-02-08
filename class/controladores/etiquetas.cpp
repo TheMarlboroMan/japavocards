@@ -6,16 +6,15 @@
 
 #include "../app/framework_impl/input.h"
 #include "../app/eventos/cambio_etiqueta.h"
-#include "../app/eventos/cambio_modo_etiqueta.h"
 
 #include "estados_controladores.h"
 
-/*
+
 #ifdef WINCOMPIL
 //Localización del parche mingw32... Esto debería estar en otro lado, supongo.
 #include <herramientas/herramientas/herramientas.h>
 #endif
-*/
+
 
 using namespace App;
 
@@ -30,7 +29,6 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 	listado.mut_margen_h(margen_y);
 	rep_listado.no_imponer_alpha();
 
-	list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), nullptr));
 	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), &e));
 
 	refrescar_listado();
@@ -59,6 +57,8 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 			generar_vista_listado(listado, rep_listado, x_listado, y_listado);
 		}
 	}
+	//TODO: Añadir inputs de avanzar y repetir página para pasar más deprisa.
+
 	else if(input.es_input_down(App::Input::izquierda) ||
 		input.es_input_down(App::Input::derecha) ||
 		input.es_input_down(App::Input::aceptar))
@@ -68,16 +68,8 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 		refrescar_listado();
 		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
 
-		if(item.es_modo())
-		{
-			auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_modo_etiqueta());
-			enviar_evento(ev);
-		}
-		else
-		{
-			auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(*item.etiqueta));
-			enviar_evento(ev);
-		}
+		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(*item.etiqueta));
+		enviar_evento(ev);
 	}
 }
 
@@ -91,7 +83,9 @@ void  Controlador_etiquetas::dibujar(DLibV::Pantalla& pantalla)
 	vista.volcar(pantalla);
 	rep_listado.volcar(pantalla);
 
-	//TODO: ¿Dónde está el selector actual? Lo podríamos pasar tb???	
+	//TODO: Mostrar paginación de etiquetas.
+
+	//TODO: ¿Dónde está el selector actual? Lo podríamos pasar tb???
 	//Podemos meter esto en otra función o algo así??. Si es posible,
 	//podemos omitir parámetros del tipo ancho y alto_item???.
 
@@ -132,29 +126,22 @@ void Controlador_etiquetas::refrescar_listado()
 }
 
 list_etiqueta::list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e)
-	:seleccionado(false), modo(Selector_etiquetas::modos::todas), fuente(f), etiqueta(e)
+	:seleccionado(false), fuente(f), etiqueta(e)
 {
 
 }
 
 void list_etiqueta::generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 {
-	std::string texto;
+#ifdef WINCOMPIL
+using namespace parche_mingw;
+#else
+using namespace std;
+#endif
 
-	if(etiqueta)
-	{
-		texto+=seleccionado ? "[*]" : "[ ]";
-		texto+=" "+etiqueta->acc_nombre();
-	}
-	else
-	{
-		switch(App::localizar_modo(modo))
-		{
-			case 1: texto="Todas"; break;
-			case 2: texto="Sin etiquetar"; break;
-			case 3: texto="Etiquetadas"; break;
-		}
-	}
+	std::string texto;
+	texto+=seleccionado ? "[*]" : "[ ]";
+	texto+=" "+etiqueta->acc_nombre()+" ("+to_string(etiqueta->acc_asignaciones())+")";
 
 	auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, texto);
 	txt->establecer_posicion(x, y);
@@ -170,12 +157,5 @@ bool list_etiqueta::operator<(const list_etiqueta& o)
 
 void list_etiqueta::intercambiar()
 {
-	if(etiqueta)
-	{
-		seleccionado=!seleccionado;
-	}
-	else
-	{
-		App::ciclar_modo(modo);
-	}
+	seleccionado=!seleccionado;
 }

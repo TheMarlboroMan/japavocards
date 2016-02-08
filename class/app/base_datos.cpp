@@ -11,5 +11,5 @@ Base_datos::Base_datos(DLibH::Log_base& l)
 void Base_datos::cargar(const Lector& lector, const Idioma& idioma)
 {
 	Extractor e(lector, idioma, log);
-	datos=std::move(e.extraer_almacenaje());	
+	datos=std::move(e.extraer_almacenaje());
 }

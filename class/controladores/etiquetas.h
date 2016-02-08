@@ -24,10 +24,8 @@ struct list_etiqueta
 {
 
 	bool 				seleccionado;
-	Selector_etiquetas::modos	modo;
 	const DLibV::Fuente_TTF&	fuente;
 	Etiqueta const *		etiqueta;
-	bool				es_modo() const {return etiqueta==nullptr;}
 
 					list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e);
 	bool				operator<(const list_etiqueta& o);
@@ -69,7 +67,7 @@ class Controlador_etiquetas:
 								y_listado=32,
 								alto_item_listado=20,
 								ancho_listado=300,
-								alto_listado=260,
+								alto_listado=160,
 								margen_y=16;
 
 };

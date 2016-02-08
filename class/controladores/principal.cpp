@@ -1,7 +1,6 @@
 #include "principal.h"
 
 #include <string>
-#include <algorithm>
 
 #include "../app/framework_impl/input.h"
 #include "estados_controladores.h"
@@ -73,7 +72,7 @@ void  Controlador_principal::despertar()
 	if(!palabras.size())
 	{
 		log<<"No hay palabras que mostrar";
-		abandonar_aplicacion(); //TODO: Volver al estado anterior... No se ejecutará un ciclo de esta...
+		solicitar_cambio_estado(menu);
 		return;
 	}
 
@@ -122,7 +121,6 @@ void Controlador_principal::ocultar_interface()
 void Controlador_principal::establecer_palabras(std::vector<Palabra const *>&& p)
 {
 	palabras=std::move(p);
-	std::random_shuffle(std::begin(palabras), std::end(palabras));
 }
 
 void Controlador_principal::establecer_textos()
