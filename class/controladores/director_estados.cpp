@@ -70,7 +70,7 @@ void Director_estados::registrar_controladores(const App::App_config& config)
 	controlador_menu.reset(new Controlador_menu(log, fuentes));
 	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes));
-	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, configuracion_ejercicio));
+	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
 
 	registrar_controlador(t_estados::menu, *controlador_menu);
 	registrar_controlador(t_estados::etiquetas, *controlador_etiquetas);

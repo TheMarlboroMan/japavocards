@@ -107,7 +107,7 @@ void  Controlador_etiquetas::dormir()
 {
 	log<<"Durmiendo controlador etiquetas"<<std::endl;
 	vista.vaciar_vista();
-	rep_listado.vaciar_grupo();	
+	rep_listado.vaciar_grupo();
 }
 
 bool Controlador_etiquetas::es_posible_abandonar_estado() const
@@ -121,7 +121,7 @@ bool Controlador_etiquetas::es_posible_abandonar_estado() const
 
 void Controlador_etiquetas::refrescar_listado()
 {
-	listado.clear();	
+	listado.clear();
 	for(const auto& e : list_etiquetas) listado.insertar(e);
 }
 

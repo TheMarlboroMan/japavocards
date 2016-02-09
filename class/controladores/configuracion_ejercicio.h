@@ -1,6 +1,8 @@
 #ifndef CONTROLADOR_CONFIGURACION_EJERCICIO
 #define CONTROLADOR_CONFIGURACION_EJERCICIO
 
+#include <memory>
+
 #include <herramientas/log_base/log_base.h>
 
 #include <class/compositor_vista.h>
@@ -10,6 +12,7 @@
 #include "../app/generador_listados.h"
 #include "../app/fuentes.h"
 #include "../app/configuracion_ejercicio.h"
+#include "../app/localizador.h"
 
 namespace App
 {
@@ -23,70 +26,35 @@ del generador de listados es quien realmente hace el trabajo.
 
 namespace Listado_config
 {
-struct interface_item_config
+struct interface_item_config:public Listable
 {
 	const DLibV::Fuente_TTF&	fuente;
-	Configuracion_ejercicion&	config;
+	Configuracion_ejercicio&	config;
+	const Localizador&		localizador;
 
-					interface_item_config(const DLibV::Fuente_TTF&, Configuracion_ejercicio&);
-	virtual void			al_salir()=0;
-	virtual void			al_pulsar(int)=0;
-	virtual void			al_down(int)=0;
+					interface_item_config(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): fuente(f), config(c), localizador(l) {}
+	virtual void			al_salir() {}
+	virtual void			al_pulsar(int, float) {}
+	virtual void			al_down(int, float) {}
+	virtual void			al_up() {}
+	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y)const=0;
 };
-
-struct item_config_direccion:
-	public interface_item_config,
-	public Listable
-{
-					item_config_direccion(const DLibV::Fuente_TTF&, Configuracion_ejercicio&);
-	virtual void			al_salir();
-	virtual void			al_pulsar(int);
-	virtual void			al_down(int);
-	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
-};
-
-struct item_config_modo_etiquetas:
-	public interface_item_config,
-	public Listable
-{
-					item_config_modo_etiquetas(const DLibV::Fuente_TTF&, Configuracion_ejercicio&);
-	virtual void			al_salir();
-	virtual void			al_pulsar(int);
-	virtual void			al_down(int);
-	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
-};
-
-struct item_config_numero_palabras:
-	public interface_item_config,
-	public Listable
-{
-					item_config_numero_palabras(const DLibV::Fuente_TTF&, Configuracion_ejercicio&);
-	virtual void			al_salir();
-	virtual void			al_pulsar(int);
-	virtual void			al_down(int);
-	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
-};
-
-struct item_config_limite_palabras:
-	public interface_item_config,
-	public Listable
-{
-					item_config_limite_palabras(const DLibV::Fuente_TTF&, Configuracion_ejercicio&);
-	virtual void			al_salir();
-	virtual void			al_pulsar(int);
-	virtual void			al_down(int);
-	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
-};
-
 
 }//Fin namespace listado config.
+
+struct list_configuracion_ejercicio
+{
+	std::shared_ptr<Listado_config::interface_item_config>	iic;
+	list_configuracion_ejercicio(Listado_config::interface_item_config * i): iic(i) {}
+	void generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const {iic->generar_representacion_listado(rep, x, y);}
+};
 
 class Controlador_configuracion_ejercicio:
 	public DFramework::Controlador_interface
 {
 	public:
 
-					Controlador_configuracion_ejercicio(DLibH::Log_base&, const Fuentes&, const Configuracion_ejercicio& c);
+					Controlador_configuracion_ejercicio(DLibH::Log_base&, const Fuentes&, const Localizador&, Configuracion_ejercicio& c);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -98,10 +66,26 @@ class Controlador_configuracion_ejercicio:
 
 	private:
 
+	void					generar_menu();
+
 	DLibH::Log_base&			log;
 	const Fuentes&				fuentes;
+	const Localizador&			localizador;
+	Configuracion_ejercicio&		configuracion_ejercicio;
 
-	Herramientas_proyecto::Compositor_vista	vista;
+	//Propiedades...
+	std::vector<list_configuracion_ejercicio>				list_config;
+	Herramientas_proyecto::Listado_vertical<list_configuracion_ejercicio>	listado;
+	DLibV::Representacion_agrupada		 				rep_listado;
+	Herramientas_proyecto::Compositor_vista					vista;
+
+	//Constantes...
+	static const int 					x_listado=16,
+								y_listado=32,
+								alto_item_listado=20,
+								ancho_listado=300,
+								alto_listado=160,
+								margen_y=16;
 };
 
 }
