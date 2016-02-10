@@ -1,8 +1,11 @@
 #include "configuracion_ejercicio.h"
 
+#include <functional>
+
 #include "estados_controladores.h"
 
 #include "../app/framework_impl/input.h"
+#include "../app/localizacion.h"
 
 using namespace App;
 
@@ -24,6 +27,19 @@ void Controlador_configuracion_ejercicio::preloop(DFramework::Input& input, floa
 
 void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float delta)
 {
+	//std::function<bool(DFramework::Input&, unsigned int)> up=&DFramework::Input::es_input_up;
+
+	auto hay_cambio=[&input](std::function<bool(DFramework::Input&, unsigned int)> f, int& dir)
+	{
+		bool resultado=f(input, App::Input::izquierda) ||
+		f(input, App::Input::derecha) ||
+		f(input, App::Input::aceptar);
+		if(resultado) dir=f(input, App::Input::izquierda) ? -1 : 1;
+		return resultado;
+	};
+
+	int dir=0;
+
 	if(input.es_senal_salida())
 	{
 		abandonar_aplicacion();
@@ -34,37 +50,28 @@ void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float d
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{
-		//TODO: ¿Cómo sé que se ha movido?.
 		auto& item=list_config[listado.acc_indice_actual()];
 		item.iic->al_salir();
 		listado.cambiar_item(input.es_input_down(App::Input::arriba) ? -1 : 1);
 	}
-	//TODO: Mejorar...
-	else if(input.es_input_down(App::Input::izquierda) ||
-		input.es_input_down(App::Input::derecha) ||
-		input.es_input_down(App::Input::aceptar))
+	else if(hay_cambio(&DFramework::Input::es_input_down, dir))
 	{
 		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_down(1, delta);
+		item.iic->al_down(dir, delta);
 		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
 		//TODO: Y los eventos y tal?.
 	}
-	else if(input.es_input_pulsado(App::Input::izquierda) ||
-		input.es_input_pulsado(App::Input::derecha) ||
-		input.es_input_pulsado(App::Input::aceptar))
+	else if(hay_cambio(&DFramework::Input::es_input_pulsado, dir))
 	{
 		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_pulsar(1, delta);
+		item.iic->al_pulsar(dir, delta);
 		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
 		//TODO: Y los eventos y tal?.
 	}
-	else if(input.es_input_up(App::Input::izquierda) ||
-		input.es_input_up(App::Input::derecha) ||
-		input.es_input_up(App::Input::aceptar))
+	else if(hay_cambio(&DFramework::Input::es_input_up, dir))
 	{
 		auto& item=list_config[listado.acc_indice_actual()];
 		item.iic->al_up();
-
 		//TODO: Y los eventos y tal?.
 	}
 }
@@ -126,7 +133,7 @@ using namespace std;
 	struct item_config_direccion:public interface_item_config
 	{
 				item_config_direccion(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_pulsar(int, float) {config.ciclar_direccion();}
+		virtual void	al_down(int, float) {config.ciclar_direccion();}
 		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 		{
 			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(localizar_direccion(config.acc_direccion())));
@@ -138,7 +145,7 @@ using namespace std;
 	struct item_config_modo_etiquetas:public interface_item_config
 	{
 				item_config_modo_etiquetas(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_pulsar(int, float) {config.ciclar_modo_etiquetas();}
+		virtual void	al_down(int, float) {config.ciclar_modo_etiquetas();}
 		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 		{
 			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(localizar_modo_etiquetas(config.acc_modo_etiquetas())));
@@ -150,10 +157,11 @@ using namespace std;
 	struct item_config_limite_palabras:public interface_item_config
 	{
 				item_config_limite_palabras(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_pulsar(int, float) {config.intercambiar_palabras_limitadas();}
+		virtual void	al_down(int, float) {config.intercambiar_palabras_limitadas();}
 		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 		{
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, to_string(config.es_palabras_limitadas()));
+			int indice=config.es_palabras_limitadas() ? localizacion::config_limitacion_palabras_si : localizacion::config_limitacion_palabras_no;
+			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(indice));
 			txt->establecer_posicion(x, y);
 			rep.insertar_representacion(txt);
 		}
@@ -163,31 +171,31 @@ using namespace std;
 	{
 		float 		tiempo;
 
+		void		cambio(int dir)
+		{
+			if(dir > 0) config.sumar_palabras();
+			else config.restar_palabras();
+		}
+
 				item_config_numero_palabras(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l), tiempo(0.0f) {}
 		virtual void	al_salir() {tiempo=0.0f;}
-		virtual void	al_pulsar(int dir, float delta)
-		{
-			config.sumar_palabras();
-			tiempo+=delta;
-		}
 		virtual void	al_down(int dir, float delta)
 		{
-			if(tiempo >= 0.5f) 
-			{
-				if(dir > 0) config.sumar_palabras();
-				else config.restar_palabras();
-			}
-			else 
-			{
-				tiempo+=delta;
-			}
+			cambio(dir);
+			tiempo+=delta;
+		}
+		virtual void	al_pulsar(int dir, float delta)
+		{
+			if(tiempo >= 0.5f) cambio(dir);
+			else tiempo+=delta;
 		}
 
 		virtual void	al_up()	{tiempo=0.0f;}
 
 		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
 		{
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, to_string(config.acc_palabras()));
+			const std::string str=localizador.obtener(localizacion::config_limitacion_palabras_numero)+to_string(config.acc_palabras());
+			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, str);
 			txt->establecer_posicion(x, y);
 			rep.insertar_representacion(txt);
 		}

@@ -1,0 +1,7 @@
+layout:
+[
+	{
+		tipo:"pantalla", 
+		rgba:[32, 0, 32, 255]
+	}
+]

@@ -45,6 +45,10 @@ void  Controlador_menu::loop(DFramework::Input& input, float delta)
 	{
 		solicitar_cambio_estado(config_ejercicio);
 	}
+	else if(input.es_input_down(App::Input::derecha))
+	{
+		solicitar_cambio_estado(config_aplicacion);
+	}
 }
 
 void  Controlador_menu::postloop(DFramework::Input& input, float delta)

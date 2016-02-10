@@ -15,10 +15,7 @@
 #include "etiquetas.h"
 #include "principal.h"
 #include "configuracion_ejercicio.h"
-/*#include "controlador_grupos.h"
-#include "controlador_menu.h"
-#include "controlador_opciones.h"
-*/
+#include "configuracion_aplicacion.h"
 
 #include "../app/fuentes.h"
 #include "../app/lector.h"
@@ -72,6 +69,7 @@ class Director_estados:
 	std::unique_ptr<Controlador_etiquetas>		controlador_etiquetas;
 	std::unique_ptr<Controlador_principal>		controlador_principal;
 	std::unique_ptr<Controlador_configuracion_ejercicio>		controlador_configuracion_ejercicio;
+	std::unique_ptr<Controlador_configuracion_aplicacion>		controlador_configuracion_aplicacion;
 
 	Localizador 					localizador;
 	Base_datos					base_datos;

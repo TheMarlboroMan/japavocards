@@ -9,6 +9,7 @@
 
 #include "../app/fuentes.h"
 #include "../app/palabra.h"
+#include "../app/configuracion_ejercicio.h"
 
 namespace App
 {
@@ -18,7 +19,7 @@ class Controlador_principal:
 {
 	public:
 
-					Controlador_principal(DLibH::Log_base&, const Fuentes&);
+					Controlador_principal(DLibH::Log_base&, const Fuentes&, Configuracion_ejercicio::direcciones);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -29,6 +30,7 @@ class Controlador_principal:
 	virtual bool			es_posible_abandonar_estado() const;
 
 	void				establecer_palabras(std::vector<Palabra const *>&& p);
+	void				establecer_direccion(Configuracion_ejercicio::direcciones d) {direccion=d;}
 
 	private:
 
@@ -49,6 +51,7 @@ class Controlador_principal:
 	Herramientas_proyecto::Compositor_vista	vista;
 	std::vector<Palabra const *> 		palabras;
 	size_t					indice_palabra_actual;
+	Configuracion_ejercicio::direcciones	direccion;
 };
 
 }

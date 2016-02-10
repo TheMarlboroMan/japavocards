@@ -22,6 +22,11 @@ $(DIR_CONTROLADORES)etiquetas.h \
 $(DIR_CONTROLADORES)etiquetas.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)etiquetas.cpp -o $(DIR_O)controlador_etiquetas.o
 
+$(DIR_O)controlador_configuracion_aplicacion.o :\
+$(DIR_CONTROLADORES)configuracion_aplicacion.h \
+$(DIR_CONTROLADORES)configuracion_aplicacion.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CONTROLADORES)configuracion_aplicacion.cpp -o $(DIR_O)controlador_configuracion_aplicacion.o  
+
 $(DIR_O)controlador_configuracion_ejercicio.o :\
 $(DIR_CONTROLADORES)configuracion_ejercicio.h \
 $(DIR_CONTROLADORES)configuracion_ejercicio.cpp

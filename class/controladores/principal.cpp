@@ -12,8 +12,9 @@
 
 using namespace App;
 
-Controlador_principal::Controlador_principal(DLibH::Log_base& log, const Fuentes& f)
-	:log(log), fuentes(f), estado(estados::sin_resolver), indice_palabra_actual(0)
+Controlador_principal::Controlador_principal(DLibH::Log_base& log, const Fuentes& f, Configuracion_ejercicio::direcciones d)
+	:log(log), fuentes(f), estado(estados::sin_resolver), 
+	indice_palabra_actual(0), direccion(d)
 {
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
@@ -113,9 +114,19 @@ void Controlador_principal::mostrar_interface()
 
 void Controlador_principal::ocultar_interface()
 {
-	vista.obtener_por_id("txt_japones")->hacer_visible();
+	switch(direccion)
+	{
+		case Configuracion_ejercicio::direcciones::japones_a_traduccion:
+			vista.obtener_por_id("txt_japones")->hacer_visible();
+			vista.obtener_por_id("txt_traduccion")->hacer_invisible();
+		break;
+		case Configuracion_ejercicio::direcciones::traduccion_a_japones:
+			vista.obtener_por_id("txt_japones")->hacer_invisible();
+			vista.obtener_por_id("txt_traduccion")->hacer_visible();
+		break;
+	}
+
 	vista.obtener_por_id("txt_romaji")->hacer_invisible();
-	vista.obtener_por_id("txt_traduccion")->hacer_invisible();
 }
 
 void Controlador_principal::establecer_palabras(std::vector<Palabra const *>&& p)

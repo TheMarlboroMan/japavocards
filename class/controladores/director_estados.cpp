@@ -69,13 +69,15 @@ void Director_estados::registrar_controladores(const App::App_config& config)
 
 	controlador_menu.reset(new Controlador_menu(log, fuentes));
 	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
-	controlador_principal.reset(new Controlador_principal(log, fuentes));
+	controlador_principal.reset(new Controlador_principal(log, fuentes, configuracion_ejercicio.acc_direccion()));
 	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
+	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador));
 
 	registrar_controlador(t_estados::menu, *controlador_menu);
 	registrar_controlador(t_estados::etiquetas, *controlador_etiquetas);
 	registrar_controlador(t_estados::principal, *controlador_principal);
 	registrar_controlador(t_estados::config_ejercicio, *controlador_configuracion_ejercicio);
+	registrar_controlador(t_estados::config_aplicacion, *controlador_configuracion_aplicacion);
 }
 
 void Director_estados::preparar_cambio_estado(int deseado, int actual)
@@ -101,8 +103,10 @@ void Director_estados::preparar_palabras()
 	auto criba=[this](std::vector<Palabra const *>& v)
 	{
 		size_t pal=(size_t)configuracion_ejercicio.acc_palabras();
-		if(configuracion_ejercicio.es_palabras_limitadas() && v.size() > pal && v.size() < pal)
+		if(configuracion_ejercicio.es_palabras_limitadas() && pal < v.size())
+		{
 			v.erase(std::begin(v)+pal, std::end(v));
+		}
 	};
 
 	auto l=[this, criba](std::function<std::vector<Palabra const *>(const std::vector<Palabra>&)> f)
@@ -128,6 +132,8 @@ void Director_estados::preparar_palabras()
 			}
 		break;
 	}
+
+	controlador_principal->establecer_direccion(configuracion_ejercicio.acc_direccion());
 }
 
 void Director_estados::cargar_fuentes()
@@ -163,3 +169,5 @@ void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiq
 //	selector_etiquetas.ciclar_modo();
 	//TODO: Guardar la configuración.
 }
+
+//TODO: Faltan eventos por aquí...
