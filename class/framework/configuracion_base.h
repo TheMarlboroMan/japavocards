@@ -13,7 +13,7 @@
 * proyecto implementando todos los métodos virtuales puros que tiene.
 */
 
-#include <class/fichero_pares.h>
+#include <class/dnot_parser.h>
 #include <iostream>
 
 namespace DFramework
@@ -35,17 +35,17 @@ class Configuracion_base
 
 	public:
 
-	int acc_modo_pantalla() const 		{return std::atoi(pares[obtener_clave_modo_pantalla()].c_str());}
-	int acc_modo_hardware() const 		{return std::atoi(pares[obtener_clave_modo_hardware()].c_str());}
-	int acc_pantalla_doble_buffer() const 	{return std::atoi(pares[obtener_clave_pantalla_doble_buffer()].c_str());}
-	int acc_pantalla_anyformat() const 	{return std::atoi(pares[obtener_clave_pantalla_anyformat()].c_str());}
-	int acc_volumen_audio() const		{return std::atoi(pares[obtener_clave_volumen_audio()].c_str());}
-	int acc_volumen_musica() const		{return std::atoi(pares[obtener_clave_volumen_musica()].c_str());}
-	int acc_audio_ratio() const		{return std::atoi(pares[obtener_clave_audio_ratio()].c_str());}
-	int acc_audio_salidas() const		{return std::atoi(pares[obtener_clave_audio_salidas()].c_str());}
-	int acc_audio_buffers() const		{return std::atoi(pares[obtener_clave_audio_buffers()].c_str());}
-	int acc_audio_canales() const		{return std::atoi(pares[obtener_clave_audio_canales()].c_str());}
-	int acc_version_archivo() const		{return std::atoi(pares[obtener_clave_version_archivo()].c_str());}
+	int acc_modo_pantalla() const 		{return token_por_ruta(obtener_clave_modo_pantalla());}
+	int acc_modo_hardware() const 		{return token_por_ruta(obtener_clave_modo_hardware());}
+	int acc_pantalla_doble_buffer() const 	{return token_por_ruta(obtener_clave_pantalla_doble_buffer());}
+	int acc_pantalla_anyformat() const 	{return token_por_ruta(obtener_clave_pantalla_anyformat());}
+	int acc_volumen_audio() const		{return token_por_ruta(obtener_clave_volumen_audio());}
+	int acc_volumen_musica() const		{return token_por_ruta(obtener_clave_volumen_musica());}
+	int acc_audio_ratio() const		{return token_por_ruta(obtener_clave_audio_ratio());}
+	int acc_audio_salidas() const		{return token_por_ruta(obtener_clave_audio_salidas());}
+	int acc_audio_buffers() const		{return token_por_ruta(obtener_clave_audio_buffers());}
+	int acc_audio_canales() const		{return token_por_ruta(obtener_clave_audio_canales());}
+	int acc_version_archivo() const		{return token_por_ruta(obtener_clave_version_archivo());}
 
 	void mut_modo_pantalla(int p_valor) 		{configurar(obtener_clave_modo_pantalla(), p_valor);}
 	void mut_modo_hardware(int p_valor)		{configurar(obtener_clave_modo_hardware(), p_valor);}
@@ -58,34 +58,22 @@ class Configuracion_base
 	void mut_audio_buffers(int p_valor)		{configurar(obtener_clave_audio_buffers(), p_valor);}
 	void mut_audio_canales(int p_valor)		{configurar(obtener_clave_audio_canales(), p_valor);}
 
-	void cargar();
 	void grabar();
 
-	Configuracion_base(const std::string& ruta, char separador, char comentario);
+	Configuracion_base(const std::string& ruta);
 
 	protected: 
-
-	//Añade la posibilidad de que clases derivadas guarden sus valores.
-//	void	configurar(const std::string& clave, const std::string& valor) {pares[clave]=valor;}
-	const std::string& valor_configuracion(const std::string& clave) const {return pares[clave];}
-
-	void 						configurar(const std::string& clave, const std::string& valor)
-	{
-		pares[clave]=valor;
-	}
 
 	//Conversor de lo que sea a string...
 	template <typename T>
 	void 						configurar(const std::string& clave, T v)
 	{
-#ifdef WINCOMPIL
-	using namespace parche_mingw;
-#else
-	using namespace std;
-#endif
-
-		pares[clave]=to_string(v);
+		auto& tok=token_por_ruta(clave);
+		tok.asignar(v);
 	}
+
+	const Herramientas_proyecto::Dnot_token&	token_por_ruta(const std::string& c) const;
+	Herramientas_proyecto::Dnot_token&		token_por_ruta(const std::string& c);
 
 	////////////////////////////////////
 	// A implementar por clases que la extiendan...
@@ -104,26 +92,13 @@ class Configuracion_base
 	virtual std::string obtener_clave_audio_salidas() const=0;
 	virtual std::string obtener_clave_audio_canales() const=0;
 
-		//Y estos valores de configuración por defecto que se castearán llamando al setter.
-	virtual int valor_modo_pantalla_defecto() const=0; //0 -> No / 1 -> Si
-	virtual int valor_modo_hardware_defecto() const=0; //0 -> No / 1 -> Si
-	virtual int valor_pantalla_doble_buffer_defecto() const=0;	//0 -> No / 1 -> Si
-	virtual int valor_pantalla_anyformat_defecto() const=0;	//0 -> No / 1 -> Si
-	virtual int valor_volumen_audio_defecto() const=0;	//0-128...
-	virtual int valor_volumen_musica_defecto() const=0;	//0-128...
-	virtual int valor_audio_ratio_defecto() const=0; //Por ejemplo... 44100.
-	virtual int valor_audio_salidas_defecto() const=0; //1 -> mono, 2 -> stereo.
-	virtual int valor_audio_buffers_defecto() const=0; //Por ejemplo... 1024;
-	virtual int valor_audio_canales_defecto() const=0; //Por ejemplo... 8.
-
 	///////////////////////////////////
 	// Propiedades.
 
 	private:	
 
-	void 						asignar_valores_por_defecto();
-
-	Herramientas_proyecto::Fichero_pares		pares;
+	Herramientas_proyecto::Dnot_token		token;
+	const std::string				ruta_fichero;
 };
 
 }

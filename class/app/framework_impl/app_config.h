@@ -14,12 +14,12 @@ class App_config:
 
 	public:
 
-	int acc_idioma_interface() const {return std::atoi(valor_configuracion(CLAVE_IDIOMA_INTERFACE).c_str());}
-	std::string acc_idioma_base_datos() const {return valor_configuracion(CLAVE_IDIOMA_BASE_DATOS);}
-	int acc_w_logica_pantalla() const {return std::atoi(valor_configuracion(CLAVE_W_LOGICA_PANTALLA).c_str());}
-	int acc_h_logica_pantalla() const {return std::atoi(valor_configuracion(CLAVE_H_LOGICA_PANTALLA).c_str());}
-	int acc_w_fisica_pantalla() const {return std::atoi(valor_configuracion(CLAVE_W_FISICA_PANTALLA).c_str());}
-	int acc_h_fisica_pantalla() const {return std::atoi(valor_configuracion(CLAVE_H_FISICA_PANTALLA).c_str());}
+	int acc_idioma_interface() const {return token_por_ruta(CLAVE_IDIOMA_INTERFACE);}
+	std::string acc_idioma_base_datos() const {return token_por_ruta(CLAVE_IDIOMA_BASE_DATOS);}
+	int acc_w_logica_pantalla() const {return token_por_ruta(CLAVE_W_LOGICA_PANTALLA);}
+	int acc_h_logica_pantalla() const {return token_por_ruta(CLAVE_H_LOGICA_PANTALLA);}
+	int acc_w_fisica_pantalla() const {return token_por_ruta(CLAVE_W_FISICA_PANTALLA);}
+	int acc_h_fisica_pantalla() const {return token_por_ruta(CLAVE_H_FISICA_PANTALLA);}
 
 	void mut_idioma_interface(int p_valor) {configurar(CLAVE_IDIOMA_INTERFACE, p_valor);}
 	void mut_idioma_base_datos(const std::string& p_valor) {configurar(CLAVE_IDIOMA_BASE_DATOS, p_valor);}
@@ -42,49 +42,37 @@ class App_config:
 	static const std::string CLAVE_W_FISICA_PANTALLA;
 	static const std::string CLAVE_H_FISICA_PANTALLA;
 
-	static const std::string IDIOMA_INTERFACE;
+	static const int IDIOMA_INTERFACE;
 	static const std::string IDIOMA_BASE_DATOS;
-	static const std::string W_FISICA_PANTALLA;
-	static const std::string H_FISICA_PANTALLA;
-	static const std::string W_LOGICA_PANTALLA;
-	static const std::string H_LOGICA_PANTALLA;
+	static const int W_FISICA_PANTALLA;
+	static const int H_FISICA_PANTALLA;
+	static const int W_LOGICA_PANTALLA;
+	static const int H_LOGICA_PANTALLA;
 
 	////////////////////////////////////
 	// Implementacion...
 
 	protected: 
 
-	std::string obtener_clave_version_archivo() const {return "v";}
+	std::string obtener_clave_version_archivo() const {return "config:meta:v";}
 	std::string obtener_version_archivo() const {return "1";}
-	std::string obtener_clave_modo_pantalla() const {return "modo_pantalla";}
-	std::string obtener_clave_modo_hardware() const {return "modo_hardware";}
-	std::string obtener_clave_pantalla_doble_buffer() const {return "doble_buffer";}
-	std::string obtener_clave_pantalla_anyformat() const {return "pantalla_anyformat";}
-	std::string obtener_clave_volumen_audio() const {return "volumen_audio";}
-	std::string obtener_clave_volumen_musica() const {return "volumen_musica";}
-	std::string obtener_clave_audio_ratio() const {return "audio_ratio";}
-	std::string obtener_clave_audio_buffers() const {return "audio_buffers";}
-	std::string obtener_clave_audio_salidas() const {return "audio_salidas";}
-	std::string obtener_clave_audio_canales() const {return "audio_canales";}
-	int valor_modo_pantalla_defecto() const {return 0;}
-	int valor_modo_hardware_defecto() const {return 1;}
-	int valor_pantalla_doble_buffer_defecto() const {return 1;}
-	int valor_pantalla_anyformat_defecto() const {return 1;}
-	int valor_volumen_audio_defecto() const {return 64;}
-	int valor_volumen_musica_defecto() const {return 64;}
-	int valor_audio_ratio_defecto() const {return 44100;}
-	int valor_audio_salidas_defecto() const {return 2;}
-	int valor_audio_buffers_defecto() const {return 1024;}
-	int valor_audio_canales_defecto() const {return 8;}
+	std::string obtener_clave_modo_pantalla() const {return "config:video:modo_pantalla";}
+	std::string obtener_clave_modo_hardware() const {return "config:video:modo_hardware";}
+	std::string obtener_clave_pantalla_doble_buffer() const {return "config:video:doble_buffer";}
+	std::string obtener_clave_pantalla_anyformat() const {return "config:video:pantalla_anyformat";}
+	std::string obtener_clave_volumen_audio() const {return "config:audio:volumen_audio";}
+	std::string obtener_clave_volumen_musica() const {return "config:audio:volumen_musica";}
+	std::string obtener_clave_audio_ratio() const {return "config:audio:audio_ratio";}
+	std::string obtener_clave_audio_buffers() const {return "config:audio:audio_buffers";}
+	std::string obtener_clave_audio_salidas() const {return "config:audio:audio_salidas";}
+	std::string obtener_clave_audio_canales() const {return "config:audio:audio_canales";}
 
 	///////////////////////////////////
 	// Propiedades.
 
 	private:
 
-	std::string obtener_ruta_archivo() const {return "data/config/configuracion.dat";}
-	char obtener_separador_archivo() const {return ':';}
-	char obtener_comentario_archivo() const {return '#';}
+	std::string obtener_ruta_archivo() const {return "data/config/configuracion.dnot";}
 };
 
 }

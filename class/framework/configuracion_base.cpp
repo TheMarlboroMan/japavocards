@@ -10,50 +10,57 @@ valor hasta haber cargado la configuración.
 
 using namespace DFramework;
 
-Configuracion_base::Configuracion_base(const std::string& ruta, char separador, char comentario)
+Configuracion_base::Configuracion_base(const std::string& ruta)
 try
-	:pares(ruta, separador, comentario)
+	:token(Herramientas_proyecto::parsear_dnot(ruta)),
+	ruta_fichero(ruta)
 {
-
+	
 }
-catch(Herramientas_proyecto::Fichero_pares_exception& e)
+catch(std::runtime_error& e)
 {
-	throw Configuracion_base_no_fichero_exception(ruta);
-}
-
-void Configuracion_base::asignar_valores_por_defecto()
-{
-	mut_modo_pantalla(valor_modo_pantalla_defecto());
-	mut_modo_hardware(valor_modo_hardware_defecto());
-	mut_pantalla_doble_buffer(valor_pantalla_doble_buffer_defecto());
-	mut_pantalla_anyformat(valor_pantalla_anyformat_defecto());
-	mut_volumen_audio(valor_volumen_audio_defecto());
-	mut_volumen_musica(valor_volumen_musica_defecto());
-	mut_audio_ratio(valor_audio_ratio_defecto());
-	mut_audio_salidas(valor_audio_salidas_defecto());
-	mut_audio_buffers(valor_audio_buffers_defecto());
-	mut_audio_canales(valor_audio_canales_defecto());
-}
-
-/*
-Se asignan los valores por defecto, luego se cargan los valores de disco y se
-guardan de nuevo para guardar aquellos que podían faltar en el disco.
-*/
-
-void Configuracion_base::cargar()
-{
-	asignar_valores_por_defecto();
-
-	//Al cargar los pares se pierde la información inicial al 
-	//sobreescribirse el objeto. Tendríamos que "sincronizarlos".
-
-	auto copia_pares=pares;
-	pares.cargar();
-	pares.sincronizar(copia_pares);
-	pares.guardar();
+	throw Configuracion_base_no_fichero_exception(e.what());
 }
 
 void Configuracion_base::grabar()
 {
-	pares.guardar();
+	using namespace Herramientas_proyecto;
+	Dnot_token_opciones_serializador os;
+	os.tabular_profundidad=true;
+	std::ofstream f(ruta_fichero);
+	f<<token.serializar(os);
+}
+
+/**
+* Localiza un token nombrado siguiendo una cadena sencilla: config:video:tam_pantalla
+* localizaría el token en el objeto "config" de la raiz, seguido del objeto 
+* "video" contenido en "config" y "tam_pantalla" contenido en "video".
+*/
+
+const Herramientas_proyecto::Dnot_token& Configuracion_base::token_por_ruta(const std::string& c) const
+{
+	using namespace Herramientas_proyecto;
+	const Dnot_token * p=&token;
+	auto v=explotar(c, ':');
+	for(const auto& clave : v) 
+	{
+		try
+		{
+			p=&p->acc_tokens().at(clave);
+		}
+		catch(std::exception& e)
+		{
+			throw std::runtime_error("Imposible localizar clave "+clave+" en ruta "+c);
+		}
+	}
+	return *p;
+}
+
+Herramientas_proyecto::Dnot_token& Configuracion_base::token_por_ruta(const std::string& c)
+{
+	using namespace Herramientas_proyecto;
+	Dnot_token * p=&token;
+	auto v=explotar(c, ':');
+	for(const auto& clave : v) p=&p->acc_tokens()[clave];
+	return *p;
 }

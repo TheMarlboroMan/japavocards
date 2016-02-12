@@ -42,7 +42,6 @@ int iniciar_app(Herramientas_proyecto::Controlador_argumentos& CARG)
 	{
 		log_app<<"Inicializando configuración aplicación..."<<std::endl;
 		App_config config;
-		config.cargar();
 
 		//Si la inicialización ha tenido éxito podemos arrancar la SDL y el Kernel.
 		log_app<<"Inicializando configuración kernel..."<<std::endl;
