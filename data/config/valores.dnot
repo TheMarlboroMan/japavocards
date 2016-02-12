@@ -1,0 +1,21 @@
+menu:[
+	{
+		clave:"01_K_TAM_VENTANA",
+		trans:10,
+		opciones:[
+			{clave:"01_K_TAM_VENTANA_O01", valor: "800x500", trans:11},
+			{clave:"01_K_TAM_VENTANA_O02", valor: "960x600", trans:12},
+			{clave:"01_K_TAM_VENTANA_O03", valor: "1120x700", trans:13},
+			{clave:"01_K_TAM_VENTANA_O04", valor: "1440x900", trans:14},
+			{clave:"01_K_TAM_VENTANA_O05", valor: "1600x1000", trans:15}
+		]
+	},
+	{
+		clave:"02_K_IDIOMA",
+		trans:20,
+		opciones:[
+			{clave:"02_K_IDIOMA_O01", valor: "0", trans:21},
+			{clave:"02_K_IDIOMA_O02", valor: "1", trans:22}
+		]
+	}
+]

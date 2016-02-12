@@ -10,14 +10,14 @@ The front end consists on the application itself. It will show you japanes scrip
 The application does allow for:
 
 - Shuffle the words in each run so every exercise is slightly different (words are all the same, order is different).
+- Filter the words used in the exercise: all words, all words with a set of labels, all unlabeled words... 
+- Allow for reverse translation (from the translation to the japanese words).
+- Limit the number of words to use in the exercise.
 
 The application will allow for:
 
-- Filter the words used in the exercise: all words, all words with a set of labels, all unlabeled words...
-- Choose the interface and translation language.
-- Choose between continuous exercise (endless loop of words) or a finite set (chosen words, once).
-- Allow for reverse translation (from the translation to the japanese words).
-- Allow and disallow the romaji text (so you can practice your reading skills).
+- Choose the interface and translation languages.
+- Have a little "play" mode in with the user can track whether the word has been guessed or not.
 
 Probably will also:
 
@@ -46,5 +46,5 @@ When working with the CLI take into account that:
 
 Thanks to:
 
-- Ed Merritt for the Akashi font.
-- Kagura Zakayuzu for the Yuzu Pop A font.
+- Ed Merritt for the Akashi font, seen throughout the whole application.
+- Kagura Zakayuzu for the Yuzu Pop A font, the one with all the kanas.
