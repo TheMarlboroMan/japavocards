@@ -1,21 +1,40 @@
-menu:[
+config_ejercicio:[
 	{
-		clave:"01_K_TAM_VENTANA",
-		trans:10,
-		opciones:[
-			{clave:"01_K_TAM_VENTANA_O01", valor: "800x500", trans:11},
-			{clave:"01_K_TAM_VENTANA_O02", valor: "960x600", trans:12},
-			{clave:"01_K_TAM_VENTANA_O03", valor: "1120x700", trans:13},
-			{clave:"01_K_TAM_VENTANA_O04", valor: "1440x900", trans:14},
-			{clave:"01_K_TAM_VENTANA_O05", valor: "1600x1000", trans:15}
+		c:"01_K_DIRECCION",
+		t:100,
+		m:"templated",
+		mt:"string",
+		o:[
+			{c:"01_K_DIRECCION_O01", v: "desde_japones", t:101},
+			{c:"01_K_DIRECCION_O02", v: "a_japones", t:102}
 		]
 	},
 	{
-		clave:"02_K_IDIOMA",
-		trans:20,
-		opciones:[
-			{clave:"02_K_IDIOMA_O01", valor: "0", trans:21},
-			{clave:"02_K_IDIOMA_O02", valor: "1", trans:22}
+		c:"02_K_MODO_ETIQUETAS",
+		t:110,
+		m:"templated",
+		mt:"string",
+		o:[
+			{c:"02_K_MODO_ETIQUETAS_O01", v: "todas", t:111},
+			{c:"02_K_MODO_ETIQUETAS_O02", v: "etiquetadas", t:112},
+			{c:"02_K_MODO_ETIQUETAS_O03", v: "sin_etiquetar", t:113}
 		]
+	},
+	{
+		c:"03_K_LIMITE_PALABRAS",
+		t:120,
+		m:"templated",
+		mt:"bool",
+		o:[
+			{c:"03_K_LIMITE_PALABRAS_O01", v: true, t:121},
+			{c:"03_K_LIMITE_PALABRAS_O02", v: false, t:122}
+		]
+	},
+	{
+		c:"04_K_NUMERO_PALABRAS",
+		t:130,
+		m:"int",
+		min:5,
+		max:250
 	}
 ]
