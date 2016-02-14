@@ -5,7 +5,7 @@
 using namespace App;
 
 Configuracion_ejercicio::Configuracion_ejercicio()
-	:palabras_limitadas(false),
+	:palabras_limitadas(true),
 	direccion(direcciones::japones_a_traduccion),
 	modo_etiquetas(modos_etiquetas::todas),
 	palabras(min_palabras)
