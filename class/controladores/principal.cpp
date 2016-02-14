@@ -77,6 +77,7 @@ void  Controlador_principal::despertar()
 		return;
 	}
 
+	indice_palabra_actual=0;
 	establecer_textos();
 	ocultar_interface();
 }

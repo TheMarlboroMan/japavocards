@@ -1,8 +1,11 @@
-<1$>Dirección : Desde japonés<#>
-<2$>Dirección : A japonés<#>
-<3$>Palabras : Todas<#>
-<4$>Palabras : Sólo no etiquetadas<#>
-<5$>Palabras : Etiquetadas<#>
-<6$>Limitar palabras : si<#>
-<7$>Limitar palabras : no<#>
-<8$>Límite de palabras : <#>
+<100$>Dirección<#>
+<101$>Desde japonés<#>
+<102$>A japonés<#>
+<110$>Palabras<#>
+<111$>Todas<#>
+<112$>Etiquetadas<#>
+<113$>Sólo sin etiquetar<#>
+<120$>Limitar palabras<#>
+<121$>Si<#>
+<122$>No<#>
+<130$>Límite de palabras<#>

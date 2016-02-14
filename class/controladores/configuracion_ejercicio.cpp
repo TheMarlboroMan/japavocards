@@ -10,14 +10,15 @@
 using namespace App;
 
 Controlador_configuracion_ejercicio::Controlador_configuracion_ejercicio(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, Configuracion_ejercicio& c)
-	:log(l), fuentes(f), localizador(loc), configuracion_ejercicio(c), listado(alto_listado, alto_item_listado), rep_listado(true)
+	:log(l), fuentes(f), localizador(loc), configuracion_ejercicio(c), listado(alto_listado, alto_item_listado), rep_listado(true),
+	tiempo_menu(0.0f)
 {
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 
 	rep_listado.no_imponer_alpha();
 
-	generar_menu();
+	crear_menu_opciones();
 }
 
 void Controlador_configuracion_ejercicio::preloop(DFramework::Input& input, float delta)
@@ -28,7 +29,6 @@ void Controlador_configuracion_ejercicio::preloop(DFramework::Input& input, floa
 void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float delta)
 {
 	//std::function<bool(DFramework::Input&, unsigned int)> up=&DFramework::Input::es_input_up;
-
 	auto hay_cambio=[&input](std::function<bool(DFramework::Input&, unsigned int)> f, int& dir)
 	{
 		bool resultado=f(input, App::Input::izquierda) ||
@@ -50,29 +50,20 @@ void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float d
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{
-		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_salir();
+		tiempo_menu=0.0f;
 		listado.cambiar_item(input.es_input_down(App::Input::arriba) ? -1 : 1);
 	}
 	else if(hay_cambio(&DFramework::Input::es_input_down, dir))
 	{
-		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_down(dir, delta);
-		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
-		//TODO: Y los eventos y tal?.
+		menu_down(listado.item_actual(), dir, delta, false);
 	}
 	else if(hay_cambio(&DFramework::Input::es_input_pulsado, dir))
 	{
-		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_pulsar(dir, delta);
-		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
-		//TODO: Y los eventos y tal?.
+		menu_down(listado.item_actual(), dir, delta, true);
 	}
 	else if(hay_cambio(&DFramework::Input::es_input_up, dir))
 	{
-		auto& item=list_config[listado.acc_indice_actual()];
-		item.iic->al_up();
-		//TODO: Y los eventos y tal?.
+		tiempo_menu=0.0f;
 	}
 }
 
@@ -101,7 +92,7 @@ void Controlador_configuracion_ejercicio::despertar()
 {
 	log<<"Despertando controlador configuración ejercicio"<<std::endl;
 	vista.parsear("data/layout/configuracion_ejercicio.dnot", "layout");
-	generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+	generar_vista_menu();
 }
 
 void Controlador_configuracion_ejercicio::dormir()
@@ -116,97 +107,71 @@ bool Controlador_configuracion_ejercicio::es_posible_abandonar_estado() const
 	return true;
 }
 
-/**
-* Se declaran varias mini clases y se colocan en el menú...
-*/
-
-void Controlador_configuracion_ejercicio::generar_menu()
+void Controlador_configuracion_ejercicio::generar_vista_menu()
 {
-#ifdef WINCOMPIL
-using namespace parche_mingw;
-#else
-using namespace std;
-#endif
-
-	using namespace App::Listado_config;
-
-	struct item_config_direccion:public interface_item_config
-	{
-				item_config_direccion(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_down(int, float) {config.ciclar_direccion();}
-		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
-		{
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(localizar_direccion(config.acc_direccion())));
-			txt->establecer_posicion(x, y);
-			rep.insertar_representacion(txt);
-		}
-	};
-
-	struct item_config_modo_etiquetas:public interface_item_config
-	{
-				item_config_modo_etiquetas(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_down(int, float) {config.ciclar_modo_etiquetas();}
-		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
-		{
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(localizar_modo_etiquetas(config.acc_modo_etiquetas())));
-			txt->establecer_posicion(x, y);
-			rep.insertar_representacion(txt);
-		}
-	};
-
-	struct item_config_limite_palabras:public interface_item_config
-	{
-				item_config_limite_palabras(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l) {}
-		virtual void	al_down(int, float) {config.intercambiar_palabras_limitadas();}
-		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
-		{
-			int indice=config.es_palabras_limitadas() ? localizacion::config_limitacion_palabras_si : localizacion::config_limitacion_palabras_no;
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, localizador.obtener(indice));
-			txt->establecer_posicion(x, y);
-			rep.insertar_representacion(txt);
-		}
-	};
-
-	struct item_config_numero_palabras:public interface_item_config
-	{
-		float 		tiempo;
-
-		void		cambio(int dir)
-		{
-			if(dir > 0) config.sumar_palabras();
-			else config.restar_palabras();
-		}
-
-				item_config_numero_palabras(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): interface_item_config(f, c, l), tiempo(0.0f) {}
-		virtual void	al_salir() {tiempo=0.0f;}
-		virtual void	al_down(int dir, float delta)
-		{
-			cambio(dir);
-			tiempo+=delta;
-		}
-		virtual void	al_pulsar(int dir, float delta)
-		{
-			if(tiempo >= 0.5f) cambio(dir);
-			else tiempo+=delta;
-		}
-
-		virtual void	al_up()	{tiempo=0.0f;}
-
-		virtual void 	generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
-		{
-			const std::string str=localizador.obtener(localizacion::config_limitacion_palabras_numero)+to_string(config.acc_palabras());
-			auto * txt=new DLibV::Representacion_TTF(fuente, {255, 255, 255, 255}, str);
-			txt->establecer_posicion(x, y);
-			rep.insertar_representacion(txt);
-		}
-	};
-
-	list_config.push_back(list_configuracion_ejercicio(new item_config_direccion(fuentes.obtener_fuente("akashi", 20), configuracion_ejercicio, localizador)));
-	list_config.push_back(list_configuracion_ejercicio(new item_config_modo_etiquetas(fuentes.obtener_fuente("akashi", 20), configuracion_ejercicio, localizador)));
-	list_config.push_back(list_configuracion_ejercicio(new item_config_limite_palabras(fuentes.obtener_fuente("akashi", 20), configuracion_ejercicio, localizador)));
-	list_config.push_back(list_configuracion_ejercicio(new item_config_numero_palabras(fuentes.obtener_fuente("akashi", 20), configuracion_ejercicio, localizador)));
-
 	listado.clear();
-	for(const auto& e : list_config) listado.insertar(e);
+	const auto& v=menu_opciones.obtener_claves();
+	for(const auto& c : v) listado.insertar({fuentes, c, menu_opciones.nombre_opcion(c)+" : "+menu_opciones.nombre_seleccion(c)});
+	generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+}
 
+void Controlador_configuracion_ejercicio::crear_menu_opciones()
+{
+	using namespace Herramientas_proyecto;
+	menu_opciones_desde_dnot("data/config/valores.dnot", "config_ejercicio", menu_opciones, menu_opciones_traducciones);
+
+	using traduccion=Menu_opciones<std::string>::struct_traduccion;
+	std::vector<traduccion> trad={};
+	for(const auto& par : menu_opciones_traducciones) trad.push_back({par.first, localizador.obtener(par.second)});
+	menu_opciones.traducir(trad);	
+	
+	//TODO: asignar valores según configuración de usuario.
+}
+
+void Controlador_configuracion_ejercicio::menu_down(item_config_ejercicio& item, int dir, float delta, bool pulsado)
+{
+	const std::string& clave=item.clave;
+
+	if(clave=="01_K_DIRECCION")
+	{
+		if(pulsado) return;
+		configuracion_ejercicio.ciclar_direccion();
+		menu_opciones.asignar_por_valor_templated<std::string>(clave, direccion_a_string(configuracion_ejercicio.acc_direccion()));
+	}
+	else if(clave=="02_K_MODO_ETIQUETAS")
+	{
+		if(pulsado) return;
+		configuracion_ejercicio.ciclar_modo_etiquetas();
+		menu_opciones.asignar_por_valor_templated<std::string>(clave, modo_etiquetas_a_string(configuracion_ejercicio.acc_modo_etiquetas()));
+	}
+	else if(clave=="03_K_LIMITE_PALABRAS")
+	{
+		if(pulsado) return;
+		configuracion_ejercicio.intercambiar_palabras_limitadas();
+		menu_opciones.asignar_por_valor_templated<bool>(clave, configuracion_ejercicio.es_palabras_limitadas());
+	}
+	else if(clave=="04_K_NUMERO_PALABRAS")
+	{
+		if(pulsado && tiempo_menu < 0.5f)
+		{
+			tiempo_menu+=delta;
+			return;
+		}
+		
+		if(dir > 0) configuracion_ejercicio.sumar_palabras();
+		else configuracion_ejercicio.restar_palabras();
+
+		menu_opciones.asignar_por_valor_int(clave, configuracion_ejercicio.acc_palabras());
+	}
+
+	item.texto=menu_opciones.nombre_opcion(clave)+" : "+menu_opciones.nombre_seleccion(clave);
+	generar_vista_menu();
+	generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+}
+
+void Controlador_configuracion_ejercicio::item_config_ejercicio::generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const
+{
+	auto * txt=new DLibV::Representacion_TTF(fuentes.obtener_fuente("akashi", 20), {255, 255, 255, 255}, texto);
+	txt->establecer_posicion(x, y);
+	rep.insertar_representacion(txt);
 }

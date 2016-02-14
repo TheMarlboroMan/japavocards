@@ -5,6 +5,7 @@
 
 #include <herramientas/log_base/log_base.h>
 
+#include <class/menu_opciones.h>
 #include <class/compositor_vista.h>
 
 #include "../framework/controlador_interface.h"
@@ -24,31 +25,6 @@ listable realmente no vale para nada y sólo mete más ruido: el template
 del generador de listados es quien realmente hace el trabajo.
 */
 
-namespace Listado_config
-{
-struct interface_item_config:public Listable
-{
-	const DLibV::Fuente_TTF&	fuente;
-	Configuracion_ejercicio&	config;
-	const Localizador&		localizador;
-
-					interface_item_config(const DLibV::Fuente_TTF& f, Configuracion_ejercicio& c, const Localizador& l): fuente(f), config(c), localizador(l) {}
-	virtual void			al_salir() {}
-	virtual void			al_pulsar(int, float) {}
-	virtual void			al_down(int, float) {}
-	virtual void			al_up() {}
-	virtual void 			generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y)const=0;
-};
-
-}//Fin namespace listado config.
-
-struct list_configuracion_ejercicio
-{
-	std::shared_ptr<Listado_config::interface_item_config>	iic;
-	list_configuracion_ejercicio(Listado_config::interface_item_config * i): iic(i) {}
-	void generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const {iic->generar_representacion_listado(rep, x, y);}
-};
-
 class Controlador_configuracion_ejercicio:
 	public DFramework::Controlador_interface
 {
@@ -66,7 +42,20 @@ class Controlador_configuracion_ejercicio:
 
 	private:
 
-	void					generar_menu();
+	struct item_config_ejercicio:public Listable
+	{
+		const Fuentes& 		fuentes;
+		std::string 		clave, texto;
+		virtual void 		generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
+
+		item_config_ejercicio(const Fuentes& f, const std::string& k, const std::string& t):
+			fuentes(f), clave(k), texto(t)
+		{}
+	};
+
+	void				crear_menu_opciones();
+	void				generar_vista_menu();
+	void				menu_down(item_config_ejercicio&, int, float, bool);
 
 	DLibH::Log_base&			log;
 	const Fuentes&				fuentes;
@@ -74,10 +63,13 @@ class Controlador_configuracion_ejercicio:
 	Configuracion_ejercicio&		configuracion_ejercicio;
 
 	//Propiedades...
-	std::vector<list_configuracion_ejercicio>				list_config;
-	Herramientas_proyecto::Listado_vertical<list_configuracion_ejercicio>	listado;
+	Herramientas_proyecto::Listado_vertical<item_config_ejercicio>		listado;
+	Herramientas_proyecto::Menu_opciones<std::string>			menu_opciones;
+	std::map<std::string, int>						menu_opciones_traducciones;
 	DLibV::Representacion_agrupada		 				rep_listado;
 	Herramientas_proyecto::Compositor_vista					vista;
+	float									tiempo_menu;
+
 
 	//Constantes...
 	static const int 					x_listado=16,

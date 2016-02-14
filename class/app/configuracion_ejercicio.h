@@ -1,6 +1,8 @@
 #ifndef CONFIGURACION_EJERCICIO_H
 #define CONFIGURACION_EJERCICIO_H
 
+#include <string>
+
 namespace App
 {
 
@@ -37,9 +39,13 @@ class Configuracion_ejercicio
 
 void ciclar_direccion(Configuracion_ejercicio::direcciones&);
 int localizar_direccion(Configuracion_ejercicio::direcciones);
+std::string direccion_a_string(Configuracion_ejercicio::direcciones);
+Configuracion_ejercicio::direcciones string_a_direccion(const std::string&);
 
 void ciclar_modo_etiquetas(Configuracion_ejercicio::modos_etiquetas&);
 int localizar_modo_etiquetas(Configuracion_ejercicio::modos_etiquetas);
+std::string modo_etiquetas_a_string(Configuracion_ejercicio::modos_etiquetas);
+Configuracion_ejercicio::modos_etiquetas string_a_modo_etiquetas(const std::string&);
 
 }
 

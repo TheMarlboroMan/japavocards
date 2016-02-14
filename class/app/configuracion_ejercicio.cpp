@@ -79,3 +79,39 @@ int App::localizar_modo_etiquetas(Configuracion_ejercicio::modos_etiquetas m)
 
 	return 0;
 }
+
+std::string App::direccion_a_string(Configuracion_ejercicio::direcciones d)
+{
+	switch(d)
+	{
+		case Configuracion_ejercicio::direcciones::japones_a_traduccion: return "desde_japones"; break;
+		case Configuracion_ejercicio::direcciones::traduccion_a_japones: return "a_japones"; break;
+	}
+
+	return "";
+}
+
+Configuracion_ejercicio::direcciones App::string_a_direccion(const std::string& c)
+{
+	if(c=="desde_japones") return Configuracion_ejercicio::direcciones::japones_a_traduccion;
+	else return Configuracion_ejercicio::direcciones::traduccion_a_japones;
+}
+
+std::string App::modo_etiquetas_a_string(Configuracion_ejercicio::modos_etiquetas m)
+{
+	switch(m)
+	{
+		case Configuracion_ejercicio::modos_etiquetas::todas:		return "todas"; break;
+		case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	return "etiquetadas"; break;
+		case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	return "sin_etiquetar"; break;
+	}
+
+	return "";
+}
+
+Configuracion_ejercicio::modos_etiquetas App::string_a_modo_etiquetas(const std::string& c)
+{
+	if(c=="todas") return Configuracion_ejercicio::modos_etiquetas::todas;
+	else if(c=="etiquetadas") return Configuracion_ejercicio::modos_etiquetas::etiquetadas;
+	else return Configuracion_ejercicio::modos_etiquetas::sin_etiquetar;
+}
