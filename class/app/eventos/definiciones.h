@@ -10,7 +10,10 @@ namespace Eventos
 	enum eventos
 	{
 		cambio_etiqueta,
-		cambio_modo_etiqueta
+		cambio_modo_etiqueta,
+		cambio_idioma_interface,
+		cambio_idioma_diccionario,
+		cambio_ventana
 	};
 
 } //Fin namespace eventos.

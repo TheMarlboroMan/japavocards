@@ -4,17 +4,10 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "idioma.h"
 
 namespace App
 {
-
-
-struct Idioma
-{
-	std::string			acronimo,
-					nombre;
-	bool 		 		operator<(const Idioma&) const;
-};
 
 struct Etiqueta_bruto
 {

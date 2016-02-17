@@ -30,6 +30,7 @@ class Extractor
 
 	private:
 
+	void				procesar_idiomas();
 	void				procesar_etiquetas();
 	void				procesar_palabras();
 	void				limpiar();

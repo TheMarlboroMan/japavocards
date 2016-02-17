@@ -49,6 +49,7 @@ $(DIR_CLASES_APP)selector_etiquetas.cpp
 $(DIR_O)almacenaje.o:\
 $(DIR_O)palabra.o \
 $(DIR_O)etiqueta.o \
+$(DIR_O)idioma.o \
 $(DIR_CLASES_APP)almacenaje.h \
 $(DIR_CLASES_APP)almacenaje.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)almacenaje.cpp -o $(DIR_O)almacenaje.o
@@ -93,9 +94,15 @@ $(DIR_CLASES_APP)lector.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)lector.cpp -o $(DIR_O)lector.o
 
 $(DIR_O)datos_bruto.o:\
+$(DIR_O)idioma.o\
 $(DIR_CLASES_APP)datos_bruto.h \
 $(DIR_CLASES_APP)datos_bruto.cpp
 	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)datos_bruto.cpp -o $(DIR_O)datos_bruto.o
+
+$(DIR_O)idioma.o:\
+$(DIR_CLASES_APP)idioma.h \
+$(DIR_CLASES_APP)idioma.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_CLASES_APP)idioma.cpp -o $(DIR_O)idioma.o
 
 $(DIR_O)localizador.o:\
 $(DIR_CLASES_APP)localizador.h \

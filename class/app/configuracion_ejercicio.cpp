@@ -4,6 +4,12 @@
 
 using namespace App;
 
+const std::string str_desde_japones="desde_japones";
+const std::string str_a_japones="a_japones";
+const std::string str_todas="todas";
+const std::string str_etiquetadas="etiquetadas";
+const std::string str_sin_etiquetar="sin_etiquetar";
+
 Configuracion_ejercicio::Configuracion_ejercicio()
 	:palabras_limitadas(true),
 	direccion(direcciones::japones_a_traduccion),
@@ -84,8 +90,8 @@ std::string App::direccion_a_string(Configuracion_ejercicio::direcciones d)
 {
 	switch(d)
 	{
-		case Configuracion_ejercicio::direcciones::japones_a_traduccion: return "desde_japones"; break;
-		case Configuracion_ejercicio::direcciones::traduccion_a_japones: return "a_japones"; break;
+		case Configuracion_ejercicio::direcciones::japones_a_traduccion: return str_desde_japones; break;
+		case Configuracion_ejercicio::direcciones::traduccion_a_japones: return str_a_japones; break;
 	}
 
 	return "";
@@ -93,7 +99,7 @@ std::string App::direccion_a_string(Configuracion_ejercicio::direcciones d)
 
 Configuracion_ejercicio::direcciones App::string_a_direccion(const std::string& c)
 {
-	if(c=="desde_japones") return Configuracion_ejercicio::direcciones::japones_a_traduccion;
+	if(c==str_desde_japones) return Configuracion_ejercicio::direcciones::japones_a_traduccion;
 	else return Configuracion_ejercicio::direcciones::traduccion_a_japones;
 }
 
@@ -101,9 +107,9 @@ std::string App::modo_etiquetas_a_string(Configuracion_ejercicio::modos_etiqueta
 {
 	switch(m)
 	{
-		case Configuracion_ejercicio::modos_etiquetas::todas:		return "todas"; break;
-		case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	return "etiquetadas"; break;
-		case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	return "sin_etiquetar"; break;
+		case Configuracion_ejercicio::modos_etiquetas::todas:		return str_todas; break;
+		case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	return str_etiquetadas; break;
+		case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	return str_sin_etiquetar; break;
 	}
 
 	return "";
@@ -111,7 +117,7 @@ std::string App::modo_etiquetas_a_string(Configuracion_ejercicio::modos_etiqueta
 
 Configuracion_ejercicio::modos_etiquetas App::string_a_modo_etiquetas(const std::string& c)
 {
-	if(c=="todas") return Configuracion_ejercicio::modos_etiquetas::todas;
-	else if(c=="etiquetadas") return Configuracion_ejercicio::modos_etiquetas::etiquetadas;
+	if(c==str_todas) return Configuracion_ejercicio::modos_etiquetas::todas;
+	else if(c==str_etiquetadas) return Configuracion_ejercicio::modos_etiquetas::etiquetadas;
 	else return Configuracion_ejercicio::modos_etiquetas::sin_etiquetar;
 }

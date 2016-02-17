@@ -13,10 +13,10 @@ The application does allow for:
 - Filter the words used in the exercise: all words, all words with a set of labels, all unlabeled words... 
 - Allow for reverse translation (from the translation to the japanese words).
 - Limit the number of words to use in the exercise.
+- Choose the interface and translation languages.
 
 The application will allow for:
 
-- Choose the interface and translation languages.
 - Have a little "play" mode in with the user can track whether the word has been guessed or not.
 
 Probably will also:

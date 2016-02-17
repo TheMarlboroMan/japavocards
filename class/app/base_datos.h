@@ -18,6 +18,7 @@ class Base_datos
 
 					Base_datos(DLibH::Log_base&);
 	void				cargar(const Lector&, const Idioma&);
+	const std::vector<Idioma>&	acc_idiomas() const {return datos.idiomas;}
 	const std::vector<Etiqueta>&	acc_etiquetas() const {return datos.etiquetas;}
 	const std::vector<Palabra>&	acc_palabras() const {return datos.palabras;}
 

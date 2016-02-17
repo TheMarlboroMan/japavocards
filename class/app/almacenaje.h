@@ -4,6 +4,7 @@
 #include <vector>
 #include "palabra.h"
 #include "etiqueta.h"
+#include "idioma.h"
 
 /**
 * Estructura que contiene un vector de palabras y otro de etiquetas.
@@ -18,6 +19,7 @@ struct Almacenaje
 
 	std::vector<Etiqueta>			etiquetas;
 	std::vector<Palabra>			palabras;
+	std::vector<Idioma>			idiomas;
 };
 
 }

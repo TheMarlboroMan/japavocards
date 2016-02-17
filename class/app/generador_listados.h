@@ -2,7 +2,13 @@
 #define GENERADOR_LISTADOS_H
 
 #include <video/representacion/representacion_agrupada/representacion_agrupada.h>
+#include <video/representacion/representacion_primitiva/representacion_primitiva_caja/representacion_primitiva_caja.h>
+#include <video/pantalla/pantalla.h>
 #include <class/listado_vertical.h>
+#include <class/menu_opciones.h>
+#include <base/localizador_base.h>
+
+#include <functional>
 
 /**
 * Conjunto de helpers para generar listados verticales. Dejamos el algoritmo en 
@@ -27,6 +33,95 @@ void generar_vista_listado(Herramientas_proyecto::Listado_vertical<T>& listado, 
 		itemp.item.generar_representacion_listado(rep, x_listado, itemp.y + y_listado);
 	}
 }
+
+template<typename T, typename S>
+class Componente_menu
+{
+	public:
+
+	Componente_menu(int xl, int yl, int hi, int hl)
+		:x_listado(xl), y_listado(yl),
+		rep_listado(true),
+		listado(hl, hi)		
+	{
+		rep_listado.no_imponer_alpha();
+	}
+
+	void	crear_menu_opciones(const std::string& ruta, const std::string& clave, const Herramientas_proyecto::Localizador_base& localizador)
+	{
+		using namespace Herramientas_proyecto;
+		menu_opciones_desde_dnot(ruta, clave, menu_opciones, menu_opciones_traducciones);
+		traducir_menu_opciones(localizador);
+	}
+
+	void	traducir_menu_opciones(const Herramientas_proyecto::Localizador_base& localizador)
+	{
+		using namespace Herramientas_proyecto;
+		using traduccion=Menu_opciones<std::string>::struct_traduccion;
+		std::vector<traduccion> trad={};
+		for(const auto& par : menu_opciones_traducciones) trad.push_back({par.first, localizador.obtener(par.second)});
+		menu_opciones.traducir(trad);	
+	}
+
+	void	montar(std::function<void(Herramientas_proyecto::Listado_vertical<T>&, Herramientas_proyecto::Menu_opciones<S>&, const std::vector<S>&)> f)
+	{
+		listado.clear();
+		const auto& v=menu_opciones.obtener_claves();
+		f(listado, menu_opciones, v);
+		regenerar_listado();
+	}
+
+	void	regenerar_listado()
+	{
+		generar_vista_listado(listado, rep_listado, x_listado, y_listado);
+	}
+
+	void	desmontar()
+	{
+		rep_listado.vaciar_grupo();
+	}
+
+	void	volcar(DLibV::Pantalla& p, int ancho_listado, int alto_item_listado)
+	{
+		rep_listado.volcar(p);
+
+		const int y=y_listado+(listado.linea_actual().y);
+		DLibV::Representacion_primitiva_caja seleccion_actual({0, y, ancho_listado, alto_item_listado}, 255, 255, 255);
+		seleccion_actual.establecer_alpha(128);
+		seleccion_actual.volcar(p);
+	}
+
+	void	cambiar_item(int dir)
+	{
+		listado.cambiar_item(dir);
+	}
+
+	T&	item_actual()
+	{
+		return listado.item_actual();
+	}
+
+	const T&	item_actual() const
+	{
+		return listado.item_actual();
+	}
+
+	//Mala praxis, pero bueno.
+	Herramientas_proyecto::Menu_opciones<S>&		menu()
+	{
+		return menu_opciones;
+	}
+
+	private:
+
+	int 							x_listado,
+								y_listado;
+
+	Herramientas_proyecto::Menu_opciones<S>			menu_opciones;
+	std::map<std::string, int>				menu_opciones_traducciones;
+	DLibV::Representacion_agrupada		 		rep_listado;
+	Herramientas_proyecto::Listado_vertical<T>		listado;
+};
 
 }
 

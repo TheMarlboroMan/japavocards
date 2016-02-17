@@ -1,5 +1,4 @@
 En principal:
-	- Añadir menú opciones (tamaño de pantalla principalmente, idioma).
 	- Guardar y cargar información de etiquetas, ejercicio y configuración de la aplicación.
 	- Diseñar interface gráfica.
 	- Diseñar menú principal, sólo cursores y espacio :D!.

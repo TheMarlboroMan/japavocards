@@ -71,7 +71,7 @@ void Director_estados::registrar_controladores(const App::App_config& config)
 	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes, configuracion_ejercicio.acc_direccion()));
 	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
-	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador));
+	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador, base_datos.acc_idiomas()));
 
 	registrar_controlador(t_estados::menu, *controlador_menu);
 	registrar_controlador(t_estados::etiquetas, *controlador_etiquetas);
@@ -152,6 +152,9 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 	{
 		case cambio_etiqueta: 		interpretar_evento(static_cast<const Evento_cambio_etiqueta&>(ev)); break;
 		case cambio_modo_etiqueta: 	interpretar_evento(static_cast<const Evento_cambio_modo_etiqueta&>(ev)); break;
+		case cambio_idioma_interface: 	interpretar_evento(static_cast<const Evento_cambio_idioma_interface&>(ev)); break;
+		case cambio_idioma_diccionario: interpretar_evento(static_cast<const Evento_cambio_idioma_diccionario&>(ev)); break;
+		case cambio_ventana: 		interpretar_evento(static_cast<const Evento_cambio_ventana&>(ev)); break;
 		default:
 			log<<"Un evento del tipo "<<ev.tipo_evento()<<" no ha sido interpretado"<<std::endl;
 		break;
@@ -166,8 +169,32 @@ void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta&
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
 {
-//	selector_etiquetas.ciclar_modo();
+	//TODO: Revisar el código, quizás cambiar aquí la configuración del ejercicio???.
 	//TODO: Guardar la configuración.
 }
 
-//TODO: Faltan eventos por aquí...
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_idioma_interface& ev)
+{
+	log<<"Evento cambio idioma interface "<<ev.idioma<<std::endl;
+	localizador.cambiar_idioma(ev.idioma);
+	//TODO: Guardar la configuración.
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_idioma_diccionario& ev)
+{
+	log<<"Evento cambio idioma diccionario "<<ev.acronimo<<std::endl;
+
+	//TODO: Quitar esto cuando esté guardado en la configuración... Podemos sacar el valor de la config mismo.
+	recargar_base_datos(ev.acronimo);
+
+	//TODO: Guardar la configuración.
+	//TODO: Actuar.
+	//recargar_base_datos(config.acc_idioma_base_datos());
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_ventana& ev)
+{
+	log<<"Evento cambio ventana "<<ev.medidas<<std::endl;
+	//TODO: Actuar.
+	//TODO: Guardar la configuración.
+}

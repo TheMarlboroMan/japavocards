@@ -16,6 +16,7 @@ DEP_CLASES_APP=\
 $(DIR_O)lector.o \
 $(DIR_O)escritor.o \
 $(DIR_O)cli.o \
+$(DIR_O)idioma.o \
 $(DIR_O)datos_bruto.o \
 $(DIR_O)etiqueta.o \
 $(DIR_O)palabra.o \

@@ -63,10 +63,7 @@ class Controlador_configuracion_ejercicio:
 	Configuracion_ejercicio&		configuracion_ejercicio;
 
 	//Propiedades...
-	Herramientas_proyecto::Listado_vertical<item_config_ejercicio>		listado;
-	Herramientas_proyecto::Menu_opciones<std::string>			menu_opciones;
-	std::map<std::string, int>						menu_opciones_traducciones;
-	DLibV::Representacion_agrupada		 				rep_listado;
+	Componente_menu<item_config_ejercicio, std::string>			componente_menu;
 	Herramientas_proyecto::Compositor_vista					vista;
 	float									tiempo_menu;
 

@@ -10,9 +10,17 @@ Extractor::Extractor(const Lector& l, const Idioma& i, DLibH::Log_base& log)
 {
 
 	log<<"Iniciando extracción para idioma "<<idioma.acronimo<<std::endl;
+	procesar_idiomas();
 	procesar_etiquetas();
 	procesar_palabras();
 	limpiar();
+}
+
+void Extractor::procesar_idiomas()
+{
+	const auto& v=lector.acc_idiomas();
+	for(const auto&i : v)
+		almacenaje.idiomas.push_back(Idioma{i->acronimo, i->nombre});
 }
 
 /*

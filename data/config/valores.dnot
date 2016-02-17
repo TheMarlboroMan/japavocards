@@ -37,4 +37,37 @@ config_ejercicio:[
 		min:5,
 		max:250
 	}
+],
+
+config_app:[
+	{
+		c:"01_K_TAM_VENTANA",
+		t:140,
+		m:"templated",
+		mt:"string",
+		o:[
+			{c:"01_K_TAM_VENTANA_O01", v: "800x500", t:141},
+			{c:"01_K_TAM_VENTANA_O02", v: "960x600", t:142},
+			{c:"01_K_TAM_VENTANA_O03", v: "1120x700", t:143},
+			{c:"01_K_TAM_VENTANA_O04", v: "1440x900", t:144},
+			{c:"01_K_TAM_VENTANA_O05", v: "1600x1000", t:145}
+		]
+	},
+	{
+		c:"02_K_IDIOMA_INTERFACE",
+		t:150,
+		m:"templated",
+		mt:"int",
+		o:[
+			{c:"02_K_IDIOMA_O01", v: 0, t:151},
+			{c:"02_K_IDIOMA_O02", v: 1, t:152}
+		]
+	},
+	{
+		c:"03_K_IDIOMA_DICCIONARIO",
+		t:160,
+		m:"templated",
+		mt:"string",
+		o:[]
+	}
 ]
