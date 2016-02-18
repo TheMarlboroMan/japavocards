@@ -68,7 +68,7 @@ class Controlador_etiquetas:
 	};
 
 	//Propiedades...
-	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
+//	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
 	std::vector<list_etiqueta>				list_etiquetas;
 	Herramientas_proyecto::Listado_vertical<list_etiqueta>	listado;
 	DLibV::Representacion_agrupada		 		rep_listado;
