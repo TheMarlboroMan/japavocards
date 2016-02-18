@@ -10,16 +10,21 @@
 #include "../app/eventos/cambio_idioma_diccionario.h"
 #include "../app/eventos/cambio_ventana.h"
 
+#ifdef WINCOMPIL
+/* Localización del parche mingw32... Esto debería estar en otro lado, supongo. */
+#include <herramientas/herramientas/herramientas.h>
+#endif
+
 using namespace App;
 
-Controlador_configuracion_aplicacion::Controlador_configuracion_aplicacion(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, const std::vector<Idioma>& i)
+Controlador_configuracion_aplicacion::Controlador_configuracion_aplicacion(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, const std::vector<Idioma>& i, const App_config& config)
 	:log(l), fuentes(f), localizador(loc), idiomas(i),
 	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado)
 {
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 
-	crear_menu_opciones();
+	crear_menu_opciones(config);
 }
 
 void Controlador_configuracion_aplicacion::preloop(DFramework::Input& input, float delta)
@@ -91,14 +96,23 @@ bool Controlador_configuracion_aplicacion::es_posible_abandonar_estado() const
 
 /////////////////////////////
 
-void Controlador_configuracion_aplicacion::crear_menu_opciones()
+void Controlador_configuracion_aplicacion::crear_menu_opciones(const App_config& config)
 {
 	componente_menu.crear_menu_opciones("data/config/valores.dnot", "config_app", localizador);
 
 	for(const auto& i : idiomas)
 		componente_menu.menu().insertar_seleccion_templated<std::string>("03_K_IDIOMA_DICCIONARIO", i.acronimo, i.nombre, i.acronimo);
 
-	//TODO: Rellenar con valores de usuario.
+#ifdef WINCOMPIL
+using namespace parche_mingw;
+#else
+using namespace std;
+#endif
+
+	const std::string str_ventana=to_string(config.acc_w_fisica_pantalla())+"x"+to_string(config.acc_h_fisica_pantalla());
+	componente_menu.menu().asignar_por_valor_templated<std::string>("01_K_TAM_VENTANA", str_ventana);
+	componente_menu.menu().asignar_por_valor_templated<int>("02_K_IDIOMA_INTERFACE", config.acc_idioma_interface());
+	componente_menu.menu().asignar_por_valor_templated<std::string>("03_K_IDIOMA_DICCIONARIO", config.acc_idioma_base_datos());
 }
 
 void Controlador_configuracion_aplicacion::generar_vista_menu()

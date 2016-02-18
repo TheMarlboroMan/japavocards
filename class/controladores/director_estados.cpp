@@ -17,8 +17,8 @@ Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& 
 
 	cargar_fuentes();
 
+	preparar_configuracion_ejercicio();
 
-//TODO: No está cargando del fichero de configuración la información necesaria...
 	recargar_base_datos(config.acc_idioma_base_datos());
 
 	//Cargar cadenas...
@@ -73,7 +73,7 @@ void Director_estados::registrar_controladores()
 	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes, configuracion_ejercicio.acc_direccion()));
 	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
-	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador, base_datos.acc_idiomas()));
+	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador, base_datos.acc_idiomas(), config));
 
 	registrar_controlador(t_estados::menu, *controlador_menu);
 	registrar_controlador(t_estados::etiquetas, *controlador_etiquetas);
@@ -144,6 +144,14 @@ void Director_estados::cargar_fuentes()
 	fuentes.registrar_fuente("kanas", 32);
 }
 
+void Director_estados::preparar_configuracion_ejercicio()
+{
+	configuracion_ejercicio.mut_limitar_palabras(config.acc_palabras_limitadas());
+	configuracion_ejercicio.mut_palabras(config.acc_palabras());
+	configuracion_ejercicio.mut_direccion(string_a_direccion(config.acc_direccion()));
+	configuracion_ejercicio.mut_modo_etiquetas(string_a_modo_etiquetas(config.acc_modo_etiquetas()));
+}
+
 /********* Eventos ... ********************************************************/
 
 void Director_estados::interpretar_evento(const DFramework::Evento_framework_interface& ev)
@@ -168,8 +176,15 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
 {
+	log<<"Evento cambio etiqueta"<<std::endl;
 	selector_etiquetas.intercambiar(ev.e);	
-	//TODO: Guardar la configuración, se guardarían todas las etiquetas activas, como un array.
+
+	std::vector<std::string> et;
+	auto e=selector_etiquetas.acc_etiquetas();
+	for(const auto& i : e) et.push_back(i->acc_clave());
+
+	config.mut_etiquetas(et);
+	config.grabar();
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
@@ -216,8 +231,8 @@ void Director_estados::interpretar_evento(const Eventos::Evento_cambio_idioma_di
 {
 	log<<"Evento cambio idioma diccionario "<<ev.acronimo<<std::endl;
 	config.mut_idioma_base_datos(ev.acronimo);
-	config.grabar();
 	recargar_base_datos(config.acc_idioma_base_datos());
+	config.grabar();
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_ventana& ev)

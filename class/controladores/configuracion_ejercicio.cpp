@@ -116,7 +116,10 @@ void Controlador_configuracion_ejercicio::crear_menu_opciones()
 {
 	componente_menu.crear_menu_opciones("data/config/valores.dnot", "config_ejercicio", localizador);
 
-	//TODO: asignar valores según configuración de usuario.
+	componente_menu.menu().asignar_por_valor_templated<std::string>("01_K_DIRECCION", direccion_a_string(configuracion_ejercicio.acc_direccion()));
+	componente_menu.menu().asignar_por_valor_templated<std::string>("02_K_MODO_ETIQUETAS", modo_etiquetas_a_string(configuracion_ejercicio.acc_modo_etiquetas()));
+	componente_menu.menu().asignar_por_valor_templated<bool>("03_K_LIMITE_PALABRAS", configuracion_ejercicio.es_palabras_limitadas());
+	componente_menu.menu().asignar_por_valor_int("04_K_NUMERO_PALABRAS", configuracion_ejercicio.acc_palabras());
 }
 
 void Controlador_configuracion_ejercicio::menu_down(item_config_ejercicio& item, int dir, float delta, bool pulsado)

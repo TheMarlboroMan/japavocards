@@ -3,6 +3,8 @@
 
 #include "../../framework/configuracion_base.h"
 
+#include <iostream>
+
 namespace App
 {
 
@@ -24,6 +26,7 @@ class App_config:
 	int acc_h_logica_pantalla() const {return token_por_ruta(CLAVE_H_LOGICA_PANTALLA);}
 	int acc_w_fisica_pantalla() const {return token_por_ruta(CLAVE_W_FISICA_PANTALLA);}
 	int acc_h_fisica_pantalla() const {return token_por_ruta(CLAVE_H_FISICA_PANTALLA);}
+	std::vector<std::string> acc_etiquetas() const;
 
 	void mut_palabras_limitadas(bool p_valor) {configurar(CLAVE_PALABRAS_LIMITADAS, p_valor);}
 	void mut_palabras(int p_valor) {configurar(CLAVE_PALABRAS, p_valor);}
@@ -35,6 +38,7 @@ class App_config:
 	void mut_h_logica_pantalla(int p_valor) {configurar(CLAVE_H_LOGICA_PANTALLA, p_valor);}
 	void mut_w_fisica_pantalla(int p_valor) {configurar(CLAVE_W_FISICA_PANTALLA, p_valor);}
 	void mut_h_fisica_pantalla(int p_valor) {configurar(CLAVE_H_FISICA_PANTALLA, p_valor);}
+	void mut_etiquetas(const std::vector<std::string>&);
 
 	App_config();
 
@@ -53,17 +57,7 @@ class App_config:
 	static const std::string CLAVE_DIRECCION;
 	static const std::string CLAVE_PALABRAS;
 	static const std::string CLAVE_PALABRAS_LIMITADAS;
-
-	static const int IDIOMA_INTERFACE;
-	static const bool PALABRAS_LIMITADAS;
-	static const int PALABRAS;
-	static const std::string IDIOMA_BASE_DATOS;
-	static const int W_FISICA_PANTALLA;
-	static const int H_FISICA_PANTALLA;
-	static const int W_LOGICA_PANTALLA;
-	static const int H_LOGICA_PANTALLA;
-	static const std::string MODO_ETIQUETAS;
-	static const std::string DIRECCION;
+	static const std::string CLAVE_ETIQUETAS;
 
 	////////////////////////////////////
 	// Implementacion...

@@ -10,6 +10,8 @@
 
 #include "../framework/controlador_interface.h"
 
+#include "../app/framework_impl/app_config.h"
+
 #include "../app/generador_listados.h"
 #include "../app/fuentes.h"
 #include "../app/idioma.h"
@@ -23,7 +25,7 @@ class Controlador_configuracion_aplicacion:
 {
 	public:
 
-					Controlador_configuracion_aplicacion(DLibH::Log_base&, const Fuentes&, const Localizador&, const std::vector<Idioma>&);
+					Controlador_configuracion_aplicacion(DLibH::Log_base&, const Fuentes&, const Localizador&, const std::vector<Idioma>&, const App_config&);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -46,7 +48,7 @@ class Controlador_configuracion_aplicacion:
 		{}
 	};
 
-	void				crear_menu_opciones();
+	void				crear_menu_opciones(const App_config&);
 	void				generar_vista_menu();
 	void				menu_down(item_config_app&, int, float);
 

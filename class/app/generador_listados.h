@@ -34,6 +34,12 @@ void generar_vista_listado(Herramientas_proyecto::Listado_vertical<T>& listado, 
 	}
 }
 
+/**
+* Template que genera un menú de opciones. En un principio preparado para menús
+* de opciones alimentados por un dnot, pero se podría usar para crear menús
+* de opciones manuales.
+*/
+
 template<typename T, typename S>
 class Componente_menu
 {

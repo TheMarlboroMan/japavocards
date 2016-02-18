@@ -10,6 +10,8 @@
 
 #include "../framework/controlador_interface.h"
 
+#include "../app/framework_impl/app_config.h"
+
 #include "../app/generador_listados.h"
 #include "../app/fuentes.h"
 #include "../app/configuracion_ejercicio.h"

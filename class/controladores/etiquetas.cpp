@@ -31,6 +31,9 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 
 	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), &e));
 
+//TODO: a partir del listado de etiquetas crear un menú de templates bool usando las propias claves de las etiquetas.
+//ese menú es el que luego podremos ir usando.
+
 	refrescar_listado();
 }
 

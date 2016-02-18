@@ -15,8 +15,9 @@ try
 	:token(Herramientas_proyecto::parsear_dnot(ruta)),
 	ruta_fichero(ruta)
 {
-	
+
 }
+
 catch(std::runtime_error& e)
 {
 	throw Configuracion_base_no_fichero_exception(e.what());
