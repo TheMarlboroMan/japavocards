@@ -31,8 +31,14 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 
 	for(const auto& e : ve) list_etiquetas.push_back(list_etiqueta(fuentes.obtener_fuente("akashi", 20), &e));
 
+/*
+	for(const auto& e : ve)
+	{
+		componente_menu.menu().insertar_opcion_bool(e.acc_clave(), e.acc_nombre(), true | false);
+	}
 //TODO: a partir del listado de etiquetas crear un menú de templates bool usando las propias claves de las etiquetas.
 //ese menú es el que luego podremos ir usando.
+*/
 
 	refrescar_listado();
 }

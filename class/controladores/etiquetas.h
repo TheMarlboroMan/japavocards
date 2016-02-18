@@ -56,7 +56,19 @@ class Controlador_etiquetas:
 	DLibH::Log_base&					log;
 	const Fuentes&						fuentes;
 
+	struct item_config_etiqueta:public Listable
+	{
+		const Fuentes& 		fuentes;
+		std::string 		clave, texto;
+		virtual void 		generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
+
+		item_config_etiqueta(const Fuentes& f, const std::string& k, const std::string& t):
+			fuentes(f), clave(k), texto(t)
+		{}
+	};
+
 	//Propiedades...
+	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
 	std::vector<list_etiqueta>				list_etiquetas;
 	Herramientas_proyecto::Listado_vertical<list_etiqueta>	listado;
 	DLibV::Representacion_agrupada		 		rep_listado;
