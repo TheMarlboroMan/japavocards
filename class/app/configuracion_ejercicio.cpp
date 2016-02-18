@@ -19,31 +19,6 @@ Configuracion_ejercicio::Configuracion_ejercicio()
 
 }
 
-void Configuracion_ejercicio::sumar_palabras()
-{
-	if(palabras+1 <= max_palabras) ++palabras;
-}
-
-void Configuracion_ejercicio::restar_palabras()
-{
-	if(palabras-1 >= min_palabras) --palabras;
-}
-
-void Configuracion_ejercicio::ciclar_direccion()
-{
-	App::ciclar_direccion(direccion);
-}
-
-void Configuracion_ejercicio::ciclar_modo_etiquetas()
-{
-	App::ciclar_modo_etiquetas(modo_etiquetas);
-}
-
-void Configuracion_ejercicio::intercambiar_palabras_limitadas()
-{
-	palabras_limitadas=!palabras_limitadas;
-}
-
 void App::ciclar_direccion(Configuracion_ejercicio::direcciones& d)
 {
 	switch(d)
@@ -64,13 +39,25 @@ int App::localizar_direccion(Configuracion_ejercicio::direcciones d)
 	return 0;
 }
 
-void App::ciclar_modo_etiquetas(Configuracion_ejercicio::modos_etiquetas& m)
+void App::ciclar_modo_etiquetas(Configuracion_ejercicio::modos_etiquetas& m, int dir)
 {
-	switch(m)
+	if(dir > 0)
 	{
-		case Configuracion_ejercicio::modos_etiquetas::todas:		m=Configuracion_ejercicio::modos_etiquetas::etiquetadas; break;
-		case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	m=Configuracion_ejercicio::modos_etiquetas::sin_etiquetar; break;
-		case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	m=Configuracion_ejercicio::modos_etiquetas::todas; break;
+		switch(m)
+		{
+			case Configuracion_ejercicio::modos_etiquetas::todas:		m=Configuracion_ejercicio::modos_etiquetas::etiquetadas; break;
+			case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	m=Configuracion_ejercicio::modos_etiquetas::sin_etiquetar; break;
+			case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	m=Configuracion_ejercicio::modos_etiquetas::todas; break;
+		}
+	}
+	else
+	{
+		switch(m)
+		{
+			case Configuracion_ejercicio::modos_etiquetas::todas:		m=Configuracion_ejercicio::modos_etiquetas::sin_etiquetar; break;
+			case Configuracion_ejercicio::modos_etiquetas::etiquetadas:	m=Configuracion_ejercicio::modos_etiquetas::todas; break;
+			case Configuracion_ejercicio::modos_etiquetas::sin_etiquetar:	m=Configuracion_ejercicio::modos_etiquetas::etiquetadas; break;
+		}
 	}
 }
 
@@ -120,4 +107,12 @@ Configuracion_ejercicio::modos_etiquetas App::string_a_modo_etiquetas(const std:
 	if(c==str_todas) return Configuracion_ejercicio::modos_etiquetas::todas;
 	else if(c==str_etiquetadas) return Configuracion_ejercicio::modos_etiquetas::etiquetadas;
 	else return Configuracion_ejercicio::modos_etiquetas::sin_etiquetar;
+}
+
+void App::cambiar_cantidad_palabras(int& palabras, int dir)
+{
+	palabras+=dir;
+
+	if(palabras > Configuracion_ejercicio::max_palabras) palabras=Configuracion_ejercicio::max_palabras;
+	else if(palabras < Configuracion_ejercicio::min_palabras) palabras=Configuracion_ejercicio::min_palabras;
 }

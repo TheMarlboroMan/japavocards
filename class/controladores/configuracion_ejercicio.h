@@ -30,7 +30,7 @@ class Controlador_configuracion_ejercicio:
 {
 	public:
 
-					Controlador_configuracion_ejercicio(DLibH::Log_base&, const Fuentes&, const Localizador&, Configuracion_ejercicio& c);
+					Controlador_configuracion_ejercicio(DLibH::Log_base&, const Fuentes&, const Localizador&, const Configuracion_ejercicio& c);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -60,7 +60,7 @@ class Controlador_configuracion_ejercicio:
 	DLibH::Log_base&			log;
 	const Fuentes&				fuentes;
 	const Localizador&			localizador;
-	Configuracion_ejercicio&		configuracion_ejercicio;
+	const Configuracion_ejercicio&		configuracion_ejercicio;
 
 	//Propiedades...
 	Componente_menu<item_config_ejercicio, std::string>			componente_menu;

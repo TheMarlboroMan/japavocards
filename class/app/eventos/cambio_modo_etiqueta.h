@@ -3,6 +3,7 @@
 
 #include "definiciones.h"
 #include "../../framework/eventos.h"
+#include "../configuracion_ejercicio.h"
 
 namespace App
 {
@@ -10,13 +11,12 @@ namespace App
 namespace Eventos
 {
 
-// No es necesario que lleve información de ningún tipo.
-
 struct Evento_cambio_modo_etiqueta:
 	public DFramework::Evento_framework_interface
 {
+	Configuracion_ejercicio::modos_etiquetas	modo;
 	virtual int		tipo_evento() const {return cambio_modo_etiqueta;}
-				Evento_cambio_modo_etiqueta(){}
+				Evento_cambio_modo_etiqueta(Configuracion_ejercicio::modos_etiquetas m):modo(m){}
 };
 
 

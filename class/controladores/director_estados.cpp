@@ -7,28 +7,30 @@ using namespace App;
 
 extern DLibH::Log_base LOG;
 
-Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& config, DLibH::Log_base& log)
+Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& c, DLibH::Log_base& log)
 	:Director_estados_interface(t_estados::menu, std::function<bool(int)>([](int v){return v >= menu && v < max_estados;})),
-	log(log),
+	config(c), log(log),
 	localizador("data/localizacion/app"),
 	base_datos(log)
 {
-	preparar_video(kernel, config);
+	preparar_video(kernel);
 
 	cargar_fuentes();
 
+
+//TODO: No está cargando del fichero de configuración la información necesaria...
 	recargar_base_datos(config.acc_idioma_base_datos());
 
 	//Cargar cadenas...
 	localizador.inicializar(config.acc_idioma_interface());
 
 	//Registrar controladores.
-	registrar_controladores(config);
+	registrar_controladores();
 
 	preparar_palabras();
 }
 
-void Director_estados::preparar_video(DFramework::Kernel& kernel, App::App_config& config)
+void Director_estados::preparar_video(DFramework::Kernel& kernel)
 {
 	auto& pantalla=kernel.acc_pantalla();
 
@@ -62,7 +64,7 @@ void Director_estados::recargar_base_datos(const std::string& acronimo)
 	}
 }
 
-void Director_estados::registrar_controladores(const App::App_config& config)
+void Director_estados::registrar_controladores()
 {
 	//Loool.
 	registrar_interprete_eventos(*this);
@@ -151,10 +153,13 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 	switch(ev.tipo_evento())
 	{
 		case cambio_etiqueta: 		interpretar_evento(static_cast<const Evento_cambio_etiqueta&>(ev)); break;
+		case cambio_direccion: 		interpretar_evento(static_cast<const Evento_cambio_direccion&>(ev)); break;
 		case cambio_modo_etiqueta: 	interpretar_evento(static_cast<const Evento_cambio_modo_etiqueta&>(ev)); break;
 		case cambio_idioma_interface: 	interpretar_evento(static_cast<const Evento_cambio_idioma_interface&>(ev)); break;
 		case cambio_idioma_diccionario: interpretar_evento(static_cast<const Evento_cambio_idioma_diccionario&>(ev)); break;
 		case cambio_ventana: 		interpretar_evento(static_cast<const Evento_cambio_ventana&>(ev)); break;
+		case cambio_palabras: 		interpretar_evento(static_cast<const Evento_cambio_palabras&>(ev)); break;
+		case cambio_limitar_palabras: 	interpretar_evento(static_cast<const Evento_cambio_limitar_palabras&>(ev)); break;
 		default:
 			log<<"Un evento del tipo "<<ev.tipo_evento()<<" no ha sido interpretado"<<std::endl;
 		break;
@@ -163,38 +168,66 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
 {
-	selector_etiquetas.intercambiar(ev.e);
-	//TODO: Guardar la configuración.
+	selector_etiquetas.intercambiar(ev.e);	
+	//TODO: Guardar la configuración, se guardarían todas las etiquetas activas, como un array.
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
 {
-	//TODO: Revisar el código, quizás cambiar aquí la configuración del ejercicio???.
-	//TODO: Guardar la configuración.
+	log<<"Evento cambio modo etiquetas"<<std::endl;
+	configuracion_ejercicio.mut_modo_etiquetas(ev.modo);
+	config.mut_modo_etiquetas(modo_etiquetas_a_string(configuracion_ejercicio.acc_modo_etiquetas()));
+	config.grabar();
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_palabras& ev)
+{
+	log<<"Evento cambio palabras "<<ev.palabras<<std::endl;
+	configuracion_ejercicio.mut_palabras(ev.palabras);
+	config.mut_palabras(ev.palabras);
+	config.grabar();
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_limitar_palabras& ev)
+{
+	log<<"Evento cambio limitar palabras "<<ev.limitar<<std::endl;
+	configuracion_ejercicio.mut_limitar_palabras(ev.limitar);
+	config.mut_palabras_limitadas(ev.limitar);
+	config.grabar();
+}
+
+void Director_estados::interpretar_evento(const Eventos::Evento_cambio_direccion& ev)
+{
+	log<<"Evento cambio direccion"<<std::endl;
+	configuracion_ejercicio.mut_direccion(ev.direccion);
+	config.mut_direccion(direccion_a_string(configuracion_ejercicio.acc_direccion()));
+	config.grabar();
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_idioma_interface& ev)
 {
 	log<<"Evento cambio idioma interface "<<ev.idioma<<std::endl;
 	localizador.cambiar_idioma(ev.idioma);
-	//TODO: Guardar la configuración.
+	config.mut_idioma_interface(ev.idioma);
+	config.grabar();
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_idioma_diccionario& ev)
 {
 	log<<"Evento cambio idioma diccionario "<<ev.acronimo<<std::endl;
-
-	//TODO: Quitar esto cuando esté guardado en la configuración... Podemos sacar el valor de la config mismo.
-	recargar_base_datos(ev.acronimo);
-
-	//TODO: Guardar la configuración.
-	//TODO: Actuar.
-	//recargar_base_datos(config.acc_idioma_base_datos());
+	config.mut_idioma_base_datos(ev.acronimo);
+	config.grabar();
+	recargar_base_datos(config.acc_idioma_base_datos());
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_ventana& ev)
 {
 	log<<"Evento cambio ventana "<<ev.medidas<<std::endl;
-	//TODO: Actuar.
-	//TODO: Guardar la configuración.
+
+	auto partes=Herramientas_proyecto::explotar(ev.medidas, 'x');
+	if(partes.size() != 2) throw std::runtime_error("Las medidas "+ev.medidas+" no son válidas");
+
+	config.mut_w_fisica_pantalla(std::stoi(partes[0]));
+	config.mut_h_fisica_pantalla(std::stoi(partes[1]));
+	config.grabar();
 }

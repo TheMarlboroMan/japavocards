@@ -6,10 +6,14 @@
 
 #include "../app/framework_impl/input.h"
 #include "../app/localizacion.h"
+#include "../app/eventos/cambio_modo_etiqueta.h"
+#include "../app/eventos/cambio_direccion.h"
+#include "../app/eventos/cambio_palabras.h"
+#include "../app/eventos/cambio_limitar_palabras.h"
 
 using namespace App;
 
-Controlador_configuracion_ejercicio::Controlador_configuracion_ejercicio(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, Configuracion_ejercicio& c)
+Controlador_configuracion_ejercicio::Controlador_configuracion_ejercicio(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, const Configuracion_ejercicio& c)
 	:log(l), fuentes(f), localizador(loc), configuracion_ejercicio(c),
 	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado),
 	tiempo_menu(0.0f)
@@ -122,20 +126,29 @@ void Controlador_configuracion_ejercicio::menu_down(item_config_ejercicio& item,
 	if(clave=="01_K_DIRECCION")
 	{
 		if(pulsado) return;
-		configuracion_ejercicio.ciclar_direccion();
-		componente_menu.menu().asignar_por_valor_templated<std::string>(clave, direccion_a_string(configuracion_ejercicio.acc_direccion()));
+		auto direccion=configuracion_ejercicio.acc_direccion();
+		ciclar_direccion(direccion);
+		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_direccion(direccion));
+		enviar_evento(ev);
+		componente_menu.menu().asignar_por_valor_templated<std::string>(clave, direccion_a_string(direccion));
 	}
 	else if(clave=="02_K_MODO_ETIQUETAS")
 	{
 		if(pulsado) return;
-		configuracion_ejercicio.ciclar_modo_etiquetas();
-		componente_menu.menu().asignar_por_valor_templated<std::string>(clave, modo_etiquetas_a_string(configuracion_ejercicio.acc_modo_etiquetas()));
+
+		auto modo=configuracion_ejercicio.acc_modo_etiquetas();
+		ciclar_modo_etiquetas(modo, dir);
+		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_modo_etiqueta(modo));
+		enviar_evento(ev);
+		componente_menu.menu().asignar_por_valor_templated<std::string>(clave, modo_etiquetas_a_string(modo));
 	}
 	else if(clave=="03_K_LIMITE_PALABRAS")
 	{
 		if(pulsado) return;
-		configuracion_ejercicio.intercambiar_palabras_limitadas();
-		componente_menu.menu().asignar_por_valor_templated<bool>(clave, configuracion_ejercicio.es_palabras_limitadas());
+		bool limitadas=!configuracion_ejercicio.es_palabras_limitadas();
+		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_limitar_palabras(limitadas));
+		enviar_evento(ev);
+		componente_menu.menu().asignar_por_valor_templated<bool>(clave, limitadas);
 	}
 	else if(clave=="04_K_NUMERO_PALABRAS")
 	{
@@ -144,11 +157,12 @@ void Controlador_configuracion_ejercicio::menu_down(item_config_ejercicio& item,
 			tiempo_menu+=delta;
 			return;
 		}
-		
-		if(dir > 0) configuracion_ejercicio.sumar_palabras();
-		else configuracion_ejercicio.restar_palabras();
 
-		componente_menu.menu().asignar_por_valor_int(clave, configuracion_ejercicio.acc_palabras());
+		int palabras=configuracion_ejercicio.acc_palabras();
+		cambiar_cantidad_palabras(palabras, dir);
+		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_palabras(palabras));
+		enviar_evento(ev);
+		componente_menu.menu().asignar_por_valor_int(clave, palabras);
 	}
 
 	item.texto=componente_menu.menu().nombre_opcion(clave)+" : "+componente_menu.menu().nombre_seleccion(clave);

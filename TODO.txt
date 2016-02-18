@@ -1,5 +1,6 @@
 En principal:
-	- Guardar y cargar información de etiquetas, ejercicio y configuración de la aplicación.
+	- Revisar porqué la config parece que no carga nada.
+	- Cargar información de etiquetas, ejercicio y configuración de la aplicación.
 	- Diseñar interface gráfica.
 	- Diseñar menú principal, sólo cursores y espacio :D!.
 	- Añadir un modo "juego" en el que tengas que votar si has acertado o no :D.

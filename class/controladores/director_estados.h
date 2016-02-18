@@ -27,10 +27,13 @@
 
 #include "../app/eventos/definiciones.h"
 #include "../app/eventos/cambio_etiqueta.h"
+#include "../app/eventos/cambio_direccion.h"
 #include "../app/eventos/cambio_modo_etiqueta.h"
 #include "../app/eventos/cambio_idioma_interface.h"
 #include "../app/eventos/cambio_idioma_diccionario.h"
 #include "../app/eventos/cambio_ventana.h"
+#include "../app/eventos/cambio_palabras.h"
+#include "../app/eventos/cambio_limitar_palabras.h"
 
 /*
 * El director de estados es la aplicación: los recursos externos al Kernel
@@ -56,11 +59,11 @@ class Director_estados:
 
 	private:
 
-	void						preparar_video(DFramework::Kernel& kernel, App::App_config& config);
+	void						preparar_video(DFramework::Kernel& kernel);
 	void						cargar_fuentes();
 	void						preparar_palabras();
 	void						recargar_base_datos(const std::string&);
-	void						registrar_controladores(const App::App_config& config);
+	void						registrar_controladores();
 
 	//Eventos...
 	void						interpretar_evento(const Eventos::Evento_cambio_etiqueta&);
@@ -68,7 +71,11 @@ class Director_estados:
 	void						interpretar_evento(const Eventos::Evento_cambio_idioma_interface&);
 	void						interpretar_evento(const Eventos::Evento_cambio_idioma_diccionario&);
 	void						interpretar_evento(const Eventos::Evento_cambio_ventana&);
+	void						interpretar_evento(const Eventos::Evento_cambio_direccion&);
+	void						interpretar_evento(const Eventos::Evento_cambio_palabras&);
+	void						interpretar_evento(const Eventos::Evento_cambio_limitar_palabras&);
 
+	App::App_config					config;
 	DLibH::Log_base&				log;
 
 	std::unique_ptr<Controlador_menu>		controlador_menu;
