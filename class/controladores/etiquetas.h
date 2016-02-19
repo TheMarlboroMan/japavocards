@@ -38,6 +38,7 @@ class Controlador_etiquetas:
 
 	void							crear_menu_opciones(const std::vector<Etiqueta>&, const std::vector<std::string>&);
 	void							generar_vista_menu();
+	std::string						valor_para_opcion(const std::string& clave);
 
 	//Referencias...
 	DLibH::Log_base&					log;

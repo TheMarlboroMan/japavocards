@@ -26,7 +26,7 @@ std::vector<std::string> Kernel_config::obtener_entradas_superficies() const
 
 DFramework::Info_ventana Kernel_config::obtener_info_ventana() const
 {
-	return DFramework::Info_ventana{800, 600, 800, 600, "JapaVoCards :D!!!", false};
+	return DFramework::Info_ventana{600, 200, 600, 200, "JapaVoCards :D!!!", true};
 }
 
 std::vector<DFramework::Par_input> Kernel_config::obtener_pares_input() const

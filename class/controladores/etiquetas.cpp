@@ -26,7 +26,6 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 
 	//Preparar listado...
-//TODO	listado.mut_margen_h(margen_y);
 	crear_menu_opciones(ve, etiquetas_seleccionadas);
 }
 
@@ -61,9 +60,7 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 		componente_menu.menu().rotar_opcion(clave, 1);
 
 		//Refrescar vista de menú...
-		//TODO: Función única para esto...
-		std::string txt=componente_menu.menu().nombre_opcion(clave)+" : "+std::to_string(componente_menu.menu().valor_bool(clave));
-		item.texto=txt;
+		item.texto=valor_para_opcion(clave);
 		componente_menu.regenerar_listado();
 
 		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(clave));
@@ -118,13 +115,18 @@ void Controlador_etiquetas::generar_vista_menu()
 	{
 		for(const auto& clave : v) 
 		{
-			//TODO: Función única para esto.
-			std::string txt=componente_menu.menu().nombre_opcion(clave)+" : "+std::to_string(componente_menu.menu().valor_bool(clave));
-			l.insertar({fuentes, clave, txt});
+			l.insertar({fuentes, clave, valor_para_opcion(clave)});
 		}
 	};
 	
 	componente_menu.montar(f);
+}
+
+std::string Controlador_etiquetas::valor_para_opcion(const std::string& clave)
+{
+	std::string txt=componente_menu.menu().valor_bool(clave) ? "[*] - " : "[ ] - ";
+	txt+=componente_menu.menu().nombre_opcion(clave);
+	return txt;
 }
 
 //Un detalle muy importante es que el item_config_etiqueta no tiene acceso de

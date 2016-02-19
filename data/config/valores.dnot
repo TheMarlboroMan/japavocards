@@ -46,11 +46,11 @@ config_app:[
 		m:"templated",
 		mt:"string",
 		o:[
-			{c:"01_K_TAM_VENTANA_O01", v: "800x500", t:141},
-			{c:"01_K_TAM_VENTANA_O02", v: "960x600", t:142},
-			{c:"01_K_TAM_VENTANA_O03", v: "1120x700", t:143},
-			{c:"01_K_TAM_VENTANA_O04", v: "1440x900", t:144},
-			{c:"01_K_TAM_VENTANA_O05", v: "1600x1000", t:145}
+			{c:"01_K_TAM_VENTANA_O01", v: "600x200", t:141},
+			{c:"01_K_TAM_VENTANA_O02", v: "680x300", t:142},
+			{c:"01_K_TAM_VENTANA_O03", v: "760x400", t:143},
+			{c:"01_K_TAM_VENTANA_O04", v: "840x500", t:144},
+			{c:"01_K_TAM_VENTANA_O05", v: "920x600", t:145}
 		]
 	},
 	{
