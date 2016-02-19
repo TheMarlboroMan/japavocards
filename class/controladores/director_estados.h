@@ -65,6 +65,7 @@ class Director_estados:
 	void						recargar_base_datos(const std::string&);
 	void						registrar_controladores();
 	void						preparar_configuracion_ejercicio();
+	void						preparar_configuracion_etiquetas();
 
 	//Eventos...
 	void						interpretar_evento(const Eventos::Evento_cambio_etiqueta&);

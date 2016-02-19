@@ -19,26 +19,12 @@
 namespace App
 {
 
-struct list_etiqueta
-	:public Listable
-{
-
-	bool 				seleccionado;
-	const DLibV::Fuente_TTF&	fuente;
-	Etiqueta const *		etiqueta;
-
-					list_etiqueta(const DLibV::Fuente_TTF& f, Etiqueta const * e);
-	bool				operator<(const list_etiqueta& o);
-	void				intercambiar();
-	void 				generar_representacion_listado(DLibV::Representacion_agrupada& rep, int x, int y) const;
-};
-
 class Controlador_etiquetas:
 	public DFramework::Controlador_interface
 {
 	public:
 
-					Controlador_etiquetas(DLibH::Log_base&, const Fuentes&, const std::vector<Etiqueta>&);
+					Controlador_etiquetas(DLibH::Log_base&, const Fuentes&, const std::vector<Etiqueta>&, const std::vector<std::string>&);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -50,7 +36,8 @@ class Controlador_etiquetas:
 
 	private:
 
-	void							refrescar_listado();
+	void							crear_menu_opciones(const std::vector<Etiqueta>&, const std::vector<std::string>&);
+	void							generar_vista_menu();
 
 	//Referencias...
 	DLibH::Log_base&					log;
@@ -68,10 +55,7 @@ class Controlador_etiquetas:
 	};
 
 	//Propiedades...
-//	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
-	std::vector<list_etiqueta>				list_etiquetas;
-	Herramientas_proyecto::Listado_vertical<list_etiqueta>	listado;
-	DLibV::Representacion_agrupada		 		rep_listado;
+	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
 	Herramientas_proyecto::Compositor_vista			vista;
 
 	//Constantes...

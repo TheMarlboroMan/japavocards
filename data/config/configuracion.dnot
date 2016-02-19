@@ -1,6 +1,8 @@
 config:{
 	app:{
-		direccion:"desde_japones", idioma:"EN", idioma_interface:1, modo_etiquetas:"todas", palabras:10, palabras_limitadas:true
+		direccion:"desde_japones", etiquetas:[
+			"iro"
+		], idioma:"EN", idioma_interface:1, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:true
 	}, audio:{
 		audio_buffers:1024, audio_canales:1, audio_ratio:44100, audio_salidas:0, volumen_audio:64, volumen_musica:64
 	}, meta:{

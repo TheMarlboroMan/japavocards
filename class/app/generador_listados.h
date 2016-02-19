@@ -69,6 +69,11 @@ class Componente_menu
 		menu_opciones.traducir(trad);	
 	}
 
+	//La función recibe una función sin valor de retorno. Sus valores de
+	//entrada son un listado vertical del tipo T, el menú de opciones
+	//subyacente y un vector de claves del menú. Se espera que ese vector
+	//se use para rellenar el listado.
+
 	void	montar(std::function<void(Herramientas_proyecto::Listado_vertical<T>&, Herramientas_proyecto::Menu_opciones<S>&, const std::vector<S>&)> f)
 	{
 		listado.clear();
@@ -97,9 +102,9 @@ class Componente_menu
 		seleccion_actual.volcar(p);
 	}
 
-	void	cambiar_item(int dir)
+	bool	cambiar_item(int dir)
 	{
-		listado.cambiar_item(dir);
+		return listado.cambiar_item(dir);
 	}
 
 	T&	item_actual()

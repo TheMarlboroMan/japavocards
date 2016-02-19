@@ -17,9 +17,11 @@ Director_estados::Director_estados(DFramework::Kernel& kernel, App::App_config& 
 
 	cargar_fuentes();
 
+	recargar_base_datos(config.acc_idioma_base_datos());
+
 	preparar_configuracion_ejercicio();
 
-	recargar_base_datos(config.acc_idioma_base_datos());
+	preparar_configuracion_etiquetas();
 
 	//Cargar cadenas...
 	localizador.inicializar(config.acc_idioma_interface());
@@ -70,7 +72,7 @@ void Director_estados::registrar_controladores()
 	registrar_interprete_eventos(*this);
 
 	controlador_menu.reset(new Controlador_menu(log, fuentes));
-	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas()));
+	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas(), config.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes, configuracion_ejercicio.acc_direccion()));
 	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
 	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador, base_datos.acc_idiomas(), config));
@@ -152,6 +154,23 @@ void Director_estados::preparar_configuracion_ejercicio()
 	configuracion_ejercicio.mut_modo_etiquetas(string_a_modo_etiquetas(config.acc_modo_etiquetas()));
 }
 
+void Director_estados::preparar_configuracion_etiquetas()
+{
+	auto v=config.acc_etiquetas();
+
+	for(const auto& s : v)
+	{
+		try	
+		{
+			selector_etiquetas.intercambiar(base_datos.etiqueta_por_clave(s));	
+		}
+		catch(std::exception& e)
+		{
+			log<<"Imposible preparar etiqueta: "<<e.what()<<std::endl;
+		}
+	}
+}
+
 /********* Eventos ... ********************************************************/
 
 void Director_estados::interpretar_evento(const DFramework::Evento_framework_interface& ev)
@@ -176,15 +195,23 @@ void Director_estados::interpretar_evento(const DFramework::Evento_framework_int
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_etiqueta& ev)
 {
-	log<<"Evento cambio etiqueta"<<std::endl;
-	selector_etiquetas.intercambiar(ev.e);	
+	log<<"Evento cambio etiqueta "<<ev.clave<<std::endl;
 
-	std::vector<std::string> et;
-	auto e=selector_etiquetas.acc_etiquetas();
-	for(const auto& i : e) et.push_back(i->acc_clave());
+	try
+	{
+		selector_etiquetas.intercambiar(base_datos.etiqueta_por_clave(ev.clave));	
+		std::vector<std::string> et;
 
-	config.mut_etiquetas(et);
-	config.grabar();
+		auto e=selector_etiquetas.acc_etiquetas();
+		for(const auto& i : e) et.push_back(i->acc_clave());
+
+		config.mut_etiquetas(et);
+		config.grabar();
+	}
+	catch(std::exception& e)
+	{
+		log<<"Imposible cambiar etiqueta: "<<e.what()<<std::endl;
+	}
 }
 
 void Director_estados::interpretar_evento(const Eventos::Evento_cambio_modo_etiqueta& ev)
