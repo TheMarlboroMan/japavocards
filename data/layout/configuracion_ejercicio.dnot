@@ -1,7 +1,8 @@
 layout:
 [
 	{
-		tipo:"pantalla", 
-		rgba:[0, 32, 32, 255]
-	}
+		tipo:"bitmap",
+		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
+		textura:"background"
+	},
 ]

@@ -1,13 +1,13 @@
 config:{
 	app:{
 		direccion:"desde_japones", etiquetas:[
-			"aisatsu"
-		], idioma:"ES", idioma_interface:0, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:false
+			
+		], idioma:"EN", idioma_interface:0, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:false
 	}, audio:{
 		audio_buffers:1024, audio_canales:1, audio_ratio:44100, audio_salidas:0, volumen_audio:64, volumen_musica:64
 	}, meta:{
 		v:1
 	}, video:{
-		doble_buffer:1, h_fisica_ventana:200, h_logica_ventana:200, modo_hardware:1, modo_pantalla:0, pantalla_anyformat:1, w_fisica_ventana:600, w_logica_ventana:600 
+		doble_buffer:1, h_fisica_ventana:200, h_logica_ventana:200, modo_hardware:1, modo_pantalla:0, pantalla_anyformat:1, w_fisica_ventana:600, w_logica_ventana:600
 	}
 }

@@ -1,7 +1,15 @@
 layout:
 [
 	{
-		tipo:"pantalla", 
-		rgba:[0, 32, 0, 255]
-	}
+		tipo:"bitmap",
+		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
+		textura:"background"
+	},
+	{
+		tipo:"ttf",
+		pos:[500, 16],
+		texto:"---",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_pagina"
+	},
 ]

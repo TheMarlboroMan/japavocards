@@ -1,33 +1,34 @@
 layout:
 [
 	{
-		tipo:"pantalla", 
-		rgba:[32, 32, 32, 255]
+		tipo:"bitmap",
+		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
+		textura:"background"
 	},
 	{
 		tipo:"ttf",
-		pos:[16, 16],
+		pos:[16, 48],
 		texto:"---",
 		fuente:"kanas32", rgba:[255, 255, 255, 255], 
 		id:"txt_japones"
 	},
 	{
 		tipo:"ttf",
-		pos:[16, 64],
+		pos:[16, 96],
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_romaji"
 	},
 	{
 		tipo:"ttf",
-		pos:[16, 96],
+		pos:[16, 140],
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_traduccion"
 	},
 	{
 		tipo:"ttf",
-		pos:[400, 16],
+		pos:[500, 16],
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_cuenta"

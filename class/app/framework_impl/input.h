@@ -12,7 +12,9 @@ aceptar,
 izquierda,
 derecha,
 arriba,
-abajo
+abajo,
+pag_siguiente,
+pag_anterior
 };
 
 };

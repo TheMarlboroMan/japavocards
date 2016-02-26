@@ -39,7 +39,9 @@ std::vector<DFramework::Par_input> Kernel_config::obtener_pares_input() const
 		Par_input{Par_input::tipos::teclado, Input::izquierda, SDL_SCANCODE_LEFT},
 		Par_input{Par_input::tipos::teclado, Input::derecha, SDL_SCANCODE_RIGHT},
 		Par_input{Par_input::tipos::teclado, Input::arriba, SDL_SCANCODE_UP},
-		Par_input{Par_input::tipos::teclado, Input::abajo, SDL_SCANCODE_DOWN}};
+		Par_input{Par_input::tipos::teclado, Input::abajo, SDL_SCANCODE_DOWN},
+		Par_input{Par_input::tipos::teclado, Input::pag_siguiente, SDL_SCANCODE_PAGEDOWN},
+		Par_input{Par_input::tipos::teclado, Input::pag_anterior, SDL_SCANCODE_PAGEUP}};
 
 	return res;
 }

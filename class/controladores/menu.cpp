@@ -1,5 +1,8 @@
 #include "menu.h"
 #include "estados_controladores.h"
+#include "../app/recursos.h"
+
+#include <video/gestores/gestor_texturas.h>
 
 #include <string>
 
@@ -17,6 +20,7 @@ using namespace App;
 Controlador_menu::Controlador_menu(DLibH::Log_base& log, const Fuentes& f)
 	:log(log), fuentes(f)
 {
+	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 }

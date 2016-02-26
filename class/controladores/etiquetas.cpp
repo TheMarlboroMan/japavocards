@@ -2,10 +2,13 @@
 
 #include <string>
 
+#include <video/gestores/gestor_texturas.h>
 #include <video/representacion/representacion_primitiva/representacion_primitiva_caja/representacion_primitiva_caja.h>
+#include <video/representacion/representacion_grafica/representacion_ttf/representacion_ttf.h>
 
 #include "../app/framework_impl/input.h"
 #include "../app/eventos/cambio_etiqueta.h"
+#include "../app/recursos.h"
 
 #include "estados_controladores.h"
 
@@ -22,6 +25,7 @@ Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes
 	:log(log), fuentes(f), 
 	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado)
 {
+	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 
@@ -47,10 +51,15 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{
-		bool refrescar=componente_menu.cambiar_item(input.es_input_down(App::Input::arriba) ? -1 : 1);
+		bool refrescar=componente_menu.cambiar_pagina(input.es_input_down(App::Input::arriba) ? -1 : 1);
 		if(refrescar) generar_vista_menu();
 	}
-	//TODO: Añadir inputs de avanzar y repetir página para pasar más deprisa.
+	else if(input.es_input_down(App::Input::pag_anterior) ||
+		input.es_input_down(App::Input::pag_siguiente))
+	{
+		componente_menu.cambiar_pagina(input.es_input_down(App::Input::pag_anterior) ? -1 : 1);
+		generar_vista_menu();
+	}
 	else if(input.es_input_down(App::Input::izquierda) ||
 		input.es_input_down(App::Input::derecha) ||
 		input.es_input_down(App::Input::aceptar))
@@ -65,7 +74,7 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 
 		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(clave));
 		enviar_evento(ev);
-	}
+	}	
 }
 
 void  Controlador_etiquetas::postloop(DFramework::Input& input, float delta)
@@ -120,6 +129,24 @@ void Controlador_etiquetas::generar_vista_menu()
 	};
 	
 	componente_menu.montar(f);
+
+#ifdef WINCOMPIL
+	using namespace parche_ming32;
+#else
+	using namespace std;
+#endif
+
+	try
+	{
+		std::string paginacion=to_string(componente_menu.acc_pagina_actual()+1)+"/"+to_string(componente_menu.acc_total_paginas()+1);
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_pagina"))->asignar(paginacion);
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al generar paginación: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
 }
 
 std::string Controlador_etiquetas::valor_para_opcion(const std::string& clave)

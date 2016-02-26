@@ -2,6 +2,8 @@
 
 #include <functional>
 
+#include <video/gestores/gestor_texturas.h>
+
 #include "estados_controladores.h"
 
 #include "../app/framework_impl/input.h"
@@ -9,6 +11,7 @@
 #include "../app/eventos/cambio_idioma_interface.h"
 #include "../app/eventos/cambio_idioma_diccionario.h"
 #include "../app/eventos/cambio_ventana.h"
+#include "../app/recursos.h"
 
 #ifdef WINCOMPIL
 /* Localización del parche mingw32... Esto debería estar en otro lado, supongo. */
@@ -21,6 +24,7 @@ Controlador_configuracion_aplicacion::Controlador_configuracion_aplicacion(DLibH
 	:log(l), fuentes(f), localizador(loc), idiomas(i),
 	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado)
 {
+	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
 	vista.mapear_fuente("kanas32", &fuentes.obtener_fuente("kanas", 32));
 

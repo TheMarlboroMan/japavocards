@@ -1,7 +1,6 @@
 #include "director_estados.h"
 
 #include <algorithm>
-//#include "../app/recursos.h"
 
 using namespace App;
 

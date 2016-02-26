@@ -16,6 +16,7 @@
 #include "../app/fuentes.h"
 #include "../app/idioma.h"
 #include "../app/localizador.h"
+#include "../app/definiciones.h"
 
 namespace App
 {
@@ -61,16 +62,6 @@ class Controlador_configuracion_aplicacion:
 	//Propiedades...
 	Componente_menu<item_config_app, std::string>		componente_menu;
 	Herramientas_proyecto::Compositor_vista			vista;
-
-
-	//Constantes...
-	static const int 					x_listado=16,
-								y_listado=32,
-								alto_item_listado=20,
-								ancho_listado=300,
-								alto_listado=160,
-								margen_y=16;
-
 };
 
 }

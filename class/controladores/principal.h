@@ -52,6 +52,7 @@ class Controlador_principal:
 	std::vector<Palabra const *> 		palabras;
 	size_t					indice_palabra_actual;
 	Configuracion_ejercicio::direcciones	direccion;
+	bool					centrar;
 };
 
 }

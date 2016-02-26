@@ -97,7 +97,7 @@ class Componente_menu
 		rep_listado.volcar(p);
 
 		const int y=y_listado+(listado.linea_actual().y);
-		DLibV::Representacion_primitiva_caja seleccion_actual({0, y, ancho_listado, alto_item_listado}, 255, 255, 255);
+		DLibV::Representacion_primitiva_caja seleccion_actual({x_listado, y, ancho_listado, alto_item_listado}, 255, 255, 255);
 		seleccion_actual.establecer_alpha(128);
 		seleccion_actual.volcar(p);
 	}
@@ -105,6 +105,11 @@ class Componente_menu
 	bool	cambiar_item(int dir)
 	{
 		return listado.cambiar_item(dir);
+	}
+
+	bool	cambiar_pagina(int dir)
+	{
+		return listado.cambiar_pagina(dir);
 	}
 
 	T&	item_actual()
@@ -115,6 +120,16 @@ class Componente_menu
 	const T&	item_actual() const
 	{
 		return listado.item_actual();
+	}
+
+	size_t		acc_pagina_actual() const
+	{
+		return listado.acc_pagina_actual();
+	}
+
+	size_t		acc_total_paginas() const
+	{
+		return listado.acc_total_paginas();
 	}
 
 	//Mala praxis, pero bueno.
