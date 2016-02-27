@@ -13,6 +13,7 @@ $(DIR_O_HERRAMIENTAS_PROYECTO)estructura_paginacion.o\
 #$(DIR_O_HERRAMIENTAS_PROYECTO)generador_numeros.o \
 
 DEP_CLASES_APP=\
+$(DIR_O)transiciones.o \
 $(DIR_O)lector.o \
 $(DIR_O)escritor.o \
 $(DIR_O)cli.o \

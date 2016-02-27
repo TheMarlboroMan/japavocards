@@ -11,6 +11,10 @@ DIR_CLASES_EVENTOS=./class/app/eventos/
 
 $(DIR_O)director_estados.o :\
 $(DIR_O)controlador_principal.o \
+$(DIR_O)controlador_etiquetas.o \
+$(DIR_O)controlador_configuracion_aplicacion.o \
+$(DIR_O)controlador_configuracion_ejercicio.o \
+$(DIR_O)controlador_menu.o \
 $(DIR_CLASES_EVENTOS)cambio_etiqueta.h \
 $(DIR_CLASES_EVENTOS)cambio_modo_etiqueta.h \
 $(DIR_CONTROLADORES)director_estados.h \

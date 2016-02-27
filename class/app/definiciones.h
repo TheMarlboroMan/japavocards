@@ -1,15 +1,18 @@
 #ifndef DEFINICIONES_APP_H
 #define DEFINICIONES_APP_H
 
+//TODO: Extinguir todo esto...
+
 namespace App
 {
-	static const int	x_listado=16,
-				y_listado=16,
-				alto_item_listado=20,
-				ancho_listado=400,
-				alto_listado=177,
-				margen_y=16,
-				ancho_util=583,
+	enum class estados_transicion	{entrada, activo, salida};
+
+
+	//TODO: Las posiciones, anchos y altos podrían ir a extinguir...
+	static const int	ancho_util=583,
+				alto_util=184,
+	//TODO Esta quedarían :D.???
+
 				margen_ancho_util=8;
 }
 

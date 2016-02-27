@@ -17,6 +17,9 @@
 #include "../app/configuracion_ejercicio.h"
 #include "../app/localizador.h"
 #include "../app/definiciones.h"
+#include "../app/worker_animacion.h"
+#include "../app/transiciones.h"
+
 
 namespace App
 {
@@ -56,6 +59,7 @@ class Controlador_configuracion_ejercicio:
 		{}
 	};
 
+	void				input_activo(DFramework::Input& input, float delta);
 	void				crear_menu_opciones();
 	void				generar_vista_menu();
 	void				menu_down(item_config_ejercicio&, int, float, bool);
@@ -66,8 +70,11 @@ class Controlador_configuracion_ejercicio:
 	const Configuracion_ejercicio&		configuracion_ejercicio;
 
 	//Propiedades...
+	DLibV::Camara								camara;
 	Componente_menu<item_config_ejercicio, std::string>			componente_menu;
 	Herramientas_proyecto::Compositor_vista					vista;
+	estados_transicion							estado_transicion;
+	Worker_animacion							worker_animacion;
 	float									tiempo_menu;
 };
 

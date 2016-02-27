@@ -10,6 +10,8 @@
 #include "../app/fuentes.h"
 #include "../app/palabra.h"
 #include "../app/configuracion_ejercicio.h"
+#include "../app/definiciones.h"
+#include "../app/worker_animacion.h"
 
 namespace App
 {
@@ -39,6 +41,7 @@ class Controlador_principal:
 		resuelto
 	};
 
+	void					input_activo(DFramework::Input& input, float delta);
 	void					establecer_textos();
 	void					mostrar_interface();
 	void					ocultar_interface();
@@ -47,12 +50,15 @@ class Controlador_principal:
 	DLibH::Log_base&			log;
 	const Fuentes&				fuentes;
 
+	DLibV::Camara				camara;
 	estados					estado;
 	Herramientas_proyecto::Compositor_vista	vista;
 	std::vector<Palabra const *> 		palabras;
 	size_t					indice_palabra_actual;
 	Configuracion_ejercicio::direcciones	direccion;
 	bool					centrar;
+	estados_transicion			estado_transicion;
+	Worker_animacion			worker_animacion;
 };
 
 }

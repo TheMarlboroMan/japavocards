@@ -2,6 +2,7 @@
 #define ETIQUETAS_H
 
 #include <vector>
+#include <functional>
 
 #include <herramientas/log_base/log_base.h>
 #include <video/representacion/representacion_agrupada/representacion_agrupada.h>
@@ -16,6 +17,8 @@
 #include "../app/etiqueta.h"
 #include "../app/selector_etiquetas.h"
 #include "../app/definiciones.h"
+#include "../app/worker_animacion.h"
+#include "../app/transiciones.h"
 
 namespace App
 {
@@ -40,6 +43,7 @@ class Controlador_etiquetas:
 	void							crear_menu_opciones(const std::vector<Etiqueta>&, const std::vector<std::string>&);
 	void							generar_vista_menu();
 	std::string						valor_para_opcion(const std::string& clave);
+	void							input_activo(DFramework::Input& input, float delta);
 
 	//Referencias...
 	DLibH::Log_base&					log;
@@ -57,8 +61,11 @@ class Controlador_etiquetas:
 	};
 
 	//Propiedades...
+	DLibV::Camara						camara;
 	Componente_menu<item_config_etiqueta, std::string>	componente_menu;
 	Herramientas_proyecto::Compositor_vista			vista;
+	estados_transicion					estado_transicion;
+	Worker_animacion					worker_animacion;
 };
 
 }

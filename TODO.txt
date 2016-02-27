@@ -3,10 +3,11 @@ Bugs:
 	- Cambiar idioma e iniciar causa crash si hay seleccionadas etiquetas ???.
 
 En principal:
-	- Diseñar interface gráfica.
+
 	- Diseñar menú principal, sólo cursores y espacio :D!.
+		- Un dibujo de los cursores: strobing.
+		- El logo.
 	- Añadir un modo "juego" en el que tengas que votar si has acertado o no :D.
-	- Escrollar textos si son muy grandes.
 
 En CLI:
 	- Listar palabras con etiquetas.

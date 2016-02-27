@@ -18,7 +18,9 @@ using namespace App;
 
 Controlador_configuracion_ejercicio::Controlador_configuracion_ejercicio(DLibH::Log_base& l, const Fuentes& f, const Localizador& loc, const Configuracion_ejercicio& c)
 	:log(l), fuentes(f), localizador(loc), configuracion_ejercicio(c),
-	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado),
+	camara(),
+	componente_menu(),
+	estado_transicion(estados_transicion::activo),
 	tiempo_menu(0.0f)
 {
 	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
@@ -35,6 +37,68 @@ void Controlador_configuracion_ejercicio::preloop(DFramework::Input& input, floa
 
 void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float delta)
 {
+	if(input.es_senal_salida())
+	{
+		abandonar_aplicacion();
+	}
+	else
+	{
+		switch(estado_transicion)
+		{
+			case estados_transicion::activo:
+				input_activo(input, delta);
+			break;
+			case estados_transicion::entrada:
+				if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+				else estado_transicion=estados_transicion::activo;
+			break;
+			case estados_transicion::salida:
+				if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+				else solicitar_cambio_estado(menu);
+			break;
+		}
+	}
+}
+
+void Controlador_configuracion_ejercicio::postloop(DFramework::Input& input, float delta)
+{
+
+}
+
+void Controlador_configuracion_ejercicio::dibujar(DLibV::Pantalla& pantalla)
+{
+	vista.volcar(pantalla, camara);
+}
+
+void Controlador_configuracion_ejercicio::despertar()
+{
+	//TODO: Try...
+	log<<"Despertando controlador configuración ejercicio"<<std::endl;
+	vista.registrar_externa("listado", componente_menu.rep());
+	vista.registrar_externa("selector", componente_menu.rep_selector());
+	vista.parsear("data/layout/configuracion_ejercicio.dnot", "layout");	
+
+	configurar_camara_y_menu(vista, camara, componente_menu);
+	generar_vista_menu();
+	estado_transicion=estados_transicion::entrada;
+	transicion_entrada(vista, worker_animacion);
+}
+
+void Controlador_configuracion_ejercicio::dormir()
+{
+	log<<"Durmiendo controlador configuración ejercicio"<<std::endl;
+	vista.vaciar_vista();
+	vista.vaciar_constantes();
+	componente_menu.desmontar();
+}
+
+bool Controlador_configuracion_ejercicio::es_posible_abandonar_estado() const
+{
+	return true;
+}
+
+void Controlador_configuracion_ejercicio::input_activo(DFramework::Input& input, float delta)
+{
 	//std::function<bool(DFramework::Input&, unsigned int)> up=&DFramework::Input::es_input_up;
 	auto hay_cambio=[&input](std::function<bool(DFramework::Input&, unsigned int)> f, int& dir)
 	{
@@ -47,13 +111,10 @@ void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float d
 
 	int dir=0;
 
-	if(input.es_senal_salida())
+	if(input.es_input_down(App::Input::escape))
 	{
-		abandonar_aplicacion();
-	}
-	else if(input.es_input_down(App::Input::escape))
-	{
-		solicitar_cambio_estado(menu);
+		estado_transicion=estados_transicion::salida;
+		transicion_salida_horizontal(worker_animacion, camara, 600.f, ancho_util);
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{
@@ -72,36 +133,6 @@ void Controlador_configuracion_ejercicio::loop(DFramework::Input& input, float d
 	{
 		tiempo_menu=0.0f;
 	}
-}
-
-void Controlador_configuracion_ejercicio::postloop(DFramework::Input& input, float delta)
-{
-
-}
-
-void Controlador_configuracion_ejercicio::dibujar(DLibV::Pantalla& pantalla)
-{
-	vista.volcar(pantalla);
-	componente_menu.volcar(pantalla, ancho_listado, alto_item_listado);
-}
-
-void Controlador_configuracion_ejercicio::despertar()
-{
-	log<<"Despertando controlador configuración ejercicio"<<std::endl;
-	vista.parsear("data/layout/configuracion_ejercicio.dnot", "layout");	
-	generar_vista_menu();
-}
-
-void Controlador_configuracion_ejercicio::dormir()
-{
-	log<<"Durmiendo controlador configuración ejercicio"<<std::endl;
-	vista.vaciar_vista();
-	componente_menu.desmontar();
-}
-
-bool Controlador_configuracion_ejercicio::es_posible_abandonar_estado() const
-{
-	return true;
 }
 
 void Controlador_configuracion_ejercicio::generar_vista_menu()

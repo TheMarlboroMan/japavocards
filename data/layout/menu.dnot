@@ -4,5 +4,5 @@ layout:
 		tipo:"bitmap",
 		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
 		textura:"background"
-	},
+	}
 ]

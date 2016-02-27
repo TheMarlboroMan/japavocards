@@ -17,6 +17,8 @@
 #include "../app/idioma.h"
 #include "../app/localizador.h"
 #include "../app/definiciones.h"
+#include "../app/worker_animacion.h"
+#include "../app/transiciones.h"
 
 namespace App
 {
@@ -49,6 +51,7 @@ class Controlador_configuracion_aplicacion:
 		{}
 	};
 
+	void				input_activo(DFramework::Input& input, float delta);
 	void				crear_menu_opciones(const App_config&);
 	void				generar_vista_menu();
 	void				menu_down(item_config_app&, int, float);
@@ -60,8 +63,11 @@ class Controlador_configuracion_aplicacion:
 	const std::vector<Idioma>&				idiomas;
 
 	//Propiedades...
+	DLibV::Camara						camara;
 	Componente_menu<item_config_app, std::string>		componente_menu;
 	Herramientas_proyecto::Compositor_vista			vista;
+	estados_transicion					estado_transicion;
+	Worker_animacion					worker_animacion;
 };
 
 }

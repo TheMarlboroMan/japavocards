@@ -12,18 +12,18 @@
 
 #include "estados_controladores.h"
 
-
 #ifdef WINCOMPIL
 //Localización del parche mingw32... Esto debería estar en otro lado, supongo.
 #include <herramientas/herramientas/herramientas.h>
 #endif
 
-
 using namespace App;
 
 Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes& f, const std::vector<Etiqueta>& ve, const std::vector<std::string>& etiquetas_seleccionadas)
 	:log(log), fuentes(f), 
-	componente_menu(x_listado, y_listado, alto_item_listado, alto_listado)
+	camara(), 
+	componente_menu(),
+	estado_transicion(estados_transicion::entrada)
 {
 	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
@@ -45,13 +45,34 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 		abandonar_aplicacion();
 	}
 	
+	switch(estado_transicion)
+	{
+		case estados_transicion::activo:
+			input_activo(input, delta);
+		break;
+
+		case estados_transicion::entrada:
+			if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+			else estado_transicion=estados_transicion::activo;
+		break;
+		
+		case estados_transicion::salida:
+			if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+			else solicitar_cambio_estado(menu);
+		break;
+	}
+}
+
+void Controlador_etiquetas::input_activo(DFramework::Input& input, float delta)
+{
 	if(input.es_input_down(App::Input::escape))
 	{
-		solicitar_cambio_estado(menu);
+		estado_transicion=estados_transicion::salida;
+		transicion_salida_vertical(worker_animacion, camara, -600.0, -alto_util);
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{
-		bool refrescar=componente_menu.cambiar_pagina(input.es_input_down(App::Input::arriba) ? -1 : 1);
+		bool refrescar=componente_menu.cambiar_item(input.es_input_down(App::Input::arriba) ? -1 : 1);
 		if(refrescar) generar_vista_menu();
 	}
 	else if(input.es_input_down(App::Input::pag_anterior) ||
@@ -74,7 +95,7 @@ void  Controlador_etiquetas::loop(DFramework::Input& input, float delta)
 
 		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_etiqueta(clave));
 		enviar_evento(ev);
-	}	
+	}
 }
 
 void  Controlador_etiquetas::postloop(DFramework::Input& input, float delta)
@@ -84,21 +105,29 @@ void  Controlador_etiquetas::postloop(DFramework::Input& input, float delta)
 
 void  Controlador_etiquetas::dibujar(DLibV::Pantalla& pantalla)
 {
-	vista.volcar(pantalla);
-	componente_menu.volcar(pantalla, ancho_listado, alto_item_listado);
+	vista.volcar(pantalla, camara);
 }
 
 void  Controlador_etiquetas::despertar()
 {
 	log<<"Despertando controlador etiquetas"<<std::endl;
+	vista.registrar_externa("listado", componente_menu.rep());
+	vista.registrar_externa("selector", componente_menu.rep_selector());
 	vista.parsear("data/layout/etiquetas.dnot", "layout");
+
+
+	//TODO: Try...
+	configurar_camara_y_menu(vista, camara, componente_menu);
 	generar_vista_menu();
+	estado_transicion=estados_transicion::entrada;
+	transicion_entrada(vista, worker_animacion);
 }
 
 void  Controlador_etiquetas::dormir()
 {
 	log<<"Durmiendo controlador etiquetas"<<std::endl;
 	vista.vaciar_vista();
+	vista.vaciar_constantes();
 	componente_menu.desmontar();
 }
 

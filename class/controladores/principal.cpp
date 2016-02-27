@@ -7,6 +7,8 @@
 #include "../app/framework_impl/input.h"
 #include "../app/recursos.h"
 #include "../app/definiciones.h"
+#include "../app/transiciones.h"
+
 #include "estados_controladores.h"
 
 #ifdef WINCOMPIL
@@ -18,7 +20,8 @@ using namespace App;
 
 Controlador_principal::Controlador_principal(DLibH::Log_base& log, const Fuentes& f, Configuracion_ejercicio::direcciones d)
 	:log(log), fuentes(f), estado(estados::sin_resolver), 
-	indice_palabra_actual(0), direccion(d), centrar(true)
+	indice_palabra_actual(0), direccion(d), centrar(true),
+	estado_transicion(estados_transicion::entrada)
 {
 	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_fuente("akashi20", &fuentes.obtener_fuente("akashi", 20));
@@ -36,25 +39,20 @@ void  Controlador_principal::loop(DFramework::Input& input, float delta)
 	{
 		abandonar_aplicacion();
 	}
-	
-	if(input.es_input_down(App::Input::escape))
+	else
 	{
-		solicitar_cambio_estado(menu);
-	}
-	else if(input.es_input_down(App::Input::aceptar))
-	{
-		switch(estado)
+		switch(estado_transicion)
 		{
-			case estados::sin_resolver:
-				mostrar_interface();
-				estado=estados::resuelto;
-
+			case estados_transicion::activo:
+				input_activo(input, delta);
 			break;
-
-			case estados::resuelto:
-				estado=estados::sin_resolver;
-				escoger_nueva_palabra();
-				ocultar_interface();
+			case estados_transicion::entrada:
+				if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+				else estado_transicion=estados_transicion::activo;
+			break;
+			case estados_transicion::salida:
+				if(worker_animacion.es_activo()) worker_animacion.turno(delta);
+				else solicitar_cambio_estado(menu);
 			break;
 		}
 	}
@@ -102,7 +100,7 @@ void  Controlador_principal::dibujar(DLibV::Pantalla& pantalla)
 
 	}
 
-	vista.volcar(pantalla);
+	vista.volcar(pantalla, camara);
 }
 
 void  Controlador_principal::despertar()
@@ -120,12 +118,33 @@ void  Controlador_principal::despertar()
 	indice_palabra_actual=0;
 	establecer_textos();
 	ocultar_interface();
+
+	try
+	{
+		//Configurar cámara...
+		camara.enfocar_a(0, 0);
+		camara.mut_pos_x(vista.const_int("x_camara"));
+		camara.mut_pos_y(vista.const_int("y_camara"));
+		camara.mut_w_pos(vista.const_int("w_camara"));
+		camara.mut_h_pos(vista.const_int("h_camara"));
+		camara.mut_enfoque(vista.const_int("w_camara"), vista.const_int("h_camara"));
+
+		estado_transicion=estados_transicion::entrada;
+		transicion_entrada(vista, worker_animacion);
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al despertar controlador principal: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
 }
 
 void  Controlador_principal::dormir()
 {
 	log<<"Durmiendo controlador principal"<<std::endl;
 	vista.vaciar_vista();
+	vista.vaciar_constantes();
 }
 
 bool Controlador_principal::es_posible_abandonar_estado() const
@@ -218,5 +237,31 @@ void Controlador_principal::establecer_textos()
 		std::string err="Error al establecer textos de controlador principal: ";
 		err+=e.what();
 		throw std::runtime_error(err);
+	}
+}
+
+void Controlador_principal::input_activo(DFramework::Input& input, float delta)
+{
+	if(input.es_input_down(App::Input::escape))
+	{
+		estado_transicion=estados_transicion::salida;
+		transicion_salida_vertical(worker_animacion, camara, 600.f, alto_util);
+	}
+	else if(input.es_input_down(App::Input::aceptar))
+	{
+		switch(estado)
+		{
+			case estados::sin_resolver:
+				mostrar_interface();
+				estado=estados::resuelto;
+
+			break;
+
+			case estados::resuelto:
+				estado=estados::sin_resolver;
+				escoger_nueva_palabra();
+				ocultar_interface();
+			break;
+		}
 	}
 }

@@ -1,9 +1,13 @@
 layout:
 [
+	{tipo:"const", clave:"x_camara", valor:8},
+	{tipo:"const", clave:"y_camara", valor:8},
+	{tipo:"const", clave:"w_camara", valor:583},
+	{tipo:"const", clave:"h_camara", valor:184},
 	{
 		tipo:"bitmap",
 		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
-		textura:"background"
+		textura:"background", estatica: true
 	},
 	{
 		tipo:"ttf",
@@ -32,5 +36,9 @@ layout:
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_cuenta"
+	},
+	{
+		tipo:"caja",
+		pos:[0, 0, 600, 200], rgb:[0,0,0], id:"bloqueador"
 	}
 ]
