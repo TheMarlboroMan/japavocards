@@ -42,6 +42,9 @@ class Worker_animacion
 		}
 	}
 
+	void			finalizar() {funciones.clear();}
+	size_t			size() const {return funciones.size();}
+
 	private:
 
 	std::vector<parte> funciones;

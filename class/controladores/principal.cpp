@@ -67,10 +67,10 @@ void  Controlador_principal::dibujar(DLibV::Pantalla& pantalla)
 {
 	if(centrar)
 	{
-		auto fcentrar=[](DLibV::Representacion_TTF * txt)
+		auto fcentrar=[this](DLibV::Representacion_TTF * txt)
 		{
 			int ancho=txt->acc_posicion().w;
-			int x=margen_ancho_util+(ancho_util /2)-(ancho/2);
+			int x=camara.acc_pos_x()+(camara.acc_caja_foco().w /2)-(ancho/2);
 			txt->establecer_posicion(x, 0, 0, 0, DLibV::Representacion::FRECT_X);
 		};
 
@@ -245,7 +245,7 @@ void Controlador_principal::input_activo(DFramework::Input& input, float delta)
 	if(input.es_input_down(App::Input::escape))
 	{
 		estado_transicion=estados_transicion::salida;
-		transicion_salida_vertical(worker_animacion, camara, 600.f, alto_util);
+		transicion_salida_vertical(worker_animacion, camara, 600.f);
 	}
 	else if(input.es_input_down(App::Input::aceptar))
 	{

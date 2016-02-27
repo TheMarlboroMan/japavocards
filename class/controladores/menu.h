@@ -8,6 +8,9 @@
 #include "../framework/controlador_interface.h"
 
 #include "../app/fuentes.h"
+#include "../app/definiciones.h"
+#include "../app/transiciones.h"
+#include "../app/worker_animacion.h"
 
 namespace App
 {
@@ -33,6 +36,10 @@ class Controlador_menu:
 	const Fuentes&				fuentes;
 
 	Herramientas_proyecto::Compositor_vista	vista;
+	DLibV::Camara				camara;
+	Worker_animacion			worker_animacion;
+	estados_transicion			estado_transicion;
+	int					siguiente_estado;
 };
 
 }

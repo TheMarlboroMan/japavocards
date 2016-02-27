@@ -1,8 +1,55 @@
 layout:
 [
+	{tipo:"const", clave:"x_camara", valor:8},
+	{tipo:"const", clave:"y_camara", valor:8},
+	{tipo:"const", clave:"w_camara", valor:583},
+	{tipo:"const", clave:"h_camara", valor:184},
 	{
 		tipo:"bitmap",
 		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
-		textura:"background"
+		textura:"background", orden: 10, estatica: true
+	},
+	{
+		tipo:"bitmap",
+		pos:[360, 50, 143, 100], rec:[0, 0, 143, 100],
+		textura:"cursores", id:"cursores", alpha:255, orden: 20
+	},
+	{
+		tipo:"ttf",
+		pos:[400, 16],
+		texto:"Iniciar",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_iniciar",
+		orden: 20
+	},
+	{
+		tipo:"ttf",
+		pos:[400, 160],
+		texto:"Etiquetas",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_etiquetas",
+		orden: 20
+	},
+	{
+		tipo:"ttf",
+		pos:[320, 16],
+		texto:"C. Ejercicio",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_config_ejercicio",
+		orden: 20,
+		rotacion:[90, 0, 0]
+	},
+	{
+		tipo:"ttf",
+		pos:[550, 16],
+		texto:"C. App",
+		fuente:"akashi20", rgba:[255, 255, 255, 255], 
+		id:"txt_config_app",
+		orden: 20,
+		rotacion:[90, 0, 0]
+	},
+	{
+		tipo:"caja",
+		pos:[0, 0, 600, 200], rgb:[0,0,0], id:"bloqueador", orden: 50
 	}
 ]

@@ -68,7 +68,7 @@ void Controlador_etiquetas::input_activo(DFramework::Input& input, float delta)
 	if(input.es_input_down(App::Input::escape))
 	{
 		estado_transicion=estados_transicion::salida;
-		transicion_salida_vertical(worker_animacion, camara, -600.0, -alto_util);
+		transicion_salida_vertical(worker_animacion, camara, -600.0);
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{

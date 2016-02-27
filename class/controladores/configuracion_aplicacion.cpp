@@ -79,7 +79,7 @@ void Controlador_configuracion_aplicacion::input_activo(DFramework::Input& input
 	if(input.es_input_down(App::Input::escape))
 	{
 		estado_transicion=estados_transicion::salida;
-		transicion_salida_horizontal(worker_animacion, camara, -600.f, -ancho_util);
+		transicion_salida_horizontal(worker_animacion, camara, -600.f);
 	}
 	else if(input.es_input_down(App::Input::abajo) || input.es_input_down(App::Input::arriba))
 	{

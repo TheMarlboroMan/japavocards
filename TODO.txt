@@ -1,11 +1,13 @@
 Bugs:
 	- Cambiar idioma no refresca etiquetas.
 	- Cambiar idioma e iniciar causa crash si hay seleccionadas etiquetas ???.
+	- Cuando hay rotación en un objeto la cámara piensa que su caja sigue siendo la original!!!.
 
 En principal:
 
+	- Traducir menú principal.
+	- Centrar elementos del menú principal.
 	- Diseñar menú principal, sólo cursores y espacio :D!.
-		- Un dibujo de los cursores: strobing.
 		- El logo.
 	- Añadir un modo "juego" en el que tengas que votar si has acertado o no :D.
 

@@ -48,3 +48,4 @@ Thanks to:
 
 - Ed Merritt for the Akashi font, seen throughout the whole application.
 - Kagura Zakayuzu for the Yuzu Pop A font, the one with all the kanas.
+- Pajhonka for the cursor keys image.
