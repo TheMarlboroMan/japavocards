@@ -7,7 +7,6 @@ En principal:
 
 	- El logo.
 	- Añadir un modo "juego" en el que tengas que votar si has acertado o no :D.
-	- Aviso cambio resolución.
 	- Arreglar TODO 
 
 En CLI:
