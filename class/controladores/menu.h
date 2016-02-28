@@ -39,7 +39,7 @@ class Controlador_menu:
 	DLibV::Camara				camara;
 	Worker_animacion			worker_animacion;
 	estados_transicion			estado_transicion;
-	int					siguiente_estado;
+	int					siguiente_estado;	
 };
 
 }

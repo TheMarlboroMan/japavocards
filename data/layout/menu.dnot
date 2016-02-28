@@ -16,37 +16,28 @@ layout:
 	},
 	{
 		tipo:"ttf",
-		pos:[400, 16],
-		texto:"Iniciar",
+		pos:[400, 16], orden: 20,
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_iniciar",
-		orden: 20
+		id:"txt_iniciar", texto:"Iniciar"
+		
 	},
 	{
 		tipo:"ttf",
-		pos:[400, 160],
-		texto:"Etiquetas",
+		pos:[400, 160], orden: 20,
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_etiquetas",
-		orden: 20
+		id:"txt_etiquetas", texto:"Etiquetas"
 	},
 	{
 		tipo:"ttf",
-		pos:[320, 16],
-		texto:"C. Ejercicio",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_config_ejercicio",
-		orden: 20,
-		rotacion:[90, 0, 0]
+		pos:[320, 16], orden: 20, rotacion:[90, 0, 0],
+		id:"txt_config_ejercicio", texto:"C. Ejercicio"
 	},
 	{
 		tipo:"ttf",
-		pos:[550, 16],
-		texto:"C. App",
+		pos:[550, 16], orden: 20, rotacion:[90, 0, 0],
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_config_app",
-		orden: 20,
-		rotacion:[90, 0, 0]
+		id:"txt_config_app", texto:"C. App"
 	},
 	{
 		tipo:"caja",
