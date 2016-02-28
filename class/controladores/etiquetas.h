@@ -19,6 +19,7 @@
 #include "../app/definiciones.h"
 #include "../app/worker_animacion.h"
 #include "../app/transiciones.h"
+#include "../app/localizador.h"
 
 namespace App
 {
@@ -28,7 +29,7 @@ class Controlador_etiquetas:
 {
 	public:
 
-					Controlador_etiquetas(DLibH::Log_base&, const Fuentes&, const std::vector<Etiqueta>&, const std::vector<std::string>&);
+					Controlador_etiquetas(DLibH::Log_base&, const Fuentes&, const Localizador&, const std::vector<Etiqueta>&, const std::vector<std::string>&);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -48,6 +49,7 @@ class Controlador_etiquetas:
 	//Referencias...
 	DLibH::Log_base&					log;
 	const Fuentes&						fuentes;
+	const Localizador&					localizador;
 
 	struct item_config_etiqueta:public Listable
 	{

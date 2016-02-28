@@ -14,7 +14,11 @@ struct localizacion
 		config_modo_etiquetadas=5,
 		config_limitacion_palabras_si=6, 
 		config_limitacion_palabras_no=7,
-		config_limitacion_palabras_numero=8  
+		config_limitacion_palabras_numero=8,
+		menu_iniciar=170,
+		menu_etiquetas=171,
+		menu_aplicacion=172,
+		menu_ejercicio=173
 	};
 };
 

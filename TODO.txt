@@ -1,15 +1,14 @@
 Bugs:
 	- Cambiar idioma no refresca etiquetas.
 	- Cambiar idioma e iniciar causa crash si hay seleccionadas etiquetas ???.
-	- Cuando hay rotación en un objeto la cámara piensa que su caja sigue siendo la original!!!.
+	- Paginar etiqueta siguiente página cuando estás en item bajo...
 
 En principal:
 
-	- Traducir menú principal.
-	- Centrar elementos del menú principal.
-	- Diseñar menú principal, sólo cursores y espacio :D!.
-		- El logo.
+	- El logo.
 	- Añadir un modo "juego" en el que tengas que votar si has acertado o no :D.
+	- Aviso cambio resolución.
+	- Arreglar TODO 
 
 En CLI:
 	- Listar palabras con etiquetas.

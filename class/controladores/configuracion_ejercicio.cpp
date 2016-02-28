@@ -72,16 +72,25 @@ void Controlador_configuracion_ejercicio::dibujar(DLibV::Pantalla& pantalla)
 
 void Controlador_configuracion_ejercicio::despertar()
 {
-	//TODO: Try...
-	log<<"Despertando controlador configuración ejercicio"<<std::endl;
-	vista.registrar_externa("listado", componente_menu.rep());
-	vista.registrar_externa("selector", componente_menu.rep_selector());
-	vista.parsear("data/layout/configuracion_ejercicio.dnot", "layout");	
+	try
+	{
+		log<<"Despertando controlador configuración ejercicio"<<std::endl;
+		vista.registrar_externa("listado", componente_menu.rep());
+		vista.registrar_externa("selector", componente_menu.rep_selector());
+		vista.parsear("data/layout/configuracion_ejercicio.dnot", "layout");	
 
-	configurar_camara_y_menu(vista, camara, componente_menu);
-	generar_vista_menu();
-	estado_transicion=estados_transicion::entrada;
-	transicion_entrada(vista, worker_animacion);
+		configurar_camara_y_menu(vista, camara, componente_menu);
+		generar_vista_menu();
+		estado_transicion=estados_transicion::entrada;
+		transicion_entrada(vista, worker_animacion);
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_titulo"))->asignar(localizador.obtener(localizacion::menu_ejercicio));
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al despertar controlador config aplicación: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
 }
 
 void Controlador_configuracion_ejercicio::dormir()

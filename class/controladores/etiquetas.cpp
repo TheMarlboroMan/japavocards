@@ -9,6 +9,7 @@
 #include "../app/framework_impl/input.h"
 #include "../app/eventos/cambio_etiqueta.h"
 #include "../app/recursos.h"
+#include "../app/localizacion.h"
 
 #include "estados_controladores.h"
 
@@ -19,10 +20,8 @@
 
 using namespace App;
 
-Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes& f, const std::vector<Etiqueta>& ve, const std::vector<std::string>& etiquetas_seleccionadas)
-	:log(log), fuentes(f), 
-	camara(), 
-	componente_menu(),
+Controlador_etiquetas::Controlador_etiquetas(DLibH::Log_base& log, const Fuentes& f, const Localizador& l, const std::vector<Etiqueta>& ve, const std::vector<std::string>& etiquetas_seleccionadas)
+	:log(log), fuentes(f), localizador(l),
 	estado_transicion(estados_transicion::entrada)
 {
 	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
@@ -115,12 +114,21 @@ void  Controlador_etiquetas::despertar()
 	vista.registrar_externa("selector", componente_menu.rep_selector());
 	vista.parsear("data/layout/etiquetas.dnot", "layout");
 
+	try
+	{
+		configurar_camara_y_menu(vista, camara, componente_menu);
+		generar_vista_menu();
+		estado_transicion=estados_transicion::entrada;
+		transicion_entrada(vista, worker_animacion);
 
-	//TODO: Try...
-	configurar_camara_y_menu(vista, camara, componente_menu);
-	generar_vista_menu();
-	estado_transicion=estados_transicion::entrada;
-	transicion_entrada(vista, worker_animacion);
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_titulo"))->asignar(localizador.obtener(localizacion::menu_etiquetas));
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al despertar controlador etiquetas: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
 }
 
 void  Controlador_etiquetas::dormir()

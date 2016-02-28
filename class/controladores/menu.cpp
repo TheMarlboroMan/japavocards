@@ -1,9 +1,9 @@
 #include "menu.h"
 #include "estados_controladores.h"
 #include "../app/recursos.h"
+#include "../app/localizacion.h"
 
 #include <video/gestores/gestor_texturas.h>
-
 #include <string>
 
 #include "../app/framework_impl/input.h"
@@ -17,9 +17,10 @@
 
 using namespace App;
 
-Controlador_menu::Controlador_menu(DLibH::Log_base& log, const Fuentes& f)
-	:log(log), fuentes(f), estado_transicion(estados_transicion::entrada),
-	siguiente_estado(-1)
+Controlador_menu::Controlador_menu(DLibH::Log_base& log, const Fuentes& f, const Localizador& l)
+	:log(log), fuentes(f), localizador(l), 
+	estado_transicion(estados_transicion::entrada),
+	siguiente_estado(-1), centrar(true)
 {
 	vista.mapear_textura("background", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_BACKGROUND));
 	vista.mapear_textura("cursores", DLibV::Gestor_texturas::obtener(App::Recursos_graficos::RGT_CURSORES));
@@ -90,16 +91,59 @@ void  Controlador_menu::postloop(DFramework::Input& input, float delta)
 
 void  Controlador_menu::dibujar(DLibV::Pantalla& pantalla)
 {
+	if(centrar)
+	{
+		try
+		{
+			auto fcentrar=[](DLibV::Representacion_TTF * txt, int x, int w, int flags)
+			{
+				int fac=txt->acc_posicion().w;
+				int px=x+(w /2)-(fac/2);
+				txt->establecer_posicion(px, px, 0, 0, flags);
+			};
+
+			std::map<std::string, DLibV::Representacion_TTF *> map={
+				{"txt_iniciar", nullptr}, {"txt_etiquetas", nullptr}, 
+				{"txt_config_ejercicio", nullptr}, {"txt_config_app", nullptr}};
+
+			for(auto& p : map) 
+			{
+				p.second=static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id(p.first));
+				p.second->preparar(pantalla.acc_renderer());
+			}
+
+			auto caja_centrar=vista.obtener_por_id("centrar_txt");
+
+			int 	xh=caja_centrar->acc_posicion().x, 
+				wh=caja_centrar->acc_posicion().w,
+				xv=caja_centrar->acc_posicion().y,
+				wv=caja_centrar->acc_posicion().h;    
+
+			fcentrar(map["txt_iniciar"], xh, wh, DLibV::Representacion::FRECT_X);
+			fcentrar(map["txt_etiquetas"], xh, wh, DLibV::Representacion::FRECT_X);
+			fcentrar(map["txt_config_ejercicio"], xv, wv, DLibV::Representacion::FRECT_Y);
+			fcentrar(map["txt_config_app"], xv, wv, DLibV::Representacion::FRECT_Y);
+
+			centrar=false;
+		}
+		catch(std::exception& e)
+		{
+			std::string err="Error al despertar controlador menú: ";
+			err+=e.what();
+			throw std::runtime_error(err);
+		}
+	}
+
 	vista.volcar(pantalla, camara);
 }
 
 void  Controlador_menu::despertar()
 {
-	log<<"Despertando controlador menú"<<std::endl;
-	vista.parsear("data/layout/menu.dnot", "layout");
-
 	try
 	{
+		log<<"Despertando controlador menú"<<std::endl;
+		vista.parsear("data/layout/menu.dnot", "layout");
+
 		//Configurar cámara...
 		camara.enfocar_a(0, 0);
 		camara.mut_pos_x(vista.const_int("x_camara"));
@@ -108,10 +152,23 @@ void  Controlador_menu::despertar()
 		camara.mut_h_pos(vista.const_int("h_camara"));
 		camara.mut_enfoque(vista.const_int("w_camara"), vista.const_int("h_camara"));
 
+		std::map<std::string, std::string> trad={ 
+			{"txt_iniciar", localizador.obtener(localizacion::menu_iniciar)},
+			{"txt_etiquetas", localizador.obtener(localizacion::menu_etiquetas)},
+			{"txt_config_ejercicio", localizador.obtener(localizacion::menu_ejercicio)},
+			{"txt_config_app", localizador.obtener(localizacion::menu_aplicacion)}};
+
+		for(const auto& p:trad) 
+			static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id(p.first))->asignar(p.second);
+
 		siguiente_estado=-1;
 		estado_transicion=estados_transicion::entrada;
+		centrar=true;
 		transicion_entrada(vista, worker_animacion);
-		animacion_crece(worker_animacion, *vista.obtener_por_id("cursores"), 1.1, 0.2);
+		animacion_crece(worker_animacion, 
+			*vista.obtener_por_id("cursores"), 
+			vista.const_float("factor_cursores"), 
+			vista.const_float("tiempo_cursores"));
 	}
 	catch(std::exception& e)
 	{

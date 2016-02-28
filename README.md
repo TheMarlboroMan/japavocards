@@ -14,15 +14,11 @@ The application does allow for:
 - Allow for reverse translation (from the translation to the japanese words).
 - Limit the number of words to use in the exercise.
 - Choose the interface and translation languages.
+- Allow for window size changes smuggling code from "KanaFun".
 
 The application will allow for:
 
 - Have a little "play" mode in with the user can track whether the word has been guessed or not.
-
-Probably will also:
-
-- Allow for background changes smuggling code from "KanaFun".
-- Allow for window size changes smuggling more code from "KanaFun".
 
 The backend is a command line interface to manage the application database. To start the CLI:
 
@@ -48,4 +44,3 @@ Thanks to:
 
 - Ed Merritt for the Akashi font, seen throughout the whole application.
 - Kagura Zakayuzu for the Yuzu Pop A font, the one with all the kanas.
-- Pajhonka for the cursor keys image.

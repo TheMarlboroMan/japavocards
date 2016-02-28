@@ -103,16 +103,25 @@ void Controlador_configuracion_aplicacion::dibujar(DLibV::Pantalla& pantalla)
 
 void Controlador_configuracion_aplicacion::despertar()
 {
-	//TODO: try...
-	log<<"Despertando controlador configuración aplicación"<<std::endl;
-	vista.registrar_externa("listado", componente_menu.rep());
-	vista.registrar_externa("selector", componente_menu.rep_selector());
-	vista.parsear("data/layout/configuracion_aplicacion.dnot", "layout");
+	try
+	{
+		log<<"Despertando controlador configuración aplicación"<<std::endl;
+		vista.registrar_externa("listado", componente_menu.rep());
+		vista.registrar_externa("selector", componente_menu.rep_selector());
+		vista.parsear("data/layout/configuracion_aplicacion.dnot", "layout");
 
-	configurar_camara_y_menu(vista, camara, componente_menu);
-	generar_vista_menu();
-	estado_transicion=estados_transicion::entrada;
-	transicion_entrada(vista, worker_animacion);
+		configurar_camara_y_menu(vista, camara, componente_menu);
+		generar_vista_menu();
+		estado_transicion=estados_transicion::entrada;
+		transicion_entrada(vista, worker_animacion);
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_titulo"))->asignar(localizador.obtener(localizacion::menu_aplicacion));
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al despertar controlador config aplicación: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
 }
 
 void Controlador_configuracion_aplicacion::dormir()

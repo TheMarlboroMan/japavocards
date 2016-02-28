@@ -70,8 +70,8 @@ void Director_estados::registrar_controladores()
 	//Loool.
 	registrar_interprete_eventos(*this);
 
-	controlador_menu.reset(new Controlador_menu(log, fuentes));
-	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, base_datos.acc_etiquetas(), config.acc_etiquetas()));
+	controlador_menu.reset(new Controlador_menu(log, fuentes, localizador));
+	controlador_etiquetas.reset(new Controlador_etiquetas(log, fuentes, localizador, base_datos.acc_etiquetas(), config.acc_etiquetas()));
 	controlador_principal.reset(new Controlador_principal(log, fuentes, configuracion_ejercicio.acc_direccion()));
 	controlador_configuracion_ejercicio.reset(new Controlador_configuracion_ejercicio(log, fuentes, localizador, configuracion_ejercicio));
 	controlador_configuracion_aplicacion.reset(new Controlador_configuracion_aplicacion(log, fuentes, localizador, base_datos.acc_idiomas(), config));

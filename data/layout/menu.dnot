@@ -4,6 +4,8 @@ layout:
 	{tipo:"const", clave:"y_camara", valor:8},
 	{tipo:"const", clave:"w_camara", valor:583},
 	{tipo:"const", clave:"h_camara", valor:184},
+	{tipo:"const", clave:"factor_cursores", valor:1.1},
+	{tipo:"const", clave:"tiempo_cursores", valor:0.2},
 	{
 		tipo:"bitmap",
 		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
@@ -11,36 +13,41 @@ layout:
 	},
 	{
 		tipo:"bitmap",
-		pos:[360, 50, 143, 100], rec:[0, 0, 143, 100],
+		pos:[382, 55, 128, 84], rec:[0, 0, 128, 84],
 		textura:"cursores", id:"cursores", alpha:255, orden: 20
 	},
 	{
 		tipo:"ttf",
-		pos:[400, 16], orden: 20,
+		pos:[410, 16], orden: 20,
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_iniciar", texto:"Iniciar"
+		id:"txt_iniciar", texto:"---"
 		
 	},
 	{
 		tipo:"ttf",
-		pos:[400, 160], orden: 20,
+		pos:[410, 160], orden: 20,
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_etiquetas", texto:"Etiquetas"
+		id:"txt_etiquetas", texto:"---"
 	},
 	{
 		tipo:"ttf",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		pos:[320, 16], orden: 20, rotacion:[90, 0, 0],
-		id:"txt_config_ejercicio", texto:"C. Ejercicio"
+		pos:[350, 16], orden: 20, rotacion:[90, 0, 0],
+		id:"txt_config_ejercicio", texto:"---"
 	},
 	{
 		tipo:"ttf",
-		pos:[550, 16], orden: 20, rotacion:[90, 0, 0],
+		pos:[560, 16], orden: 20, rotacion:[90, 0, 0],
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
-		id:"txt_config_app", texto:"C. App"
+		id:"txt_config_app", texto:"---"
 	},
 	{
 		tipo:"caja",
 		pos:[0, 0, 600, 200], rgb:[0,0,0], id:"bloqueador", orden: 50
+	},
+	{
+		tipo:"caja",
+		pos:[330, 16, 230, 165], rgb:[0,255,0], 
+		id:"centrar_txt", orden: 60, alpha:128, visible: false
 	}
 ]

@@ -32,7 +32,7 @@ layout:
 	},
 	{
 		tipo:"ttf",
-		pos:[500, 16],
+		pos:[450, 16],
 		texto:"---",
 		fuente:"akashi20", rgba:[255, 255, 255, 255], 
 		id:"txt_cuenta"

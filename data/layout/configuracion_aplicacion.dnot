@@ -1,6 +1,6 @@
 layout:
 [
-	{tipo:"const", clave:"x_listado", valor:8},
+	{tipo:"const", clave:"x_listado", valor:30},
 	{tipo:"const", clave:"y_listado", valor:8},
 	{tipo:"const", clave:"w_listado", valor:583},
 	{tipo:"const", clave:"h_listado", valor:184},
@@ -13,6 +13,12 @@ layout:
 		tipo:"bitmap",
 		pos:[0, 0, 600, 200], rec:[0, 0, 600, 200],
 		textura:"background", estatica: true, orden: 10
+	},
+	{
+		tipo:"ttf",
+		pos:[24, 8], texto:"---",
+		fuente:"akashi20", rgba:[255, 255, 255, 0], 
+		rotacion:[90, 0, 0], id:"txt_titulo", orden: 20
 	},
 	{
 		tipo:"externa", ref:"listado", orden: 30

@@ -7,6 +7,7 @@
 
 #include "../framework/controlador_interface.h"
 
+#include "../app/localizador.h"
 #include "../app/fuentes.h"
 #include "../app/definiciones.h"
 #include "../app/transiciones.h"
@@ -20,7 +21,7 @@ class Controlador_menu:
 {
 	public:
 
-					Controlador_menu(DLibH::Log_base&, const Fuentes&);
+					Controlador_menu(DLibH::Log_base&, const Fuentes&, const Localizador&);
 
 	virtual void 			preloop(DFramework::Input& input, float delta);
 	virtual void 			loop(DFramework::Input& input, float delta);
@@ -34,12 +35,14 @@ class Controlador_menu:
 
 	DLibH::Log_base&			log;
 	const Fuentes&				fuentes;
+	const Localizador&			localizador;
 
 	Herramientas_proyecto::Compositor_vista	vista;
 	DLibV::Camara				camara;
 	Worker_animacion			worker_animacion;
 	estados_transicion			estado_transicion;
-	int					siguiente_estado;	
+	int					siguiente_estado;
+	bool					centrar;
 };
 
 }
