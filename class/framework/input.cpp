@@ -9,9 +9,8 @@ void Input::turno()
 
 Input::Resultado_lookup Input::obtener(unsigned int i) const
 {
-	//TODO: Esto puede dar problemas en el futuro si queremos usar el mismo
+	//Esto puede dar problemas en el futuro si queremos usar el mismo
 	//input para dos cosas distintas.
-
 	//Vamos a cachear cada input en el dispositivo que le pertenece... 
 
 	auto it=lookup.find(i);

@@ -41,7 +41,6 @@ class Controlador_interface
 	void				encolar_evento(DFramework::uptr_evento& ev) {cola_eventos->encolar_evento(ev);}
 	void				enviar_evento(DFramework::uptr_evento& ev) {cola_eventos->enviar_evento(ev);}
 
-	//TODO: Esto es terrible. 
 	void				solicitar_cambio_estado(int v) {estados->validar_y_cambiar_estado(v);}
 
 	virtual void 			preloop(Input& input, float delta)=0;

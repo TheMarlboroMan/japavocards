@@ -2,7 +2,7 @@ config:{
 	app:{
 		direccion:"desde_japones", etiquetas:[
 			"kudamono"
-		], idioma:"EN", idioma_interface:0, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:false
+		], idioma:"ES", idioma_interface:0, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:false
 	}, audio:{
 		audio_buffers:1024, audio_canales:1, audio_ratio:44100, audio_salidas:0, volumen_audio:64, volumen_musica:64
 	}, meta:{

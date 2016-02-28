@@ -11,7 +11,7 @@ enum de turno se puede asignar a uno o más valores SDLK_xxx, según lo mismo
 pueda hacerse con varias teclas, joystick o no. Esta clase es la propietaria
 de la instancia de controles_SDL.
 
-//TODO TODO TODO: Ahora mismo no hay soporte de Joystick ni de ratón!!!.
+Ahora mismo no hay soporte de Joystick... 
 */
 
 namespace DFramework

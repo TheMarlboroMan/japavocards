@@ -18,7 +18,8 @@ struct localizacion
 		menu_iniciar=170,
 		menu_etiquetas=171,
 		menu_aplicacion=172,
-		menu_ejercicio=173
+		menu_ejercicio=173,
+		config_reiniciar_cambios_ventana=180
 	};
 };
 

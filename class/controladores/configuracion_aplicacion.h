@@ -55,6 +55,7 @@ class Controlador_configuracion_aplicacion:
 	void				crear_menu_opciones(const App_config&);
 	void				generar_vista_menu();
 	void				menu_down(item_config_app&, int, float);
+	void				traducir();
 
 	//Referencias.
 	DLibH::Log_base&					log;

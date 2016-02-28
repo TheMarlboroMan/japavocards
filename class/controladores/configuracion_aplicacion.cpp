@@ -114,7 +114,7 @@ void Controlador_configuracion_aplicacion::despertar()
 		generar_vista_menu();
 		estado_transicion=estados_transicion::entrada;
 		transicion_entrada(vista, worker_animacion);
-		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_titulo"))->asignar(localizador.obtener(localizacion::menu_aplicacion));
+		traducir();
 	}
 	catch(std::exception& e)
 	{
@@ -158,6 +158,21 @@ using namespace std;
 	componente_menu.menu().asignar_por_valor_templated<std::string>("03_K_IDIOMA_DICCIONARIO", config.acc_idioma_base_datos());
 }
 
+void Controlador_configuracion_aplicacion::traducir()
+{
+	try
+	{
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_titulo"))->asignar(localizador.obtener(localizacion::menu_aplicacion));
+		static_cast<DLibV::Representacion_TTF *>(vista.obtener_por_id("txt_reiniciar"))->asignar(localizador.obtener(localizacion::config_reiniciar_cambios_ventana));
+	}
+	catch(std::exception& e)
+	{
+		std::string err="Error al traducir controlador config aplicación: ";
+		err+=e.what();
+		throw std::runtime_error(err);
+	}
+}
+
 void Controlador_configuracion_aplicacion::generar_vista_menu()
 {
 	componente_menu.traducir_menu_opciones(localizador);
@@ -180,7 +195,8 @@ void Controlador_configuracion_aplicacion::menu_down(item_config_app& item, int 
 		const std::string tam=componente_menu.menu().valor_templated<std::string>(clave);
 		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_ventana(tam));
 		enviar_evento(ev);
-		//TODO: Mostrar ventana de "Se aplicará al reiniciar.
+
+		vista.obtener_por_id("txt_reiniciar")->hacer_visible();
 	}
 	else if(clave=="02_K_IDIOMA_INTERFACE")
 	{
@@ -189,8 +205,9 @@ void Controlador_configuracion_aplicacion::menu_down(item_config_app& item, int 
 		auto ev=DFramework::uptr_evento(new Eventos::Evento_cambio_idioma_interface(id_idioma));
 		enviar_evento(ev);
 
-		//Forzar traducción del menú.
+		//Forzar traducción del menú, título y demás.
 		componente_menu.traducir_menu_opciones(localizador);
+		traducir();
 	}
 	else if(clave=="03_K_IDIOMA_DICCIONARIO")
 	{

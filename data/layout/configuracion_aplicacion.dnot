@@ -21,6 +21,12 @@ layout:
 		rotacion:[90, 0, 0], id:"txt_titulo", orden: 20
 	},
 	{
+		tipo:"ttf",
+		pos:[24, 160], texto:"---",
+		fuente:"akashi20", rgba:[255, 0, 0, 0], 
+		id:"txt_reiniciar", orden: 20, visible: false
+	},
+	{
 		tipo:"externa", ref:"listado", orden: 30
 	},
 	{
