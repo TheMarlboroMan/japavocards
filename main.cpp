@@ -45,7 +45,7 @@ int iniciar_app(Herramientas_proyecto::Controlador_argumentos& CARG)
 
 		//Si la inicialización ha tenido éxito podemos arrancar la SDL y el Kernel.
 		log_app<<"Inicializando configuración kernel..."<<std::endl;
-		Kernel_config kernel_config;
+		Kernel_config kernel_config(config);
 
 		log_app<<"Inicializando SDL2..."<<std::endl;	
 		if(!DLibH::Herramientas_SDL::iniciar_SDL(SDL_INIT_VIDEO | SDL_INIT_TIMER))

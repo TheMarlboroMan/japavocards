@@ -14,6 +14,15 @@ const std::string App_config::CLAVE_H_FISICA_PANTALLA="config:video:h_fisica_ven
 const std::string App_config::CLAVE_W_LOGICA_PANTALLA="config:video:w_logica_ventana";
 const std::string App_config::CLAVE_H_LOGICA_PANTALLA="config:video:h_logica_ventana";
 
+const std::string App_config::CLAVE_INPUT_ACEPTAR="config:input:aceptar";
+const std::string App_config::CLAVE_INPUT_ESCAPE="config:input:escape";
+const std::string App_config::CLAVE_INPUT_IZQUIERDA="config:input:izquierda";
+const std::string App_config::CLAVE_INPUT_DERECHA="config:input:derecha";
+const std::string App_config::CLAVE_INPUT_ARRIBA="config:input:arriba";
+const std::string App_config::CLAVE_INPUT_ABAJO="config:input:abajo";
+const std::string App_config::CLAVE_INPUT_PAG_SIGUIENTE="config:input:pag_siguiente";
+const std::string App_config::CLAVE_INPUT_PAG_ANTERIOR="config:input:pag_anterior";
+
 App_config::App_config(): Configuracion_base(obtener_ruta_archivo())
 {
 

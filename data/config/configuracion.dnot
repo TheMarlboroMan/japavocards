@@ -5,6 +5,8 @@ config:{
 		], idioma:"ES", idioma_interface:0, modo_etiquetas:"etiquetadas", palabras:10, palabras_limitadas:false
 	}, audio:{
 		audio_buffers:1024, audio_canales:1, audio_ratio:44100, audio_salidas:0, volumen_audio:64, volumen_musica:64
+	}, input:{
+		abajo:81, aceptar:44, arriba:82, derecha:79, escape:41, izquierda:80, pag_anterior:75, pag_siguiente:78
 	}, meta:{
 		v:1
 	}, video:{

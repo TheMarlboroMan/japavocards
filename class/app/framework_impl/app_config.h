@@ -27,6 +27,14 @@ class App_config:
 	int acc_w_fisica_pantalla() const {return token_por_ruta(CLAVE_W_FISICA_PANTALLA);}
 	int acc_h_fisica_pantalla() const {return token_por_ruta(CLAVE_H_FISICA_PANTALLA);}
 	std::vector<std::string> acc_etiquetas() const;
+	int acc_input_aceptar() const {return token_por_ruta(CLAVE_INPUT_ACEPTAR);}
+	int acc_input_escape() const {return token_por_ruta(CLAVE_INPUT_ESCAPE);}
+	int acc_input_arriba() const {return token_por_ruta(CLAVE_INPUT_ARRIBA);}
+	int acc_input_abajo() const {return token_por_ruta(CLAVE_INPUT_ABAJO);}
+	int acc_input_izquierda() const {return token_por_ruta(CLAVE_INPUT_IZQUIERDA);}
+	int acc_input_derecha() const {return token_por_ruta(CLAVE_INPUT_DERECHA);}
+	int acc_input_pagina_siguiente() const {return token_por_ruta(CLAVE_INPUT_PAG_SIGUIENTE);}
+	int acc_input_pagina_anterior() const {return token_por_ruta(CLAVE_INPUT_PAG_ANTERIOR);}
 
 	void mut_palabras_limitadas(bool p_valor) {configurar(CLAVE_PALABRAS_LIMITADAS, p_valor);}
 	void mut_palabras(int p_valor) {configurar(CLAVE_PALABRAS, p_valor);}
@@ -58,6 +66,14 @@ class App_config:
 	static const std::string CLAVE_PALABRAS;
 	static const std::string CLAVE_PALABRAS_LIMITADAS;
 	static const std::string CLAVE_ETIQUETAS;
+	static const std::string CLAVE_INPUT_ACEPTAR;
+	static const std::string CLAVE_INPUT_ESCAPE;
+	static const std::string CLAVE_INPUT_IZQUIERDA;
+	static const std::string CLAVE_INPUT_DERECHA;
+	static const std::string CLAVE_INPUT_ARRIBA;
+	static const std::string CLAVE_INPUT_ABAJO;
+	static const std::string CLAVE_INPUT_PAG_SIGUIENTE;
+	static const std::string CLAVE_INPUT_PAG_ANTERIOR;
 
 	////////////////////////////////////
 	// Implementacion...
